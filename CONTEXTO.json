@@ -1,210 +1,148 @@
 {
-    "meta": {
-          "versao": "3.0",
-          "data_analise": "2026-05-31",
-          "analisado_por": "Claude Sonnet 4.6",
-          "sessoes_realizadas": 3,
-          "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
-    },
-    "empresa": {
-          "nome": "Hospitalar Solucoes em Saude",
-          "proprietario": "Rudson Antonio Ribeiro Oliveira",
-          "whatsapp": "+55 35 99835-2323",
-          "email": "rud.pa@hotmail.com"
-    },
-    "plataformas": {
-          "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
-          "n8n_local": "localhost:5678",
-          "make_com": "us2.make.com (Org ID: 440797)",
-          "supabase": "banco principal",
-          "ollama": "localhost:11434",
-          "whatsapp_evolution": "https://rudsonoliveira2323.app.n8n.cloud/webhook/whatsapp-evolution",
-          "evolution_api": "https://evolution-api-production-a1f9.up.railway.app/manager",
-          "openrouter": "https://openrouter.ai/workspaces/default/keys"
-    },
-    "conquistas_sessao3": {
-          "data": "2026-05-31",
-          "realizadas": [
-                  "OPENROUTER_API_KEY salva como variavel global n8n (sk-or-v1-8ba0e5eb...)",
-                  "AGENTE_LOCAL registrado no WF-ORQUESTRADOR-DINAMICO staticData com status online",
-                  "WF-MCC-SET-URL publicado e testado - execucao success em 1s",
-                  "WF-ORQUESTRADOR-DINAMICO testado end-to-end - classificacao + selecao de agente funcionando",
-                  "AGENTE_LOCAL confirmado no MCC_CONFIG (Google Sheets + n8n Data Table)",
-                  "WF-HEALTH-CHECK-AGENTES corrigido - erro critico eliminado (sessao anterior)",
-                  "COCKPIT-05-POLLING otimizado de 2min para 5min (sessao anterior)",
-                  "Triagem WhatsApp v3.0 - subfluxo audio com Whisper + menu 3 opcoes implementado"
-          ]
-    },
-    "conquistas_sessao2": {
-          "data": "2026-05-30",
-          "realizadas": [
-                  "WF-HEALTH-CHECK-AGENTES: fix critico no node Obter Agentes Ativos (mode + JS reescrito)",
-                  "COCKPIT-05-POLLING: schedule reduzido de 2min para 5min",
-                  "Evolution API: leituras (read confirmations) verificadas - ja desativadas",
-                  "Triagem WhatsApp v3.0: subfluxo audio Whisper + classificacao + menu 3 opcoes (manter/dormir/excluir)"
-          ]
-    },
-    "estado_n8n_cloud": {
-          "workflows_ativos": 52,
-          "execucoes_mensais": 15183,
-          "taxa_erro": "63.9%",
-          "principal_consumidor": "Triagem Inteligente WhatsApp (10561 execucoes)",
-          "workflows_corrigidos": [
-                  "WF-HEALTH-CHECK-AGENTES (v2 - fix critico)",
-                  "COCKPIT-05-POLLING (5min)",
-                  "Triagem Inteligente de WhatsApp (v3.0 - audio)"
-          ]
-    },
-    "variaveis_n8n": {
-          "OPENROUTER_API_KEY": "CONFIGURADA - sk-or-v1-8ba0e5eb... (Global)",
-          "OPENAI_API_KEY": "PENDENTE - necessaria para Whisper (transcricao audio)",
-          "EVOLUTION_API_KEY": "PENDENTE - necessaria para enviar menu WhatsApp"
-    },
-    "sistema_multi_agente": {
-          "orquestrador": {
-                  "workflow_id": "vZjIt5q0Nh9pRic4",
-                  "webhook": "POST /webhook/orquestrador/processar",
-                  "status": "ATIVO E TESTADO",
-                  "agentes_registrados": [
-                            {
-                                        "nome": "AGENTE_LOCAL",
-                                        "url": "https://rudsonoliveira2323.app.n8n.cloud/webhook/agente-local",
-                                        "status": "online",
-                                        "tipo": "endpoint"
-                            }
-                  ]
-          },
-          "gerenciador": {
-                  "workflow_id": "exkT2c1GtIbNJmxr",
-                  "endpoints": {
-                            "registrar": "POST /webhook/agentes/registrar",
-                            "listar": "GET /webhook/agentes/listar",
-                            "remover": "DELETE /webhook/agentes/remover",
-                            "testar": "POST /webhook/agentes/testar"
-                  }
-          },
-          "mcc_config": {
-                  "google_sheets_id": "1-rRo3CAb2QunpNJfsAzqYm2lyqmRGsi_nyYnS_FqcDA",
-                  "n8n_datatable_id": "Mrp2DL0zVCA070IL",
-                  "entradas": [
-                            {"service_name": "ORQUESTRADOR", "url": "http://localhost:5678/webhook/orquestrador-dinamico", "is_active": true},
-                            {"service_name": "AGENTE_LOCAL", "url": "http://host.docker.internal:5678/webhook/agente-local", "is_active": true}
-                  ]
-          }
-    },
-    "triagem_whatsapp": {
-          "workflow_id": "JiSB5D56uGUTRifp",
-          "versao": "v3.0",
-          "evolution_instance": "rudson-pessoal",
-          "eventos_ativos": ["MESSAGES_UPSERT"],
-          "fluxo_texto": "Webhook -> Tipo Mensagem -> Extrair -> Ignorar Proprios -> IA Classificar -> Analisar -> Rotear (URGENTE/NORMAL/LIXO)",
-          "fluxo_audio": "Webhook -> Tipo Mensagem -> Extrair Audio -> Whisper API -> Montar Analise -> Enviar Menu -> Roteador (Manter/Dormir/Excluir)",
-          "classificacao_auto": {
-                  "URGENTE": "cirurgia, UTI, socorro, emergencia, grave",
-                  "LIXO": "promocao, desconto, oferta, gratis, clique aqui",
-                  "REVISAR": "audios >120s sem contexto claro",
-                  "NORMAL": "demais mensagens"
-          },
-          "pendencias": [
-                  "OPENAI_API_KEY no n8n Variables para Whisper",
-                  "EVOLUTION_API_KEY no n8n Variables para enviar menu de volta"
-          ]
-    },
-    "repositorios": [
-          {
-                  "nome": "Analise-Claude",
-                  "url": "https://github.com/Rudson-Oliveira/Analise-Claude",
-                  "status": "CHECKPOINT ATIVO v3.0",
-                  "descricao": "Contexto e checkpoints das sessoes Claude"
-          },
-          {
-                  "nome": "telegram-scraper",
-                  "url": "https://github.com/Rudson-Oliveira/telegram-scraper",
-                  "stack": "React + Node.js/tRPC + Drizzle ORM",
-                  "status": "FUNCIONAL v3.0.0",
-                  "dados": {"canais": 24, "mensagens": 58, "roi_anual": "R$ 170.000"},
-                  "pendencias": ["Credenciais Twilio no .env"]
-          },
-          {
-                  "nome": "telegram-scraper-inema-n8n",
-                  "url": "https://github.com/Rudson-Oliveira/telegram-scraper-inema-n8n",
-                  "stack": "N8N + Supabase + Telegram Bot + Outlook",
-                  "status": "PRODUCAO",
-                  "bot_telegram": "@inema_notifications_bot",
-                  "pendencias": ["CRITICO: Credenciais Supabase hardcoded no node Code"]
-          },
-          {
-                  "nome": "n8n-workflows-pessoal-2026-01-08",
-                  "url": "https://github.com/Rudson-Oliveira/n8n-workflows-pessoal-2026-01-08",
-                  "stack": "N8N + OpenRouter (deepseek-coder:6.7b)",
-                  "status": "OPENROUTER_KEY CONFIGURADA no n8n Variables",
-                  "pendencias": []
-          },
-          {
-                  "nome": "hospitalar-multi-agent-system",
-                  "url": "https://github.com/Rudson-Oliveira/hospitalar-multi-agent-system",
-                  "stack": "N8N + Ollama Docker + Google Sheets MCC",
-                  "status": "PARCIALMENTE CONFIGURADO",
-                  "mcc_sheet_id": "1-rRo3CAb2QunpNJfsAzqYm2lyqmRGsi_nyYnS_FqcDA",
-                  "pendencias": [
-                            "Configurar credenciais Google Sheets no N8N Local",
-                            "Configurar tunel ngrok para N8N Local",
-                            "Confirmar porta Ollama (11434 vs 11435)"
-                  ]
-          },
-          {
-                  "nome": "n8n-workflows",
-                  "url": "https://github.com/Rudson-Oliveira/n8n-workflows",
-                  "stack": "N8N backup 52 workflows",
-                  "status": "BACKUP_OK",
-                  "endpoints": {
-                            "backup": "https://rudsonoliveira2323.app.n8n.cloud/webhook/backup-github",
-                            "restauracao": "https://rudsonoliveira2323.app.n8n.cloud/webhook/restaurar-workflow"
-                  }
-          }
-    ],
-    "pendencias_criticas": [
-          "OPENAI_API_KEY no n8n Variables (para Whisper no subfluxo audio)",
-          "EVOLUTION_API_KEY no n8n Variables (para enviar menu triagem WhatsApp)",
-          "Credenciais Supabase hardcoded no telegram-scraper-inema-n8n",
-          "Tunel ngrok para N8N Local (para teste end-to-end completo do agente local)"
-    ],
-    "plano_acao": {
-          "fase2_imediato": [
-                  "Adicionar OPENAI_API_KEY ao n8n Variables",
-                  "Adicionar EVOLUTION_API_KEY ao n8n Variables",
-                  "Testar subfluxo audio WhatsApp com mensagem real",
-                  "Verificar se agente-local webhook existe no n8n cloud"
-          ],
-          "fase2_implementar": [
-                  "Implementar 9 workflows hospitalar-ia-evolutiva no N8N",
-                  "Configurar Ngrok para N8N Local (porta 5678)",
-                  "Teste end-to-end completo agente local",
-                  "Fallback Ollama para OpenAI no Orquestrador"
-          ],
-          "fase3_robustez": [
-                  "HEALTH-CHECK a cada 5 minutos",
-                  "Tratamento erros centralizado Make.com",
-                  "Dashboard monitoramento unificado",
-                  "Mover credenciais Supabase para env vars"
-          ]
-    },
-    "proxima_sessao": {
-          "instrucao": "leia o documento no GitHub Analise-Claude e continue",
-          "url_checkpoint": "https://github.com/Rudson-Oliveira/Analise-Claude",
-          "prioridade_1": "Configurar OPENAI_API_KEY e EVOLUTION_API_KEY no n8n Variables",
-          "prioridade_2": "Testar subfluxo audio WhatsApp end-to-end",
-          "prioridade_3": "Implementar workflows hospitalar-ia-evolutiva"
-    },
-    "links_rapidos": {
-          "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
-          "n8n_variables": "https://rudsonoliveira2323.app.n8n.cloud/home/variables",
-          "n8n_datatables": "https://rudsonoliveira2323.app.n8n.cloud/home/datatables",
-          "este_repositorio": "https://github.com/Rudson-Oliveira/Analise-Claude",
-          "backup_workflows": "https://github.com/Rudson-Oliveira/n8n-workflows",
-          "multi_agent": "https://github.com/Rudson-Oliveira/hospitalar-multi-agent-system",
-          "evolution_api": "https://evolution-api-production-a1f9.up.railway.app/manager",
-          "openrouter_keys": "https://openrouter.ai/workspaces/default/keys",
-          "mcc_config_sheets": "https://docs.google.com/spreadsheets/d/1-rRo3CAb2QunpNJfsAzqYm2lyqmRGsi_nyYnS_FqcDA"
-    }
+      "meta": {
+              "versao": "4.0",
+              "data_analise": "2026-05-31",
+              "analisado_por": "Claude Sonnet 4.6",
+              "sessoes_realizadas": 4,
+              "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
+      },
+      "empresa": {
+              "nome": "Hospitalar Solucoes em Saude",
+              "proprietario": "Rudson Antonio Ribeiro Oliveira",
+              "whatsapp": "+55 35 99835-2323",
+              "email": "rud.pa@hotmail.com"
+      },
+      "plataformas": {
+              "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
+              "github_repo": "https://github.com/Rudson-Oliveira/Analise-Claude",
+              "openrouter": "https://openrouter.ai",
+              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app"
+      },
+      "variaveis_n8n": {
+              "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
+              "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
+              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
+      },
+      "migracao_huggingface_openrouter": {
+              "status": "CONCLUIDA",
+              "data": "2026-05-31",
+              "workflows": [
+                        {
+                                    "nome": "COCKPIT-07-IN-WhatsApp/Email/Obsidian Notion Inbox",
+                                    "id": "acWQbkOkisdpzryy",
+                                    "status": "MIGRADO + CORRIGIDO",
+                                    "modelo": "google/gemini-2.5-flash-preview",
+                                    "execucao_teste": "#21422 SUCCESS trigger 07:55:34",
+                                    "correcao_extra": "specifyBody json->string corrigido em sessao 4 (erro JSON syntax position 593)"
+                        },
+                        {
+                                    "nome": "COCKPIT-08-OUT-Cron 07h WhatsApp+Email Briefing Diario",
+                                    "id": "CoDTbFiy8g1ctkmO",
+                                    "status": "MIGRADO",
+                                    "modelo": "anthropic/claude-haiku-4-5",
+                                    "execucao_teste": "#21415 SUCCESS 07:40:19 8.851s"
+                        },
+                        {
+                                    "nome": "COCKPIT-09-HELPER-Texto Projeto+Confianca",
+                                    "id": "ZQLHgsgDppId9qoe",
+                                    "status": "PULADO - sem node HuggingFace",
+                                    "modelo": "N/A",
+                                    "execucao_teste": "N/A"
+                        }
+              ]
+      },
+      "conquistas_sessao_4": [
+              "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
+              "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
+              "COCKPIT-07 reativado e testado: execucao #21422 SUCCESS apos correcao",
+              "Identificado erro pre-existente no node 7 WhatsApp alerta URGENTE (falta EVOLUTION_API_KEY)",
+              "GitHub atualizado: CONTEXTO.json v4.0 + README.md v4.0"
+      ],
+      "conquistas_sessao_3": [
+              "OPENROUTER_API_KEY cadastrado como variavel global n8n",
+              "COCKPIT-07 migrado HuggingFace -> OpenRouter (gemini-2.5-flash-preview)",
+              "COCKPIT-08 migrado HuggingFace -> OpenRouter (claude-haiku-4-5) - exec #21415 SUCCESS",
+              "COCKPIT-09 pulado (sem node HF)",
+              "GitHub atualizado: CONTEXTO.json v3.0 + README.md v3.0 (commits f2eadab + 3fe1198)"
+      ],
+      "conquistas_sessao_2": [
+              "AGENTE_LOCAL registrado em WF-ORQUESTRADOR-DINAMICO staticData",
+              "WF-MCC-SET-URL publicado e testado via Google Sheets",
+              "WF-ORQUESTRADOR-DINAMICO testado end-to-end: exec #21404 SUCCESS",
+              "WF-GERENCIADOR-AGENTES: AGENTE_LOCAL registrado via webhook"
+      ],
+      "conquistas_sessao_1": [
+              "Analise completa de 50+ workflows n8n cloud",
+              "Mapeamento de integrações ativas e pendentes",
+              "CONTEXTO.json v1.0 criado no GitHub",
+              "README inicial criado"
+      ],
+      "estado_atual": {
+              "workflows_ativos": [
+                        "COCKPIT-07 (corrigido, ativo)",
+                        "COCKPIT-08 (migrado, ativo - cron 07h)",
+                        "WF-ORQUESTRADOR-DINAMICO (ativo)",
+                        "WF-MCC-SET-URL (ativo)",
+                        "COCKPIT-05-POLLING Notion->WhatsApp (ativo)"
+              ],
+              "erros_pre_existentes": [
+                        "COCKPIT-07 node 7 WhatsApp alerta URGENTE - falta EVOLUTION_API_KEY",
+                        "WF-TRIAGEM-EMAIL Outlook - erro autenticacao",
+                        "COCKPIT-09 sem logica IA (apenas executeWorkflowTrigger + code)"
+              ]
+      },
+      "pendencias_tecnicas": [
+              {
+                        "item": "OPENAI_API_KEY",
+                        "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",
+                        "prioridade": "ALTA"
+              },
+              {
+                        "item": "EVOLUTION_API_KEY",
+                        "descricao": "Configurar variavel n8n para envio menu WhatsApp (1=Manter/2=Dormir/3=Excluir)",
+                        "prioridade": "ALTA"
+              },
+              {
+                        "item": "Teste subfluxo audio WhatsApp",
+                        "descricao": "Testar pipeline completo: audio -> Whisper -> OpenRouter -> resposta",
+                        "prioridade": "MEDIA"
+              },
+              {
+                        "item": "Supabase credenciais hardcoded",
+                        "descricao": "telegram-scraper-inema-n8n usa credenciais hardcoded no code node",
+                        "prioridade": "BAIXA"
+              },
+              {
+                        "item": "ngrok tunnel N8N Local",
+                        "descricao": "Para teste end-to-end do agente local via orquestrador",
+                        "prioridade": "BAIXA"
+              }
+      ],
+      "erros_corrigidos_historico": [
+              {
+                        "sessao": 3,
+                        "erro": "PATCH com rename de node quebrava conexoes",
+                        "fix": "Manter nome original do node, apenas alterar parametros"
+              },
+              {
+                        "sessao": 3,
+                        "erro": "PUT /rest/workflows retornava 404 HTML",
+                        "fix": "Usar PATCH ao inves de PUT"
+              },
+              {
+                        "sessao": 3,
+                        "erro": "activate endpoint retornava 400 versionId required",
+                        "fix": "Buscar workflow primeiro, extrair versionId, passar no body do activate"
+              },
+              {
+                        "sessao": 4,
+                        "erro": "COCKPIT-07 node 3 - JSON syntax error position 593",
+                        "fix": "Alterar specifyBody de 'json' para 'string' - expressoes n8n {{ }} nao sao JSON valido"
+}
+],
+  "proxima_sessao": {
+          "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
+          "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
+          "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
+  }
 }
