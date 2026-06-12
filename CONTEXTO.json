@@ -12,6 +12,7 @@
               "ambiente": "A decidir entre PC (Cloudflare Tunnel) e VPS (Oracle Free/Hetzner) - guia cobre ambos",
               "guia": "N8N_LOCAL_INSTALL.md",
               "docker_pro": "NAO necessario - Docker Desktop free / Docker Engine no Linux atende; n8n roda no tier gratuito",
+              "tunel": "ngrok pago NAO recomendado. Cenario PC: usar Cloudflare Tunnel (named tunnel) - URL fixa gratuita. Cenario VPS: sem tunel (IP/dominio publico direto)",
               "integracao": "n8n-mcp (czlonkowski/n8n-mcp) conecta Claude na API do n8n (local E cloud) via N8N_API_KEY para criar/editar/validar workflows por conversa",
               "orquestrador": "Roteamento Cloud<->Local via WF-ORQUESTRADOR-DINAMICO (AGENTE_LOCAL) + WF-MCC-SET-URL para registrar URL do tunel",
               "economia_estimada": "Plano Cloud Starter ~EUR 20-24/mes (~R$ 130-150); infra local R$ 0 (PC) a R$ 60/mes (VPS)"

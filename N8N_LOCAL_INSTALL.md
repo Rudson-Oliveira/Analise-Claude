@@ -101,6 +101,20 @@ o N8N para usá-la como base de webhook adicionando ao `environment`:
 > Para domínio fixo (não muda a cada reinício), crie um *named tunnel* no painel
 > da Cloudflare apontando para um subdomínio seu. Alternativa rápida: `ngrok http 5678`.
 
+#### Túnel: grátis vs pago (só relevante no cenário PC)
+
+> **No cenário VPS não há túnel** — a máquina já tem IP/domínio público. Esta
+> comparação só vale para rodar no PC.
+
+| Opção | Custo | URL fixa? | Observação |
+|---|---|---|---|
+| **ngrok Free** | R$ 0 | ❌ muda a cada reinício | Exige rodar `WF-MCC-SET-URL` toda sessão para re-registrar a URL no orquestrador |
+| **ngrok Pay** | ~US$ 8-10/mês | ✅ domínio reservado | Setup simples, mas custo recorrente (contraria o objetivo de economia) |
+| **Cloudflare Tunnel** ⭐ | R$ 0 | ✅ named tunnel | Entrega URL estável de graça; precisa apenas de um domínio (~R$ 40/ano) ou subdomínio |
+
+**Recomendação:** não assinar o ngrok pago. Para URL fixa sem custo mensal, usar
+**Cloudflare Tunnel** (named tunnel). Migrar para VPS elimina a necessidade de túnel.
+
 ### 3.4. Registrar a URL no orquestrador
 
 Cada vez que o túnel sobe com URL nova, rode o `WF-MCC-SET-URL` (via Google
