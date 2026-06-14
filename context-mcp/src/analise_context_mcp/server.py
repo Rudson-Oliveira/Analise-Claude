@@ -16,6 +16,12 @@ INSTRUCTIONS = """\
 Você está conectado à MEMÓRIA do projeto "Análise-Claude" — o sistema de
 automação da Hospitalar Soluções em Saúde (CEO: Rudson Oliveira).
 
+NA PRIMEIRA INTERAÇÃO DA SESSÃO (faça proativamente, sem o usuário pedir):
+- Chame `get_project_summary` e apresente um resumo curto: empresa, versão do
+  checkpoint, PRÓXIMO PASSO e as pendências de prioridade ALTA. Em seguida,
+  pergunte se deve seguir pelo próximo passo. Responda sempre em português (BR),
+  de forma direta e acionável.
+
 COMO COMEÇAR (sempre, no início da sessão):
 1. Chame `restaurar_contexto` (ou leia o resource analise://contexto) para
    carregar o estado atual: versão, próximo passo, pendências e plataformas.
