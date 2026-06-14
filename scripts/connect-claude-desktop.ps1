@@ -27,7 +27,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$RepoPath = (Split-Path -Parent $PSScriptRoot),
+    [string]$RepoPath = "",
     [string]$MetricoolToken = "",
     [string]$MetricoolUserId = "4927314"
 )
@@ -37,6 +37,19 @@ $ErrorActionPreference = "Stop"
 function Write-Step($msg) { Write-Host "==> $msg" -ForegroundColor Cyan }
 function Write-Ok($msg)   { Write-Host "[OK] $msg" -ForegroundColor Green }
 function Write-Warn2($msg) { Write-Host "[!] $msg" -ForegroundColor Yellow }
+
+# Resolve a raiz do repositorio de forma robusta (PS 5.1 nem sempre popula
+# $PSScriptRoot no bloco param, entao resolvemos aqui no corpo).
+if ([string]::IsNullOrWhiteSpace($RepoPath)) {
+    $scriptDir = $PSScriptRoot
+    if ([string]::IsNullOrWhiteSpace($scriptDir)) {
+        $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+    }
+    if (-not [string]::IsNullOrWhiteSpace($scriptDir)) {
+        $RepoPath = Split-Path -Parent $scriptDir
+    }
+    if ([string]::IsNullOrWhiteSpace($RepoPath)) { $RepoPath = (Get-Location).Path }
+}
 
 Write-Step "Projeto: $RepoPath"
 if (-not (Test-Path (Join-Path $RepoPath "CONTEXTO.json"))) {
