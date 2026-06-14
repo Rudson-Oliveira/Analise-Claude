@@ -287,9 +287,204 @@ No `mcp` config (ex.: `claude_desktop_config.json` ou `.mcp.json`):
 - [ ] Teste end-to-end via `WF-ORQUESTRADOR-DINAMICO`
 - [ ] (VPS) rotina de backup do volume `n8n_data`
 
+**Redundância / HA (seção 8):**
+- [ ] Postgres no lugar do SQLite (`DB_TYPE=postgresdb`)
+- [ ] 2 réplicas `cloudflared` para o mesmo named tunnel
+- [ ] `restart: unless-stopped` + healthchecks em todos os serviços
+- [ ] Public Hostnames por projeto no painel Cloudflare (multi-projeto)
+- [ ] ngrok (perfil `dr`) com domínio reservado em standby
+- [ ] Procedimento de failover testado (Cloudflare → ngrok + `WF-MCC-SET-URL`)
+- [ ] Serviço de backup automático (dump diário + retenção 7 dias)
+- [ ] `N8N_ENCRYPTION_KEY` e senha do Postgres guardadas fora do servidor
+
 ---
 
-## 8. Próximos passos sugeridos
+## 8. Arquitetura redundante multi-projeto (alta disponibilidade)
+
+> **Princípio:** nenhum ponto único de falha. Dois caminhos de túnel
+> **independentes** chegam ao mesmo n8n, a **URL canônica nunca muda**, e há
+> failover automático onde dá e manual onde não dá. Serve para os vários
+> projetos (n8n, Evolution, integrações de IA) atrás do mesmo domínio.
+
+### 8.1. Camadas de redundância
+
+| Camada | Papel | Redundância |
+|---|---|---|
+| **Cloudflare Tunnel (primário)** | URL canônica fixa de todos os projetos | **2+ réplicas do `cloudflared`** para o mesmo túnel → se um conector cai, o tráfego continua pelo outro (HA nativo da Cloudflare) |
+| **ngrok (secundário/DR)** | Caminho de emergência + bancada de debug | Domínio reservado em standby; failover por troca de `WEBHOOK_URL` + `WF-MCC-SET-URL` |
+| **VPS-hub (âncora)** | Mantém o domínio público estável | Independe da máquina de casa; alvo final de migração |
+| **Dados** | Workflows + credenciais | Postgres + backup automático agendado |
+
+A URL que os serviços externos (WhatsApp/Evolution/APIs de IA) apontam é sempre o
+**hostname da Cloudflare** (ex.: `n8n.seudominio.com.br`) — estável para sempre.
+O ngrok só entra se o caminho Cloudflare ficar indisponível.
+
+### 8.2. Docker Compose redundante (PC ou VPS)
+
+```yaml
+services:
+  # --- Banco de dados (melhoria: Postgres no lugar do SQLite) ---
+  postgres:
+    image: postgres:16-alpine
+    container_name: n8n-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=n8n
+      - POSTGRES_PASSWORD=troque-esta-senha
+      - POSTGRES_DB=n8n
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U n8n -d n8n"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # --- n8n ---
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_DATABASE=n8n
+      - DB_POSTGRESDB_USER=n8n
+      - DB_POSTGRESDB_PASSWORD=troque-esta-senha
+      - N8N_HOST=n8n.seudominio.com.br
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.seudominio.com.br/
+      - N8N_EDITOR_BASE_URL=https://n8n.seudominio.com.br/
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
+      - N8N_PUBLIC_API_DISABLED=false
+      - N8N_ENCRYPTION_KEY=troque-por-uma-chave-aleatoria-longa
+    volumes:
+      - n8n_data:/home/node/.n8n
+    expose:
+      - "5678"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5678/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # --- Cloudflare Tunnel: réplica 1 (HA) ---
+  cloudflared-1:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-1
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
+    depends_on:
+      - n8n
+
+  # --- Cloudflare Tunnel: réplica 2 (HA) ---
+  cloudflared-2:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-2
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CF_TUNNEL_TOKEN}
+    depends_on:
+      - n8n
+
+  # --- ngrok: caminho secundário / DR (perfil opcional) ---
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: ngrok
+    restart: unless-stopped
+    profiles: ["dr"]            # sobe só quando ativado: docker compose --profile dr up -d
+    command: http n8n:5678 --domain=${NGROK_DOMAIN}
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    depends_on:
+      - n8n
+
+volumes:
+  n8n_data:
+  pg_data:
+```
+
+Arquivo `.env` ao lado (nunca commitar):
+
+```env
+CF_TUNNEL_TOKEN=token-do-named-tunnel-da-cloudflare
+NGROK_AUTHTOKEN=seu-authtoken-ngrok
+NGROK_DOMAIN=seu-dominio-reservado.ngrok.app
+```
+
+**Por que isso é redundante:**
+- **2 réplicas `cloudflared`** registram o mesmo túnel → a Cloudflare roteia para a
+  saudável. Matar um container não derruba os webhooks.
+- **`restart: unless-stopped`** em tudo → recuperação automática após crash/reboot.
+- **Healthchecks** → o Docker sabe quando o n8n/Postgres estão de fato prontos.
+- **Postgres** → muito mais resiliente que o SQLite default para uso intenso/concorrente.
+- **ngrok em perfil `dr`** → fica pronto, mas só liga quando você precisar (debug ou
+  queda do caminho Cloudflare), sem custo de recursos no dia a dia.
+
+### 8.3. Multi-projeto (vários serviços, um domínio)
+
+No painel da Cloudflare (Zero Trust → Tunnels → seu túnel → **Public Hostnames**),
+adicione um hostname por projeto apontando para o serviço local correspondente:
+
+| Hostname | Service (interno) |
+|---|---|
+| `n8n.seudominio.com.br` | `http://n8n:5678` |
+| `evolution.seudominio.com.br` | `http://evolution:8080` |
+| `ia.seudominio.com.br` | `http://outro-projeto:porta` |
+
+Hostnames **ilimitados**, todos com HTTPS, **de graça**, pelas mesmas 2 réplicas.
+Cada novo projeto = só mais uma linha de Public Hostname.
+
+### 8.4. Failover para o ngrok (quando o caminho Cloudflare cai)
+
+```bash
+# 1. Sobe o ngrok (DR)
+docker compose --profile dr up -d ngrok
+
+# 2. Aponta o n8n para a URL do ngrok e reinicia
+#    (edite WEBHOOK_URL/N8N_EDITOR_BASE_URL no compose para https://${NGROK_DOMAIN}/)
+docker compose up -d n8n
+
+# 3. Re-registra a URL no orquestrador (já existe no seu projeto)
+#    Rode o WF-MCC-SET-URL para atualizar o AGENTE_LOCAL com a URL do ngrok
+```
+
+> Com **domínio reservado** no ngrok, a URL de DR também é fixa — então o
+> `WF-MCC-SET-URL` vira um passo único, não por sessão.
+
+### 8.5. Backup automático (melhoria)
+
+Adicione um serviço de backup agendado (dump do Postgres + volume do n8n):
+
+```yaml
+  backup:
+    image: postgres:16-alpine
+    container_name: n8n-backup
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - PGPASSWORD=troque-esta-senha
+    volumes:
+      - ./backups:/backups
+    entrypoint: >
+      sh -c 'while true; do
+        pg_dump -h postgres -U n8n n8n | gzip > /backups/n8n-$(date +%F-%H%M).sql.gz;
+        find /backups -name "n8n-*.sql.gz" -mtime +7 -delete;
+        sleep 86400;
+      done'
+```
+
+Guarde `N8N_ENCRYPTION_KEY` e a senha do Postgres fora do servidor — sem a chave,
+as credenciais não são recuperáveis mesmo com o dump.
+
+---
+
+## 9. Próximos passos sugeridos
 
 1. Subir N8N local no PC (Opção A) e validar com um workflow simples.
 2. Mover o subfluxo de **áudio WhatsApp + Whisper** para o local (evita gastar

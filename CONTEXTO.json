@@ -13,6 +13,8 @@
               "guia": "N8N_LOCAL_INSTALL.md",
               "docker_pro": "NAO necessario - Docker Desktop free / Docker Engine no Linux atende; n8n roda no tier gratuito",
               "tunel": "ngrok pago NAO recomendado. Cenario PC: usar Cloudflare Tunnel (named tunnel) - URL fixa gratuita. Cenario VPS: sem tunel (IP/dominio publico direto)",
+              "redundancia": "Arquitetura HA multi-projeto (secao 8 do guia): URL canonica fixa via Cloudflare Tunnel com 2 replicas cloudflared (failover de conector); ngrok com dominio reservado como caminho DR (perfil docker 'dr'); Postgres no lugar do SQLite; healthchecks + restart unless-stopped; Public Hostnames ilimitados por projeto; backup automatico diario (retencao 7 dias). Failover Cloudflare->ngrok re-registra URL via WF-MCC-SET-URL",
+              "estrategia_multiprojeto": "Cloudflare Tunnel como espinha dorsal (hostnames ilimitados/gratis num dominio) + ngrok para debug/DR (inspector+replay de webhooks) + VPS-hub como ancora/destino final 24/7",
               "integracao": "n8n-mcp (czlonkowski/n8n-mcp) conecta Claude na API do n8n (local E cloud) via N8N_API_KEY para criar/editar/validar workflows por conversa",
               "orquestrador": "Roteamento Cloud<->Local via WF-ORQUESTRADOR-DINAMICO (AGENTE_LOCAL) + WF-MCC-SET-URL para registrar URL do tunel",
               "economia_estimada": "Plano Cloud Starter ~EUR 20-24/mes (~R$ 130-150); infra local R$ 0 (PC) a R$ 60/mes (VPS)"
