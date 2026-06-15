@@ -84,4 +84,6 @@
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
       55. | PROGRESSO_FASE1.md | Progresso Fase 1 do projeto |
-      56. 
+      56. | workflows/WF-BUSCADOR-FORNECEDORES.json | Workflow B2B buscador de fornecedores (importavel, nao publicado) |
+      57. | workflows/WF-BUSCADOR-FORNECEDORES.md | Setup, fluxo, variaveis e notas LGPD do buscador |
+      58. 
