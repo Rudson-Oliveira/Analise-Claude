@@ -1,10 +1,21 @@
 {
       "meta": {
-              "versao": "4.1",
+              "versao": "4.2",
               "data_analise": "2026-06-15",
               "analisado_por": "Claude Opus 4.8",
               "sessoes_realizadas": 5,
               "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
+      },
+      "skills_claude_code": {
+              "data_instalacao": "2026-06-15",
+              "local": ".agents/skills/ (arquivos) + .claude/skills/ (symlinks) + skills-lock.json",
+              "observacao": "Skills de terceiros versionadas no repo, disponiveis em sessoes futuras. Todas avaliadas como 'Safe / 0 alerts' pelo scanner do CLI skills.",
+              "instaladas": [
+                        {"nome": "brainstorming", "fonte": "obra/superpowers", "risco": "Low", "uso": "Refinar ideias/design antes de executar"},
+                        {"nome": "ai-seo", "fonte": "coreyhaines31/marketingskills", "risco": "Med", "uso": "SEO para buscas de IA / divulgacao"},
+                        {"nome": "ads", "fonte": "agricidaniel/claude-ads", "risco": "Med", "uso": "Auditoria de campanhas de anuncios"},
+                        {"nome": "landing-page-design", "fonte": "inferen-sh/skills", "risco": "Med", "uso": "Design de landing pages"}
+              ]
       },
       "decisoes_estrategicas": [
               {
