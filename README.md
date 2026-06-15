@@ -79,7 +79,8 @@
      
       49. | Arquivo | Descrição |
       50. |---|---|
-      51. | CONTEXTO.json | Estado estruturado da sessão (v4.0) |
+      51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
+      51b. | INTEGRACAO_MARKITDOWN_MCP.md | Integração do MarkItDown-MCP (Microsoft) — conversão de arquivos → Markdown para LLM |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
