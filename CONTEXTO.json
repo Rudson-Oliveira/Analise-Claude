@@ -1,11 +1,21 @@
 {
       "meta": {
-              "versao": "4.0",
-              "data_analise": "2026-05-31",
-              "analisado_por": "Claude Sonnet 4.6",
-              "sessoes_realizadas": 4,
+              "versao": "4.1",
+              "data_analise": "2026-06-15",
+              "analisado_por": "Claude Opus 4.8",
+              "sessoes_realizadas": 5,
               "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
       },
+      "decisoes_estrategicas": [
+              {
+                        "data": "2026-06-15",
+                        "tema": "Xiaomi MiMo como ferramenta auxiliar",
+                        "decisao": "Adotar MiMo apenas como AUXILIAR, sob regra de custo-beneficio, via OpenRouter (modelo xiaomi/mimo-v2-flash). Sem self-hosting (sem infra GPU). Nao substituir modelos em producao.",
+                        "aplicacao": "POC futuro em workflow de codigo/agente nao-sensivel, comparando custo x qualidade vs anthropic/claude-haiku-4-5",
+                        "restricoes": "Prioridade do projeto segue modelos Claude mais recentes. Dados clinicos sensiveis exigem avaliacao LGPD antes de enviar a terceiros.",
+                        "documento": "ANALISE_VIABILIDADE_XIAOMI_MIMO.md"
+              }
+      ],
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
               "proprietario": "Rudson Antonio Ribeiro Oliveira",

@@ -79,7 +79,8 @@
      
       49. | Arquivo | Descrição |
       50. |---|---|
-      51. | CONTEXTO.json | Estado estruturado da sessão (v4.0) |
+      51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
+      | ANALISE_VIABILIDADE_XIAOMI_MIMO.md | Análise + decisão: MiMo como auxiliar via OpenRouter (15/06/2026) |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
