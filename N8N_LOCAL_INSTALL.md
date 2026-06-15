@@ -482,6 +482,33 @@ Adicione um serviço de backup agendado (dump do Postgres + volume do n8n):
 Guarde `N8N_ENCRYPTION_KEY` e a senha do Postgres fora do servidor — sem a chave,
 as credenciais não são recuperáveis mesmo com o dump.
 
+### 8.6. Operação no PC (ambiente escolhido)
+
+No PC, o `restart: unless-stopped` cuida de quedas de container, e as 2 réplicas
+`cloudflared` cobrem falha de conector — **mas tudo depende da máquina estar
+ligada e acordada**. Esses três ajustes eliminam as causas mais comuns de "caiu":
+
+1. **Docker inicia no boot.** No Docker Desktop: *Settings → General → Start
+   Docker Desktop when you sign in*. Combinado com `restart: unless-stopped`, o
+   stack volta sozinho após reinício/queda de energia. (No Linux: `sudo systemctl enable docker`.)
+
+2. **Impedir suspensão/hibernação.** Se o PC dorme, os túneis caem e os webhooks
+   param. Configure energia para **nunca suspender**:
+   - Windows: *Configurações → Sistema → Energia → Tela e suspensão* → "Nunca" (no modo ligado à tomada).
+   - macOS: *Ajustes → Bateria → Adaptador de energia* → "Impedir que o Mac durma automaticamente".
+
+3. **Monitor de uptime (alerta se cair).** Um endpoint de saúde público + um
+   monitor gratuito (UptimeRobot/Better Stack) avisando no e-mail/WhatsApp quando
+   `https://n8n.seudominio.com.br/healthz` parar de responder. Assim você sabe
+   antes do cliente.
+
+> **Limite honesto do PC:** mesmo com tudo acima, um PC continua sendo um único
+> equipamento — falha de hardware, queda de internet de casa ou desligamento
+> derrubam o serviço. Redundância *real* de máquina exige um segundo nó. Por isso
+> o guia mantém a **VPS-hub (seção 8.1)** como destino recomendado para produção
+> 24/7; o PC é excelente para dev/testes e workflows pesados, que é o foco do
+> modelo híbrido.
+
 ---
 
 ## 9. Próximos passos sugeridos
