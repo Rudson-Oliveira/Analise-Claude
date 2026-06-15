@@ -67,7 +67,24 @@ docker run -it --rm -v /home/user/data:/workdir markitdown-mcp:latest
 
 ### Bloco de configuração MCP
 
-Adicionar ao `claude_desktop_config.json` (ou ao `.mcp.json` do Claude Code):
+> ✅ **Pronto no repo:** já existe um **`.mcp.json`** na raiz do projeto com a variante **pip** abaixo —
+> basta rodar `pip install markitdown-mcp` e abrir o Claude Code neste diretório.
+
+Variante **pip** (a que está no `.mcp.json`):
+
+```json
+{
+  "mcpServers": {
+    "markitdown": {
+      "command": "markitdown-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+Variante **Docker** (alternativa — exige `docker build -t markitdown-mcp:latest .` antes),
+para adicionar ao `claude_desktop_config.json`:
 
 ```json
 {
