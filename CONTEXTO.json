@@ -1,10 +1,23 @@
 {
       "meta": {
-              "versao": "4.0",
-              "data_analise": "2026-05-31",
-              "analisado_por": "Claude Sonnet 4.6",
-              "sessoes_realizadas": 4,
-              "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
+              "versao": "4.1",
+              "data_analise": "2026-06-12",
+              "analisado_por": "Claude (Opus)",
+              "sessoes_realizadas": 5,
+              "proximo_passo": "Subir N8N local (Docker, modelo hibrido) seguindo N8N_LOCAL_INSTALL.md; mover subfluxo audio/Whisper para local; conectar n8n-mcp"
+      },
+      "n8n_local": {
+              "decisao": "Modelo HIBRIDO - manter N8N Cloud plano basico para producao + N8N local (Docker) para dev/testes e workflows pesados",
+              "objetivo": "Reduzir custos e nao gastar execucoes do Cloud em desenvolvimento/testes",
+              "ambiente": "DEFINIDO: PC (Docker Desktop + Cloudflare Tunnel). Operacao PC requer Docker no boot + impedir suspensao + monitor de uptime (secao 8.6). VPS-hub fica como destino recomendado para producao 24/7",
+              "guia": "N8N_LOCAL_INSTALL.md",
+              "docker_pro": "NAO necessario - Docker Desktop free / Docker Engine no Linux atende; n8n roda no tier gratuito",
+              "tunel": "ngrok pago NAO recomendado. Cenario PC: usar Cloudflare Tunnel (named tunnel) - URL fixa gratuita. Cenario VPS: sem tunel (IP/dominio publico direto)",
+              "redundancia": "Arquitetura HA multi-projeto (secao 8 do guia): URL canonica fixa via Cloudflare Tunnel com 2 replicas cloudflared (failover de conector); ngrok com dominio reservado como caminho DR (perfil docker 'dr'); Postgres no lugar do SQLite; healthchecks + restart unless-stopped; Public Hostnames ilimitados por projeto; backup automatico diario (retencao 7 dias). Failover Cloudflare->ngrok re-registra URL via WF-MCC-SET-URL",
+              "estrategia_multiprojeto": "Cloudflare Tunnel como espinha dorsal (hostnames ilimitados/gratis num dominio) + ngrok para debug/DR (inspector+replay de webhooks) + VPS-hub como ancora/destino final 24/7",
+              "integracao": "n8n-mcp (czlonkowski/n8n-mcp) conecta Claude na API do n8n (local E cloud) via N8N_API_KEY para criar/editar/validar workflows por conversa",
+              "orquestrador": "Roteamento Cloud<->Local via WF-ORQUESTRADOR-DINAMICO (AGENTE_LOCAL) + WF-MCC-SET-URL para registrar URL do tunel",
+              "economia_estimada": "Plano Cloud Starter ~EUR 20-24/mes (~R$ 130-150); infra local R$ 0 (PC) a R$ 60/mes (VPS)"
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
