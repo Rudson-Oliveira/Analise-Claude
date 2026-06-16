@@ -32,7 +32,29 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `ANALISE_COMPLETA.md` | Análise inicial dos 50+ workflows |
 | `CHECKPOINT_*.md` | Checkpoints datados de sessões anteriores |
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
+| `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
+| `.mcp.json` | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
+
+## 🧰 Ferramentas / MCP disponíveis (use antes de pedir algo manual)
+
+Quando a tarefa for **agir no sistema** (não só editar a memória), prefira as ferramentas:
+
+- **n8n (MCP oficial)** — buscar/criar/editar/validar/ativar workflows direto no n8n Cloud
+  (COCKPIT-* e WF-*). Siga o fluxo do MCP: ler SDK → sugerir nodes → validar → criar.
+- **GitHub (MCP)** — PRs, issues, CI e comentários no repo `Rudson-Oliveira/Analise-Claude`.
+- **MarkItDown (MCP, local)** — `convert_to_markdown(uri)` p/ PDF/Word/Excel/imagem → Markdown.
+- **Microsoft Learn / docs** — documentação oficial Microsoft/Azure/Outlook quando necessário.
+
+> Antes de dizer "não tenho acesso", **procure a ferramenta** — muitos MCPs carregam sob demanda.
+
+## 🌿 Fluxo Git (branch + PR)
+
+- **Desenvolva na branch de trabalho** indicada (ex.: `claude/system-integration-check-*`);
+  não commite direto na `main` sem permissão.
+- **Push:** `git push -u origin <branch>`; em falha de rede, retry com backoff (2s/4s/8s/16s).
+- **Após o push, abra sempre um PR em rascunho (draft)** se ainda não existir.
+- **Idioma/segredos:** mensagens claras em PT-BR; nunca credenciais/tokens no histórico.
 
 ## ⚙️ Convenções técnicas do n8n (lições já aprendidas — NÃO repetir erros)
 
