@@ -1,11 +1,32 @@
 {
       "meta": {
-              "versao": "4.0",
-              "data_analise": "2026-05-31",
-              "analisado_por": "Claude Sonnet 4.6",
-              "sessoes_realizadas": 4,
+              "versao": "4.2",
+              "data_analise": "2026-06-15",
+              "analisado_por": "Claude Opus 4.8",
+              "sessoes_realizadas": 5,
               "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
       },
+      "skills_claude_code": {
+              "data_instalacao": "2026-06-15",
+              "local": ".agents/skills/ (arquivos) + .claude/skills/ (symlinks) + skills-lock.json",
+              "observacao": "Skills de terceiros versionadas no repo, disponiveis em sessoes futuras. Todas avaliadas como 'Safe / 0 alerts' pelo scanner do CLI skills.",
+              "instaladas": [
+                        {"nome": "brainstorming", "fonte": "obra/superpowers", "risco": "Low", "uso": "Refinar ideias/design antes de executar"},
+                        {"nome": "ai-seo", "fonte": "coreyhaines31/marketingskills", "risco": "Med", "uso": "SEO para buscas de IA / divulgacao"},
+                        {"nome": "ads", "fonte": "agricidaniel/claude-ads", "risco": "Med", "uso": "Auditoria de campanhas de anuncios"},
+                        {"nome": "landing-page-design", "fonte": "inferen-sh/skills", "risco": "Med", "uso": "Design de landing pages"}
+              ]
+      },
+      "decisoes_estrategicas": [
+              {
+                        "data": "2026-06-15",
+                        "tema": "Xiaomi MiMo como ferramenta auxiliar",
+                        "decisao": "Adotar MiMo apenas como AUXILIAR, sob regra de custo-beneficio, via OpenRouter (modelo xiaomi/mimo-v2-flash). Sem self-hosting (sem infra GPU). Nao substituir modelos em producao.",
+                        "aplicacao": "POC futuro em workflow de codigo/agente nao-sensivel, comparando custo x qualidade vs anthropic/claude-haiku-4-5",
+                        "restricoes": "Prioridade do projeto segue modelos Claude mais recentes. Dados clinicos sensiveis exigem avaliacao LGPD antes de enviar a terceiros.",
+                        "documento": "ANALISE_VIABILIDADE_XIAOMI_MIMO.md"
+              }
+      ],
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
               "proprietario": "Rudson Antonio Ribeiro Oliveira",
