@@ -1,0 +1,28 @@
+# N8N Local — versao QUICKSTART (primeira instalacao no PC)
+# Roda com zero configuracao: o n8n gera e guarda a chave de criptografia
+# dentro do volume 'n8n_data' automaticamente no primeiro start.
+#
+# Subir:   docker compose -f .\n8n-local\docker-compose.yml up -d
+# Logs:    docker compose -f .\n8n-local\docker-compose.yml logs -f
+# Acesso:  http://localhost:5678
+#
+# Para a versao com alta disponibilidade (Postgres + 2x cloudflared + backup),
+# veja a secao 8 de N8N_LOCAL_INSTALL.md.
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n-local
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
+      # Habilita a API publica (necessaria para o n8n-mcp conectar)
+      - N8N_PUBLIC_API_DISABLED=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  n8n_data:

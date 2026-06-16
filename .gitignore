@@ -3,8 +3,9 @@
 *.env
 .env.*
 
-# Dados / backups do n8n local
-n8n-local/
+# Dados / backups do n8n local (o docker-compose.yml fica versionado;
+# .env ja e ignorado globalmente acima)
+n8n-local/.env
 backups/
 *.sql.gz
 
