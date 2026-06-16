@@ -1,0 +1,17 @@
+# Segredos e ambiente — NUNCA commitar
+.env
+*.env
+.env.*
+
+# Dados / backups do n8n local
+n8n-local/
+backups/
+*.sql.gz
+
+# Configs locais do Claude Code com possiveis segredos
+.mcp.local.json
+.claude/settings.local.json
+
+# SO / editores
+.DS_Store
+Thumbs.db
