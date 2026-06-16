@@ -1,10 +1,10 @@
 {
       "meta": {
-              "versao": "4.0",
-              "data_analise": "2026-05-31",
-              "analisado_por": "Claude Sonnet 4.6",
-              "sessoes_realizadas": 4,
-              "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
+              "versao": "4.1",
+              "data_analise": "2026-06-15",
+              "analisado_por": "Claude Opus 4.8",
+              "sessoes_realizadas": 5,
+              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -22,6 +22,19 @@
               "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
               "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
+      },
+      "integracoes_avaliadas": {
+              "markitdown_mcp": {
+                        "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
+                        "fornecedor": "Microsoft (open-source)",
+                        "funcao": "Converter PDF/Word/Excel/PPT/imagem/audio/HTML para Markdown limpo para LLM",
+                        "ferramenta_mcp": "convert_to_markdown(uri) - esquemas http/https/file/data",
+                        "modo_escolhido": "Servidor MCP (uso pelo agente Claude)",
+                        "status": "DOCUMENTADO - aguardando configuracao no cliente Claude",
+                        "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
+                        "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
+                        "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
+              }
       },
       "migracao_huggingface_openrouter": {
               "status": "CONCLUIDA",
