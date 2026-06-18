@@ -86,4 +86,5 @@
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
       55. | PROGRESSO_FASE1.md | Progresso Fase 1 do projeto |
+      56. | ESTRATEGIA_REDES_SOCIAIS.md | Playbook de redes sociais (horários reais Metricool, pilares, KPIs) |
       56. 
