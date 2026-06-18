@@ -64,6 +64,10 @@
                         }
               ]
       },
+      "conquistas_sessao_5": [
+              "Instalada skill context-engineering em .claude/skills/ (reduz tokens na restauracao de contexto)",
+              "Protocolo enxuto: ler apenas CONTEXTO.json como fonte da verdade, checkpoints sob demanda"
+      ],
       "conquistas_sessao_4": [
               "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
               "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
@@ -155,6 +159,7 @@
 ],
   "proxima_sessao": {
           "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
+          "protocolo": "Usar skill context-engineering: ler APENAS este CONTEXTO.json. Nao abrir README/CHECKPOINT/ANALISE salvo necessidade especifica.",
           "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
           "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
   }
