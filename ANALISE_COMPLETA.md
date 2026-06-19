@@ -270,9 +270,10 @@ Google Sheets (PC-GERAL / PC-DATAS)
 ## 🚨 Análise de Riscos e Vulnerabilidades
 
 ### Riscos de Segurança
-1. **Token Telegram expostos** no README do telegram-scraper-inema-n8n
-   - Token: 8517983740:AAGTKHj9odaggGlo2EHBuXfrwYSazotCIK8
-   - **Ação:** Revogar e gerar novo token no @BotFather
+1. **Token Telegram exposto** no README do telegram-scraper-inema-n8n
+   - Token: `8517983740:AAG********************************` (REDIGIDO — ver SEGURANCA.md)
+   - ⚠️ **Ação URGENTE:** Revogar e gerar novo token no @BotFather. O valor original
+     já esteve commitado no Git e deve ser considerado COMPROMETIDO.
 
 2. **Supabase Service Role Key** hardcoded no workflow N8N
    - Risco: Acesso total ao banco de dados

@@ -19,7 +19,7 @@
               "evolution_api": "https://evolution-api-production-a1f9.up.railway.app"
       },
       "variaveis_n8n": {
-              "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
+              "OPENROUTER_API_KEY": "configurado - sk-or-v1-******** REDIGIDO (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
               "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
       },
