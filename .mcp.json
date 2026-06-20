@@ -3,6 +3,13 @@
     "markitdown": {
       "command": "markitdown-mcp",
       "args": []
+    },
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "${FIRECRAWL_API_KEY}"
+      }
     }
   }
 }

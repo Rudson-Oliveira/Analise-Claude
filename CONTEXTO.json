@@ -1,10 +1,10 @@
 {
       "meta": {
-              "versao": "4.1",
-              "data_analise": "2026-06-15",
+              "versao": "4.2",
+              "data_analise": "2026-06-20",
               "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 5,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
+              "sessoes_realizadas": 6,
+              "proximo_passo": "Gerar FIRECRAWL_API_KEY e validar firecrawl-mcp no Claude Code; configurar MarkItDown-MCP; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -21,9 +21,23 @@
       "variaveis_n8n": {
               "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
-              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
+              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3",
+              "FIRECRAWL_API_KEY": "PENDENTE - opcional no n8n (HTTP Request scrape); usada tambem pelo firecrawl-mcp no Claude Code"
       },
       "integracoes_avaliadas": {
+              "firecrawl_mcp": {
+                        "fonte": "https://github.com/firecrawl/firecrawl-mcp-server",
+                        "fornecedor": "Firecrawl (firecrawl.dev)",
+                        "funcao": "Transformar sites/URLs em Markdown/JSON pronto para LLM (scrape/crawl/map/search/extract)",
+                        "ferramenta_mcp": "firecrawl_scrape / firecrawl_crawl / firecrawl_map / firecrawl_search / firecrawl_extract",
+                        "modo_escolhido": "Servidor MCP (npx firecrawl-mcp) + rotina LOOP do Claude Code; alternativa n8n via HTTP Request (api.firecrawl.dev)",
+                        "status": "INSTALADO no .mcp.json - aguardando FIRECRAWL_API_KEY",
+                        "doc": "INTEGRACAO_FIRECRAWL_MCP.md",
+                        "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
+                        "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
+                        "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
+                        "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
+              },
               "markitdown_mcp": {
                         "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
                         "fornecedor": "Microsoft (open-source)",

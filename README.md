@@ -40,6 +40,7 @@
       21. | OPENROUTER_API_KEY | ✅ Configurado |
       22. | OPENAI_API_KEY | ❌ PENDENTE |
       23. | EVOLUTION_API_KEY | ❌ PENDENTE |
+      23b. | FIRECRAWL_API_KEY | ❌ PENDENTE (Firecrawl MCP + LOOP / opcional n8n) |
      
       24. ---
      
@@ -81,7 +82,8 @@
       50. |---|---|
       51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
       51b. | INTEGRACAO_MARKITDOWN_MCP.md | Integração do MarkItDown-MCP (Microsoft) — conversão de arquivos → Markdown para LLM |
-      51c. | .mcp.json | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
+      51b2. | INTEGRACAO_FIRECRAWL_MCP.md | Integração do Firecrawl MCP + rotina LOOP (Claude Code) — web → Markdown/JSON para LLM |
+      51c. | .mcp.json | Config MCP do Claude Code (servidores `markitdown` + `firecrawl` prontos para uso) |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
