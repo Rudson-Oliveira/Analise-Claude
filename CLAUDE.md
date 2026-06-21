@@ -33,7 +33,9 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `CHECKPOINT_*.md` | Checkpoints datados de sessões anteriores |
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
 | `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
-| `INTEGRACAO_FIRECRAWL_MCP.md` | Integração do Firecrawl MCP + rotina LOOP (Claude Code) — web → Markdown/JSON para LLM |
+| `INTEGRACAO_FIRECRAWL_MCP.md` | Integração do Firecrawl MCP + rotina LOOP + workflows MONITOR-Radar + painel |
+| `CHECKPOINT_21062026.md` | Checkpoint da Sessão 7 (inteligência de concorrência + painel online) |
+| `dashboard/index.html` | **Painel de Inteligência** (frontend) — publicado em https://dashboard-pi-three-34.vercel.app |
 | `.mcp.json` | Config MCP do Claude Code (servidores `markitdown` + `firecrawl` prontos para uso) |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
 
@@ -47,6 +49,7 @@ Quando a tarefa for **agir no sistema** (não só editar a memória), prefira as
 - **MarkItDown (MCP, local)** — `convert_to_markdown(uri)` p/ PDF/Word/Excel/imagem → Markdown.
 - **Firecrawl (MCP, `npx firecrawl-mcp`)** — `firecrawl_scrape/crawl/map/search/extract` p/ web → Markdown/JSON.
   Exige `FIRECRAWL_API_KEY` no ambiente. Para monitoramento recorrente, usar a skill **`/loop`** (LOOP) do Claude Code.
+- **Metricool (MCP)** — métricas e agendamento das redes próprias (IG @hospitalarsaude + FB), brand `6395876`.
 - **Microsoft Learn / docs** — documentação oficial Microsoft/Azure/Outlook quando necessário.
 
 > Antes de dizer "não tenho acesso", **procure a ferramenta** — muitos MCPs carregam sob demanda.

@@ -1,10 +1,11 @@
 {
       "meta": {
-              "versao": "4.2",
-              "data_analise": "2026-06-20",
+              "versao": "5.0",
+              "data_analise": "2026-06-21",
               "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 6,
-              "proximo_passo": "Gerar FIRECRAWL_API_KEY e validar firecrawl-mcp no Claude Code; configurar MarkItDown-MCP; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
+              "sessoes_realizadas": 7,
+              "ultimo_checkpoint": "CHECKPOINT_21062026.md",
+              "proximo_passo": "CEO: cadastrar 6 Variables ($vars) no n8n e ATIVAR os 2 workflows MONITOR-Radar-*. Agente: testar webhook /radar-pa e o painel 'Ao vivo'; blindar webhook com token; Fase 2 (multiplas buscas + Data Table + convenios)."
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -16,13 +17,18 @@
               "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
               "github_repo": "https://github.com/Rudson-Oliveira/Analise-Claude",
               "openrouter": "https://openrouter.ai",
-              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app"
+              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app",
+              "painel_inteligencia": "https://dashboard-pi-three-34.vercel.app (deploy Vercel, time rudson-oliveiras-projects, projeto 'dashboard', noindex; fonte em dashboard/index.html)",
+              "metricool_brand": "HospitaLar (brandId 6395876, IG @hospitalarsaude + FB)"
       },
       "variaveis_n8n": {
               "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
               "EVOLUTION_API_KEY": "chave global existe (validada via fetchInstances 21/06); cadastrar como variavel n8n. Instancia ativa: rudson-pessoal (status open). ATENCAO: enviar alerta para o proprio numero da instancia pode falhar - avaliar instancia dedicada ou destinatario distinto",
-              "FIRECRAWL_API_KEY": "PENDENTE - opcional no n8n (HTTP Request scrape); usada tambem pelo firecrawl-mcp no Claude Code"
+              "FIRECRAWL_API_KEY": "VALIDADA (fc-...) em 21/06 com testes reais; cadastrar como variavel $vars no n8n para os workflows MONITOR-Radar. CEO colou no chat - recomendar rotacao.",
+              "RADAR_QUERY": "PENDENTE - cadastrar $vars (ex.: 'home care atendimento domiciliar Pouso Alegre MG') - alvo do radar de concorrencia",
+              "EVOLUTION_INSTANCE": "rudson-pessoal (status open) - cadastrar como $vars",
+              "ALERTA_NUMERO": "5535998352323 - cadastrar como $vars (destino dos alertas WhatsApp)"
       },
       "integracoes_avaliadas": {
               "metricool_mcp": {
@@ -89,6 +95,30 @@
                         }
               ]
       },
+      "sessao_7_inteligencia_concorrencia": {
+              "tese": "Detectar home care DE FORA (raio ~200km, incl. SP/DDD11 e redes nacionais) anunciando/atendendo Pouso Alegre, alem de convenios. NAO focar no concorrente local quieto.",
+              "entrantes_de_fora_detectados": ["Home Doctor (SP/DDD11, risco Alto)", "Cuidar Saude (MG estadual)", "Atend Home Care", "Primordial Cuidados", "AC Vida"],
+              "locais": ["Vital Care (@vitalcaresaude)", "Medicina Integral PA"],
+              "convenio_oportunidade": "IPSEMG lancou Programa de Atencao Domiciliar (credenciamento)",
+              "metricas_instagram_30d": "5030 seguidores (+5/mes), alcance 4374, curtidas 125, compart 82, salvos 21, comentarios 1 (ALERTA), engajadas 79, taxa ~5%",
+              "melhor_horario": "17h-20h todos os dias; pico sexta 20h; posts 27-28/05 bombaram (142 interacoes, 56 compart)",
+              "painel": {
+                        "url": "https://dashboard-pi-three-34.vercel.app",
+                        "fonte": "dashboard/index.html (autossuficiente)",
+                        "features": "KPIs, abas Radar/Redes/Horario/Convenios/Tarefas, filtros, incluir/ignorar, exportar WhatsApp/PDF, modo Ao vivo (webhook n8n), selo Novo + alerta risco Alto, checklist; localStorage",
+                        "deploy": "Vercel CLI --scope rudson-oliveiras-projects; ssoProtection desativado p/ ficar publico; noindex"
+              }
+      },
+      "conquistas_sessao_7": [
+              "Firecrawl instalado (.mcp.json) e chave validada com testes reais (site HospitaLar, ANVISA, buscas concorrentes)",
+              "Metricool confirmado conectado; puxadas metricas reais do Instagram + melhor horario",
+              "Evolution: instancia rudson-pessoal identificada; teste de envio WhatsApp HTTP 201",
+              "Criados 2 workflows n8n MONITOR-Radar (entrantes->WhatsApp e API webhook->painel), INATIVOS e isolados",
+              "Reformulada a tese: radar de novos entrantes 'de fora' (nao concorrente quieto)",
+              "Construido painel dashboard/index.html (v3) e PUBLICADO na Vercel (mobile): dashboard-pi-three-34.vercel.app",
+              "Arquivados WF-MONITOR-ANVISA e MONITOR-Concorrente (superados)",
+              "Checkpoint CHECKPOINT_21062026.md criado; CONTEXTO/README/CLAUDE atualizados"
+      ],
       "conquistas_sessao_4": [
               "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
               "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
@@ -179,8 +209,8 @@
 }
 ],
   "proxima_sessao": {
-          "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
+          "instrucao_retomada": "leia CONTEXTO.json + CHECKPOINT_21062026.md e continue",
           "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
-          "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
+          "primeira_acao": "Verificar se o CEO ja cadastrou as 6 Variables no n8n e ativou os workflows MONITOR-Radar-*. Se sim, testar o webhook /webhook/radar-pa e o painel 'Ao vivo'. Oferecer blindagem do webhook com token e a Fase 2 (multiplas buscas + Data Table + convenios)."
   }
 }

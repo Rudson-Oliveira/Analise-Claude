@@ -1,6 +1,14 @@
 # Análise Claude - Contexto e Memória do Projeto
 ## Hospitalar Soluções em Saúde | Sistema de Automação Completo
 
+> **🆕 v5.0 | 21/06/2026 (Sessão 7)** — Sistema de **inteligência de concorrência + redes sociais** com painel online.
+> Leia **[CONTEXTO.json](./CONTEXTO.json)** (fonte da verdade) + **[CHECKPOINT_21062026.md](./CHECKPOINT_21062026.md)**.
+>
+> - 🌐 **Painel (mobile):** https://dashboard-pi-three-34.vercel.app
+> - 📡 **Radar de entrantes "de fora"** (n8n) + 🔔 alerta WhatsApp — *criados, INATIVOS* (faltam Variables + ativar).
+> - 🔥 **Firecrawl** instalado · 📱 **Metricool** conectado (métricas reais do Instagram).
+> - 🎯 Empresa: **Pouso Alegre/MG**. Tese: detectar home care **de fora** invadindo a cidade + convênios.
+
 > **CHECKPOINT v4.0** | Data: 31/05/2026 | Sessões realizadas: 4 | Analisado por: Claude Sonnet 4.6
 > >
 > >> ---
