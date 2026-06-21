@@ -1,6 +1,14 @@
 # Análise Claude - Contexto e Memória do Projeto
 ## Hospitalar Soluções em Saúde | Sistema de Automação Completo
 
+> **🆕 v5.0 | 21/06/2026 (Sessão 7)** — Sistema de **inteligência de concorrência + redes sociais** com painel online.
+> Leia **[CONTEXTO.json](./CONTEXTO.json)** (fonte da verdade) + **[CHECKPOINT_21062026.md](./CHECKPOINT_21062026.md)**.
+>
+> - 🌐 **Painel (mobile):** https://dashboard-pi-three-34.vercel.app
+> - 📡 **Radar de entrantes "de fora"** (n8n) + 🔔 alerta WhatsApp — *criados, INATIVOS* (faltam Variables + ativar).
+> - 🔥 **Firecrawl** instalado · 📱 **Metricool** conectado (métricas reais do Instagram).
+> - 🎯 Empresa: **Pouso Alegre/MG**. Tese: detectar home care **de fora** invadindo a cidade + convênios.
+
 > **CHECKPOINT v4.0** | Data: 31/05/2026 | Sessões realizadas: 4 | Analisado por: Claude Sonnet 4.6
 > >
 > >> ---
@@ -40,6 +48,7 @@
       21. | OPENROUTER_API_KEY | ✅ Configurado |
       22. | OPENAI_API_KEY | ❌ PENDENTE |
       23. | EVOLUTION_API_KEY | ❌ PENDENTE |
+      23b. | FIRECRAWL_API_KEY | ❌ PENDENTE (Firecrawl MCP + LOOP / opcional n8n) |
      
       24. ---
      
@@ -81,7 +90,8 @@
       50. |---|---|
       51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
       51b. | INTEGRACAO_MARKITDOWN_MCP.md | Integração do MarkItDown-MCP (Microsoft) — conversão de arquivos → Markdown para LLM |
-      51c. | .mcp.json | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
+      51b2. | INTEGRACAO_FIRECRAWL_MCP.md | Integração do Firecrawl MCP + rotina LOOP (Claude Code) — web → Markdown/JSON para LLM |
+      51c. | .mcp.json | Config MCP do Claude Code (servidores `markitdown` + `firecrawl` prontos para uso) |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |

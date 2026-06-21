@@ -33,7 +33,10 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `CHECKPOINT_*.md` | Checkpoints datados de sessões anteriores |
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
 | `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
-| `.mcp.json` | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
+| `INTEGRACAO_FIRECRAWL_MCP.md` | Integração do Firecrawl MCP + rotina LOOP + workflows MONITOR-Radar + painel |
+| `CHECKPOINT_21062026.md` | Checkpoint da Sessão 7 (inteligência de concorrência + painel online) |
+| `dashboard/index.html` | **Painel de Inteligência** (frontend) — publicado em https://dashboard-pi-three-34.vercel.app |
+| `.mcp.json` | Config MCP do Claude Code (servidores `markitdown` + `firecrawl` prontos para uso) |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
 
 ## 🧰 Ferramentas / MCP disponíveis (use antes de pedir algo manual)
@@ -44,6 +47,9 @@ Quando a tarefa for **agir no sistema** (não só editar a memória), prefira as
   (COCKPIT-* e WF-*). Siga o fluxo do MCP: ler SDK → sugerir nodes → validar → criar.
 - **GitHub (MCP)** — PRs, issues, CI e comentários no repo `Rudson-Oliveira/Analise-Claude`.
 - **MarkItDown (MCP, local)** — `convert_to_markdown(uri)` p/ PDF/Word/Excel/imagem → Markdown.
+- **Firecrawl (MCP, `npx firecrawl-mcp`)** — `firecrawl_scrape/crawl/map/search/extract` p/ web → Markdown/JSON.
+  Exige `FIRECRAWL_API_KEY` no ambiente. Para monitoramento recorrente, usar a skill **`/loop`** (LOOP) do Claude Code.
+- **Metricool (MCP)** — métricas e agendamento das redes próprias (IG @hospitalarsaude + FB), brand `6395876`.
 - **Microsoft Learn / docs** — documentação oficial Microsoft/Azure/Outlook quando necessário.
 
 > Antes de dizer "não tenho acesso", **procure a ferramenta** — muitos MCPs carregam sob demanda.
@@ -71,6 +77,7 @@ Quando a tarefa for **agir no sistema** (não só editar a memória), prefira as
 | `OPENROUTER_API_KEY` | ✅ Configurado |
 | `OPENAI_API_KEY` | ❌ Pendente (Whisper — transcrição de áudio WhatsApp) |
 | `EVOLUTION_API_KEY` | ❌ Pendente (menu WhatsApp 1=Manter/2=Dormir/3=Excluir) |
+| `FIRECRAWL_API_KEY` | ❌ Pendente (Firecrawl MCP + LOOP; opcional no n8n via HTTP Request) |
 
 ## 📋 Próximos passos (Fase 2)
 

@@ -1,10 +1,11 @@
 {
       "meta": {
-              "versao": "4.1",
-              "data_analise": "2026-06-15",
+              "versao": "5.0",
+              "data_analise": "2026-06-21",
               "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 5,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
+              "sessoes_realizadas": 7,
+              "ultimo_checkpoint": "CHECKPOINT_21062026.md",
+              "proximo_passo": "🔴 BLOQUEIO: n8n Cloud atingiu o LIMITE DE EXECUCOES do plano (erro 'Execution limit reached' em TODAS as execucoes de producao - explica o 'failure rate 100%'). Acoes: (a) upgrade do plano ou aguardar reset mensal; (b) pausar workflows que gastam execucoes (pollings). Workflows MONITOR-* estao prontos/ativos e funcionarao quando houver cota. Depois: testar webhook /radar-pa e painel Ao vivo; blindar webhook com token; Fase 2."
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -16,14 +17,44 @@
               "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
               "github_repo": "https://github.com/Rudson-Oliveira/Analise-Claude",
               "openrouter": "https://openrouter.ai",
-              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app"
+              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app",
+              "painel_inteligencia": "https://dashboard-pi-three-34.vercel.app (deploy Vercel, time rudson-oliveiras-projects, projeto 'dashboard', noindex; fonte em dashboard/index.html)",
+              "metricool_brand": "HospitaLar (brandId 6395876, IG @hospitalarsaude + FB)"
       },
       "variaveis_n8n": {
               "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
-              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
+              "EVOLUTION_API_KEY": "chave global existe (validada via fetchInstances 21/06); cadastrar como variavel n8n. Instancia ativa: rudson-pessoal (status open). ATENCAO: enviar alerta para o proprio numero da instancia pode falhar - avaliar instancia dedicada ou destinatario distinto",
+              "FIRECRAWL_API_KEY": "VALIDADA (fc-...) em 21/06 com testes reais; cadastrar como variavel $vars no n8n para os workflows MONITOR-Radar. CEO colou no chat - recomendar rotacao.",
+              "RADAR_QUERY": "PENDENTE - cadastrar $vars (ex.: 'home care atendimento domiciliar Pouso Alegre MG') - alvo do radar de concorrencia",
+              "EVOLUTION_INSTANCE": "rudson-pessoal (status open) - cadastrar como $vars",
+              "ALERTA_NUMERO": "5535998352323 - cadastrar como $vars (destino dos alertas WhatsApp)"
       },
       "integracoes_avaliadas": {
+              "metricool_mcp": {
+                        "fonte": "Metricool (MCP)",
+                        "fornecedor": "Metricool",
+                        "funcao": "Analytics e agendamento das redes sociais PROPRIAS (Instagram/Facebook): engajamento, curtidas, alcance, melhor horario, agendar posts",
+                        "status": "CONECTADO - marca 'HospitaLar Solucoes em Saude' (brandId 6395876), IG @hospitalarsaude + FB 566515420052044, tz America/Sao_Paulo",
+                        "encaixe": "Pilar 'redes sociais proprias' do monitoramento (curtidas/engajamento). Conversoes exigem Meta Ads/GA/PostHog. Concorrente social = limitado ao publico.",
+                        "observacao": "Substitui o scraping para metricas proprias (Firecrawl nao acessa engajamento logado)."
+              },
+              "firecrawl_mcp": {
+                        "fonte": "https://github.com/firecrawl/firecrawl-mcp-server",
+                        "fornecedor": "Firecrawl (firecrawl.dev)",
+                        "funcao": "Transformar sites/URLs em Markdown/JSON pronto para LLM (scrape/crawl/map/search/extract)",
+                        "ferramenta_mcp": "firecrawl_scrape / firecrawl_crawl / firecrawl_map / firecrawl_search / firecrawl_extract",
+                        "modo_escolhido": "Servidor MCP (npx firecrawl-mcp) + rotina LOOP do Claude Code; alternativa n8n via HTTP Request (api.firecrawl.dev)",
+                        "status": "INSTALADO no .mcp.json - chave validada (scrape ANVISA + example.com OK 20/06/2026)",
+                        "doc": "INTEGRACAO_FIRECRAWL_MCP.md",
+                        "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
+                        "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
+                        "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
+                        "workflow_n8n": "(1) MONITORAMENTO 21-06-2026 — Radar Entrantes (Hql1HFXaV6Z9sF8o) (Hql1HFXaV6Z9sF8o): Schedule 24h -> Firecrawl SEARCH -> OpenRouter -> IF -> WhatsApp alerta. (2) MONITORAMENTO 21-06-2026 — API Webhook (81RFduR2lx7HjRCJ) (81RFduR2lx7HjRCJ): Webhook GET /webhook/radar-pa -> Firecrawl -> OpenRouter -> Code parse -> Respond JSON {data:[...]} CORS* (alimenta o botao 'Ao vivo' do dashboard). Ambos INATIVOS, prefixo MONITOR-, isolados. (MONITOR-Concorrente KhvdfUhmwHyjHQng e WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivados.)",
+                        "tese_monitoramento": "O alvo NAO e o concorrente local quieto; e detectar home care DE FORA (raio ~200km, incl. SP/DDD11 e redes nacionais) que estao anunciando/atendendo Pouso Alegre, alem de convenios. Empresa base: Pouso Alegre-MG (desde 2007).",
+                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (rudson-pessoal), ALERTA_NUMERO, RADAR_QUERY (OPENROUTER_API_KEY ja existe). n8n Cloud usa $vars (nao $env).",
+                        "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
+              },
               "markitdown_mcp": {
                         "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
                         "fornecedor": "Microsoft (open-source)",
@@ -64,6 +95,30 @@
                         }
               ]
       },
+      "sessao_7_inteligencia_concorrencia": {
+              "tese": "Detectar home care DE FORA (raio ~200km, incl. SP/DDD11 e redes nacionais) anunciando/atendendo Pouso Alegre, alem de convenios. NAO focar no concorrente local quieto.",
+              "entrantes_de_fora_detectados": ["Home Doctor (SP/DDD11, risco Alto)", "Cuidar Saude (MG estadual)", "Atend Home Care", "Primordial Cuidados", "AC Vida"],
+              "locais": ["Vital Care (@vitalcaresaude)", "Medicina Integral PA"],
+              "convenio_oportunidade": "IPSEMG lancou Programa de Atencao Domiciliar (credenciamento)",
+              "metricas_instagram_30d": "5030 seguidores (+5/mes), alcance 4374, curtidas 125, compart 82, salvos 21, comentarios 1 (ALERTA), engajadas 79, taxa ~5%",
+              "melhor_horario": "17h-20h todos os dias; pico sexta 20h; posts 27-28/05 bombaram (142 interacoes, 56 compart)",
+              "painel": {
+                        "url": "https://dashboard-pi-three-34.vercel.app",
+                        "fonte": "dashboard/index.html (autossuficiente)",
+                        "features": "KPIs, abas Radar/Redes/Horario/Convenios/Tarefas, filtros, incluir/ignorar, exportar WhatsApp/PDF, modo Ao vivo (webhook n8n), selo Novo + alerta risco Alto, checklist; localStorage",
+                        "deploy": "Vercel CLI --scope rudson-oliveiras-projects; ssoProtection desativado p/ ficar publico; noindex"
+              }
+      },
+      "conquistas_sessao_7": [
+              "Firecrawl instalado (.mcp.json) e chave validada com testes reais (site HospitaLar, ANVISA, buscas concorrentes)",
+              "Metricool confirmado conectado; puxadas metricas reais do Instagram + melhor horario",
+              "Evolution: instancia rudson-pessoal identificada; teste de envio WhatsApp HTTP 201",
+              "Criados 2 workflows n8n MONITOR-Radar (entrantes->WhatsApp e API webhook->painel), INATIVOS e isolados",
+              "Reformulada a tese: radar de novos entrantes 'de fora' (nao concorrente quieto)",
+              "Construido painel dashboard/index.html (v3) e PUBLICADO na Vercel (mobile): dashboard-pi-three-34.vercel.app",
+              "Arquivados WF-MONITOR-ANVISA e MONITOR-Concorrente (superados)",
+              "Checkpoint CHECKPOINT_21062026.md criado; CONTEXTO/README/CLAUDE atualizados"
+      ],
       "conquistas_sessao_4": [
               "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
               "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
@@ -105,6 +160,12 @@
               ]
       },
       "pendencias_tecnicas": [
+              {
+                        "item": "n8n LIMITE DE EXECUCOES atingido (CRITICO)",
+                        "descricao": "Plano n8n Cloud sem execucoes restantes -> erro 'Execution limit reached' em toda execucao de producao. 3720 execucoes no ciclo. MAIORES CONSUMIDORES identificados: (1) i7f12WgSoAAHraWA '📧 Triagem Inteligente de Email (Outlook+IA)' - poll everyMinute (1440/dia) E falhando (Outlook auth) = desperdicio puro -> DESABILITAR; (2) fg7voiKEfTQIGrYf 'COCKPIT-10-FANOUT-WhatsApp' - webhook que faz fanout p/ 2 workflows (3x execucoes/msg) em erro 100% (provavel loop de retry) -> DESABILITAR temporariamente. Menores: nunsrZkd4cO8eqLl (15min), woTaNHjjPR8cNdF0/LxuhS8681nX9NrB1/9arDgUsepPgKE2K6/QdQEWuz2M0j8g2w8 (hora). Desativacao via MCP foi BLOQUEADA (precisa o CEO desligar no painel ou autorizar). Resolver tambem: upgrade/reset do plano.",
+                        "prioridade": "CRITICA",
+                        "descoberto": "2026-06-21 via execucao 58230 do webhook radar"
+              },
               {
                         "item": "OPENAI_API_KEY",
                         "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",
@@ -154,8 +215,8 @@
 }
 ],
   "proxima_sessao": {
-          "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
+          "instrucao_retomada": "leia CONTEXTO.json + CHECKPOINT_21062026.md e continue",
           "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
-          "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
+          "primeira_acao": "Verificar se o CEO ja cadastrou as 6 Variables no n8n e ativou os workflows MONITOR-Radar-*. Se sim, testar o webhook /webhook/radar-pa e o painel 'Ao vivo'. Oferecer blindagem do webhook com token e a Fase 2 (multiplas buscas + Data Table + convenios)."
   }
 }

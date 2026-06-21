@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Painel de Inteligência — HospitaLar Soluções em Saúde</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#ffffff; --ink:#0f172a; --muted:#64748b;
+    --line:#e2e8f0; --accent:#0d9488; --accent2:#0ea5e9;
+    --alto:#dc2626; --alto-bg:#fee2e2; --medio:#d97706; --medio-bg:#fef3c7;
+    --baixo:#16a34a; --baixo-bg:#dcfce7; --novo:#7c3aed; --novo-bg:#ede9fe; --radius:16px;
+    --shadow:0 1px 2px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.08);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:#f1f5f9;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent2);text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 18px 64px}
+  header{background:linear-gradient(135deg,#0f172a,#155e63);color:#fff;padding:26px 0 22px;margin-bottom:0}
+  header .wrap{display:flex;flex-direction:column;gap:14px}
+  .brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand h1{font-size:20px;margin:0;font-weight:700}
+  .brand .pill{font-size:12px;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:999px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .kpi{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 14px}
+  .kpi b{display:block;font-size:26px;line-height:1.1}
+  .kpi span{font-size:12px;opacity:.85}
+  @media(max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  /* alert bar */
+  #alertBar{display:none;background:var(--alto);color:#fff;font-weight:700;font-size:14px}
+  #alertBar.show{display:block}
+  #alertBar .wrap{flex-direction:row;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
+  #alertBar button{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;font-weight:700}
+  nav.tabs{position:sticky;top:0;z-index:20;background:#f1f5f9;padding:10px 0;border-bottom:1px solid var(--line)}
+  nav.tabs .wrap{display:flex;gap:8px;flex-wrap:wrap;padding-top:0;padding-bottom:0}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:14px;
+       font-weight:600;cursor:pointer;color:var(--muted)}
+  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tab .dot{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;background:var(--alto);color:#fff;border-radius:999px;font-size:11px}
+  section{display:none;margin-top:18px}
+  section.show{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  h2.sec{font-size:17px;margin:6px 0 4px;display:flex;align-items:center;gap:8px}
+  p.lead{color:var(--muted);margin:0 0 14px;font-size:14px}
+  details.setup{background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px 16px;margin-bottom:14px;box-shadow:var(--shadow)}
+  details.setup summary{cursor:pointer;font-weight:700;padding:10px 0;font-size:14px;color:var(--accent)}
+  details.setup ol{margin:6px 0 14px;padding-left:20px;font-size:14px}
+  details.setup li{margin:8px 0}
+  .urlbox{display:flex;gap:8px;align-items:center;background:#f8fafc;border:1px dashed var(--line);border-radius:10px;padding:8px 10px;margin-top:6px}
+  .urlbox code{font-size:12px;word-break:break-all;flex:1}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:13px;
+        cursor:pointer;font-weight:600;color:var(--muted);user-select:none}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .chip.r-alto.on{background:var(--alto);border-color:var(--alto)}
+  .chip.r-medio.on{background:var(--medio);border-color:var(--medio)}
+  .chip.r-baixo.on{background:var(--baixo);border-color:var(--baixo)}
+  input.search{flex:1;min-width:150px;border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:14px}
+  .btn{border:0;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700;cursor:pointer}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .btn.wa{background:#25d366;color:#fff}
+  .btn.live{background:var(--accent2);color:#fff}
+  .switch{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);cursor:pointer}
+  .src{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#e2e8f0;color:#475569}
+  .src.on{background:var(--baixo-bg);color:var(--baixo)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;
+        box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;position:relative}
+  .card.ignored{opacity:.5}
+  .card.isnovo{border-color:var(--novo);box-shadow:0 0 0 2px var(--novo-bg)}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .card h3{margin:0;font-size:16px}
+  .badge{font-size:11px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+  .b-alto{background:var(--alto-bg);color:var(--alto)} .b-medio{background:var(--medio-bg);color:var(--medio)} .b-baixo{background:var(--baixo-bg);color:var(--baixo)}
+  .b-novo{background:var(--novo-bg);color:var(--novo)}
+  .tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:#eef2ff;color:#4338ca}
+  .tag.local{background:#ecfeff;color:#0e7490}
+  .card .pista{font-size:13px;color:var(--muted)}
+  .card .actions{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap}
+  .mini{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink)}
+  .mini.danger{color:var(--alto)} .mini.ok{color:var(--baixo)}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:720px){.stat-grid{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+  .stat b{display:block;font-size:24px}.stat span{font-size:12px;color:var(--muted)}
+  .insights{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:6px 18px;margin-top:14px;box-shadow:var(--shadow)}
+  .insights li{margin:12px 0;font-size:14px}
+  .heat{display:grid;grid-template-columns:auto repeat(10,1fr);gap:4px;margin-top:14px;font-size:11px}
+  .heat .h{padding:6px 2px;text-align:center;color:var(--muted);font-weight:700}
+  .heat .lab{display:flex;align-items:center;color:var(--muted);font-weight:700;padding-right:6px}
+  .cell{height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px}
+  .note{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
+  dialog{border:0;border-radius:18px;padding:0;box-shadow:0 20px 60px rgba(0,0,0,.3);max-width:440px;width:92%}
+  dialog .body{padding:20px}
+  dialog h3{margin:0 0 12px}
+  dialog label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+  dialog input,dialog select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:10px;font-size:14px}
+  .row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+  .empty{text-align:center;color:var(--muted);padding:40px 0}
+  .task{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow);
+        display:flex;align-items:center;gap:12px;margin-bottom:10px}
+  .task.done{opacity:.55}.task.done .tx{text-decoration:line-through}
+  .task .tx{flex:1;font-size:14px}
+  .task input[type=checkbox]{width:20px;height:20px;cursor:pointer;accent-color:var(--accent)}
+  .addtask{display:flex;gap:10px;margin-bottom:16px}
+  @media print{
+    header{background:#0f172a !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    nav.tabs,.toolbar,.tab,.mini,.btn,.switch,#dlg,details.setup,#alertBar{display:none !important}
+    section{display:block !important}.card,.stat,.insights,.task{box-shadow:none}
+    body{background:#fff}h2.sec{page-break-before:always}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <span style="font-size:26px">🏥</span>
+      <h1>Painel de Inteligência — HospitaLar</h1>
+      <span class="pill">Pouso Alegre · MG</span>
+      <span class="pill" id="updated"></span>
+      <span class="src" id="srcTag">fonte: exemplo</span>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><b id="k-fora">0</b><span>Home care "de fora" no radar</span></div>
+      <div class="kpi"><b id="k-alto">0</b><span>Ameaças de risco ALTO</span></div>
+      <div class="kpi"><b id="k-novo">0</b><span>Novos desde a última visita</span></div>
+      <div class="kpi"><b id="k-tasks">0</b><span>Tarefas pendentes</span></div>
+    </div>
+  </div>
+</header>
+<div id="alertBar"><div class="wrap">
+  <span id="alertTxt">🔔</span>
+  <button id="alertGo">Ver no radar</button>
+</div></div>
+
+<nav class="tabs"><div class="wrap">
+  <button class="tab active" data-t="radar">📡 Radar de Entrantes</button>
+  <button class="tab" data-t="social">📱 Redes Sociais</button>
+  <button class="tab" data-t="horario">⏰ Melhor Horário</button>
+  <button class="tab" data-t="convenios">🤝 Convênios</button>
+  <button class="tab" data-t="tarefas">✅ Tarefas <span class="dot" id="tabDot" style="display:none">0</span></button>
+</div></nav>
+
+<div class="wrap">
+
+  <!-- RADAR -->
+  <section id="radar" class="show">
+    <h2 class="sec">📡 Radar de novos entrantes</h2>
+    <p class="lead">Home care anunciando/atendendo Pouso Alegre. O foco são os <b>"de fora"</b> — quem planta bandeira no seu território.</p>
+
+    <details class="setup">
+      <summary>⚙️ Como deixar o radar "Ao vivo" (passo a passo)</summary>
+      <ol>
+        <li>No <b>n8n → Settings → Variables</b>, crie: <code>FIRECRAWL_API_KEY</code>, <code>RADAR_QUERY</code>, <code>EVOLUTION_API_KEY</code>, <code>EVOLUTION_INSTANCE</code>, <code>ALERTA_NUMERO</code> (o <code>OPENROUTER_API_KEY</code> já existe).</li>
+        <li>Abra os workflows <b>MONITOR-Radar-API-Webhook</b> e <b>MONITOR-Radar-Entrantes</b> → botão <b>Active</b>.</li>
+        <li>Volte aqui e clique <b>🔍 Analisar agora</b>. A URL do webhook já está embutida:</li>
+      </ol>
+      <div class="urlbox"><code id="whUrl"></code><button class="mini" id="copyUrl">copiar</button></div>
+    </details>
+
+    <div class="toolbar">
+      <div class="chips" id="chips">
+        <span class="chip f-origem on" data-f="origem" data-v="todos">Todos</span>
+        <span class="chip f-origem" data-f="origem" data-v="fora">🔴 De fora</span>
+        <span class="chip f-origem" data-f="origem" data-v="local">🟢 Local</span>
+        <span class="chip f-origem" data-f="origem" data-v="novo">🆕 Novos</span>
+        <span class="chip r-alto f-risco on" data-f="risco" data-v="Alto">Alto</span>
+        <span class="chip r-medio f-risco on" data-f="risco" data-v="Médio">Médio</span>
+        <span class="chip r-baixo f-risco on" data-f="risco" data-v="Baixo">Baixo</span>
+      </div>
+    </div>
+    <div class="toolbar">
+      <input class="search" id="q" placeholder="🔎 Buscar…" />
+      <button class="btn live" id="liveBtn" title="Buscar do seu n8n">🔍 Analisar agora</button>
+      <button class="btn ghost" id="cfgBtn" title="Configurar URL do webhook">⚙️</button>
+      <button class="btn primary" id="add">+ Incluir</button>
+      <button class="btn wa" id="waBtn">📲 WhatsApp</button>
+      <button class="btn ghost" id="pdfBtn">🖨️ PDF</button>
+    </div>
+    <div class="toolbar" style="margin-top:-6px">
+      <label class="switch"><input type="checkbox" id="showIgnored" /> Mostrar ignorados</label>
+      <label class="switch"><input type="checkbox" id="autoLive" /> Atualizar ao abrir</label>
+    </div>
+    <div class="grid" id="cards"></div>
+    <div class="empty" id="empty" style="display:none">Nada por aqui com esses filtros. 🙂</div>
+  </section>
+
+  <!-- SOCIAL -->
+  <section id="social">
+    <h2 class="sec">📱 Suas redes (últimos 30 dias)</h2>
+    <p class="lead">Dados reais do Instagram <b>@hospitalarsaude</b> via Metricool.</p>
+    <div class="stat-grid">
+      <div class="stat"><b>5.030</b><span>Seguidores (≈ +5/mês)</span></div>
+      <div class="stat"><b>4.374</b><span>Alcance total</span></div>
+      <div class="stat"><b>125</b><span>Curtidas</span></div>
+      <div class="stat"><b>82</b><span>Compartilhamentos</span></div>
+      <div class="stat"><b>21</b><span>Salvamentos</span></div>
+      <div class="stat" style="border-color:var(--alto-bg);background:var(--alto-bg)"><b style="color:var(--alto)">1</b><span>Comentários ⚠️</span></div>
+      <div class="stat"><b>79</b><span>Contas engajadas</span></div>
+      <div class="stat"><b>~5%</b><span>Taxa de engajamento</span></div>
+    </div>
+    <ul class="insights">
+      <li>🔴 <b>Comentários quase zero (1/mês).</b> Termine os posts com pergunta e use enquetes nos Stories.</li>
+      <li>🏆 <b>Posts de 27–28/05 bombaram</b> (142 interações, 56 compartilhamentos). Replique o formato/tema.</li>
+      <li>📈 <b>Seguidores estagnados (~5.030).</b> Aposte em Reels para destravar o crescimento.</li>
+    </ul>
+  </section>
+
+  <!-- HORARIO -->
+  <section id="horario">
+    <h2 class="sec">⏰ Melhor horário de postar</h2>
+    <p class="lead">Quanto mais escuro, melhor a hora (dados reais Metricool). <b>Janela de ouro: 17h–20h.</b> ★ = horários top.</p>
+    <div class="heat" id="heat"></div>
+    <ul class="insights">
+      <li>🥇 <b>Sexta às 20h</b> é o pico absoluto da semana.</li>
+      <li>🟢 <b>17h–20h todos os dias</b> é a faixa mais forte.</li>
+      <li>🔴 Evite <b>0h–5h</b> (engajamento despenca).</li>
+    </ul>
+  </section>
+
+  <!-- CONVENIOS -->
+  <section id="convenios">
+    <h2 class="sec">🤝 Convênios & oportunidades</h2>
+    <p class="lead">Movimentos de convênios/programas de atenção domiciliar na região.</p>
+    <div class="grid" id="conv"></div>
+  </section>
+
+  <!-- TAREFAS -->
+  <section id="tarefas">
+    <h2 class="sec">✅ Tarefas</h2>
+    <p class="lead">Transforme ameaças e oportunidades em ação. Use “📌 Virar tarefa” nos cards do radar, ou adicione aqui.</p>
+    <div class="addtask">
+      <input class="search" id="taskInput" placeholder="Nova tarefa… ex.: Ligar para o IPSEMG sobre credenciamento" />
+      <button class="btn primary" id="taskAdd">Adicionar</button>
+    </div>
+    <div id="tasks"></div>
+    <div class="empty" id="tasksEmpty" style="display:none">Sem tarefas. Que tranquilidade. 😌</div>
+  </section>
+
+  <p class="note">Painel Claude Code · raspagem (Firecrawl) + Metricool · marcações e tarefas salvas neste navegador.</p>
+</div>
+
+<dialog id="dlg"><div class="body">
+  <h3>+ Incluir no radar</h3>
+  <label>Nome</label><input id="f-nome" placeholder="Ex.: Nova Home Care Ltda" />
+  <label>Origem</label><input id="f-origem" placeholder="Ex.: Campinas-SP / Local" />
+  <label>Risco</label>
+  <select id="f-risco"><option>Alto</option><option selected>Médio</option><option>Baixo</option></select>
+  <label>Pista / observação</label><input id="f-pista" placeholder="Ex.: começou a anunciar em PA" />
+  <div class="row"><button class="btn ghost" id="cancel">Cancelar</button><button class="btn primary" id="save">Salvar</button></div>
+</div></dialog>
+
+<script>
+const N8N_WEBHOOK = "https://rudsonoliveira2323.app.n8n.cloud/webhook/radar-pa";
+const SEED = [
+  {nome:"Home Doctor", origem:"São Paulo (DDD 11)", tipo:"fora", risco:"Alto", pista:"Rede nacional, 30 anos, WhatsApp (11) — entrando na região.", url:"https://homedoctor.com.br/"},
+  {nome:"Cuidar Saúde", origem:"MG (estadual)", tipo:"fora", risco:"Médio", pista:"Anuncia atendimento em todo o estado de Minas Gerais.", url:"https://cuidarsaude.com/"},
+  {nome:"Atend Home Care", origem:"De fora (SEO local)", tipo:"fora", risco:"Médio", pista:"Página dedicada \"Home Care em Pouso Alegre\".", url:"https://www.atendhomecare.com.br/home-care-em-pouso-alegre/"},
+  {nome:"Primordial Cuidados", origem:"De fora (SEO local)", tipo:"fora", risco:"Médio", pista:"Página \"Home Care Chácara Pouso Alegre\".", url:"https://homecare.primordialcuidados.com.br/"},
+  {nome:"AC Vida", origem:"De fora (plataforma)", tipo:"fora", risco:"Baixo", pista:"\"Cuidador de idosos em Pouso Alegre\".", url:"https://acvida.com.br/encontre-cuidador-de-idosos-em-pouso-alegre/"},
+  {nome:"Vital Care", origem:"Pouso Alegre (local)", tipo:"local", risco:"Médio", pista:"Concorrente local, plantões 24h.", url:"https://www.instagram.com/vitalcaresaude/"},
+  {nome:"Medicina Integral PA", origem:"Pouso Alegre (local)", tipo:"local", risco:"Baixo", pista:"Clínica local com serviço de home care.", url:"https://www.medicinaintegralpa.com.br/home-care"}
+];
+const CONV = [
+  {nome:"IPSEMG", pista:"OPORTUNIDADE: lançou Programa de Atenção Domiciliar para beneficiários — possível credenciamento.", url:"https://www.agenciaminas.mg.gov.br/noticia/ipsemg-lanca-programa-de-atencao-domiciliar-para-beneficiarios"}
+];
+const LS_IGN="hl_ignored",LS_ADD="hl_custom",LS_TASKS="hl_tasks",LS_LIVE="hl_live",LS_URL="hl_liveurl",LS_SEEN="hl_seen",LS_AUTO="hl_auto";
+const J=(k,d)=>JSON.parse(localStorage.getItem(k)||d), S=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const getIgn=()=>J(LS_IGN,"[]"),setIgn=v=>S(LS_IGN,v);
+const getAdd=()=>J(LS_ADD,"[]"),setAdd=v=>S(LS_ADD,v);
+const getTasks=()=>J(LS_TASKS,"[]"),setTasks=v=>S(LS_TASKS,v);
+const getLive=()=>J(LS_LIVE,"null");
+const getSeen=()=>J(LS_SEEN,"[]"),setSeen=v=>S(LS_SEEN,v);
+const liveUrl=()=>localStorage.getItem(LS_URL)||N8N_WEBHOOK;
+let NOVOS=new Set();
+let filt={origem:"todos",risco:{Alto:1,"Médio":1,Baixo:1},q:""};
+const bCls=r=>r==="Alto"?"b-alto":r==="Médio"?"b-medio":"b-baixo";
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const flash=(b,t)=>{const o=b.textContent;b.textContent=t;setTimeout(()=>b.textContent=o,1200);};
+const base=()=>getLive()||SEED;
+const allItems=()=>[...base(),...getAdd()];
+function visible(){
+  const ign=getIgn(),show=document.getElementById("showIgnored").checked;
+  return allItems().filter(it=>{
+    if(ign.includes(it.nome)&&!show)return false;
+    if(filt.origem==="novo"){if(!NOVOS.has(it.nome))return false;}
+    else if(filt.origem!=="todos"&&it.tipo!==filt.origem)return false;
+    if(!filt.risco[it.risco])return false;
+    if(filt.q){const s=(it.nome+it.origem+it.pista).toLowerCase();if(!s.includes(filt.q))return false;}
+    return true;
+  });
+}
+function render(){
+  const ign=getIgn(),box=document.getElementById("cards"),list=visible();box.innerHTML="";
+  list.forEach(it=>{
+    const isIgn=ign.includes(it.nome),isNovo=NOVOS.has(it.nome);
+    const el=document.createElement("div");el.className="card"+(isIgn?" ignored":"")+(isNovo?" isnovo":"");
+    el.innerHTML=`
+      <div class="top">
+        <div><h3>${esc(it.nome)}</h3>
+          <span class="tag ${it.tipo==='local'?'local':''}">${it.tipo==='local'?'🟢 Local':'🔴 De fora'}</span>
+          ${isNovo?'<span class="badge b-novo">🆕 Novo</span>':''}</div>
+        <span class="badge ${bCls(it.risco)}">${it.risco}</span>
+      </div>
+      <div style="font-size:13px;color:#334155"><b>${esc(it.origem)}</b></div>
+      <div class="pista">${esc(it.pista)}</div>
+      <div class="actions">
+        ${it.url?`<a class="mini" href="${it.url}" target="_blank" rel="noopener">🔗 Abrir</a>`:""}
+        <button class="mini" data-task="${esc(it.nome)}|${esc(it.origem)}">📌 Virar tarefa</button>
+        <button class="mini ${isIgn?'ok':'danger'}" data-ign="${esc(it.nome)}">${isIgn?'↩︎ Vigiar':'🚫 Ignorar'}</button>
+      </div>`;
+    box.appendChild(el);
+  });
+  document.getElementById("empty").style.display=list.length?"none":"block";
+  const fora=allItems().filter(i=>i.tipo==="fora"&&!ign.includes(i.nome));
+  document.getElementById("k-fora").textContent=fora.length;
+  document.getElementById("k-alto").textContent=fora.filter(i=>i.risco==="Alto").length;
+  document.getElementById("k-novo").textContent=NOVOS.size;
+  box.querySelectorAll("[data-ign]").forEach(b=>b.onclick=()=>{let g=getIgn(),n=b.dataset.ign;g.includes(n)?g=g.filter(x=>x!==n):g.push(n);setIgn(g);render();});
+  box.querySelectorAll("[data-task]").forEach(b=>b.onclick=()=>{const[n,o]=b.dataset.task.split("|");addTask("Avaliar/contatar: "+n+" ("+o+")");flash(b,"✓ Criada");});
+}
+(function(){const c=document.getElementById("conv");CONV.forEach(it=>{const e=document.createElement("div");e.className="card";
+  e.innerHTML=`<div class="top"><h3>${esc(it.nome)}</h3><span class="badge b-medio">Oportunidade</span></div>
+  <div class="pista">${esc(it.pista)}</div><div class="actions">${it.url?`<a class="mini" href="${it.url}" target="_blank" rel="noopener">🔗 Abrir</a>`:""}
+  <button class="mini" onclick="addTask('Contatar ${esc(it.nome)} sobre credenciamento')">📌 Virar tarefa</button></div>`;c.appendChild(e);});})();
+function addTask(text){const t=getTasks();t.unshift({id:Date.now()+""+Math.random(),text,done:false});setTasks(t);renderTasks();}
+function renderTasks(){
+  const t=getTasks(),box=document.getElementById("tasks");box.innerHTML="";
+  t.forEach(x=>{const el=document.createElement("div");el.className="task"+(x.done?" done":"");
+    el.innerHTML=`<input type="checkbox" ${x.done?"checked":""} data-done="${x.id}"><div class="tx">${esc(x.text)}</div><button class="mini danger" data-del="${x.id}">excluir</button>`;box.appendChild(el);});
+  document.getElementById("tasksEmpty").style.display=t.length?"none":"block";
+  const pend=t.filter(x=>!x.done).length;document.getElementById("k-tasks").textContent=pend;
+  const dot=document.getElementById("tabDot");dot.textContent=pend;dot.style.display=pend?"inline-block":"none";
+  box.querySelectorAll("[data-done]").forEach(c=>c.onchange=()=>{const a=getTasks();a.find(y=>y.id===c.dataset.done).done=c.checked;setTasks(a);renderTasks();});
+  box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{setTasks(getTasks().filter(y=>y.id!==b.dataset.del));renderTasks();});
+}
+document.getElementById("taskAdd").onclick=()=>{const v=document.getElementById("taskInput").value.trim();if(v){addTask(v);document.getElementById("taskInput").value="";}};
+document.getElementById("taskInput").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("taskAdd").click();});
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll("section").forEach(x=>x.classList.remove("show"));
+  t.classList.add("active");document.getElementById(t.dataset.t).classList.add("show");
+});
+document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  if(c.dataset.f==="origem"){document.querySelectorAll(".f-origem").forEach(x=>x.classList.remove("on"));c.classList.add("on");filt.origem=c.dataset.v;}
+  else{c.classList.toggle("on");filt.risco[c.dataset.v]=c.classList.contains("on")?1:0;}render();
+});
+document.getElementById("q").oninput=e=>{filt.q=e.target.value.toLowerCase().trim();render();};
+document.getElementById("showIgnored").onchange=render;
+const dlg=document.getElementById("dlg");
+document.getElementById("add").onclick=()=>dlg.showModal();
+document.getElementById("cancel").onclick=()=>dlg.close();
+document.getElementById("save").onclick=()=>{
+  const n=document.getElementById("f-nome").value.trim();if(!n)return;
+  const item={nome:n,origem:document.getElementById("f-origem").value.trim()||"—",tipo:"fora",
+    risco:document.getElementById("f-risco").value,pista:document.getElementById("f-pista").value.trim()||"Adicionado manualmente.",url:""};
+  const a=getAdd();a.push(item);setAdd(a);dlg.close();["f-nome","f-origem","f-pista"].forEach(id=>document.getElementById(id).value="");render();
+};
+/* config / ao vivo */
+function setSrc(on){const t=document.getElementById("srcTag");t.textContent=on?"fonte: ao vivo ✓":"fonte: exemplo";t.classList.toggle("on",on);}
+document.getElementById("whUrl").textContent=liveUrl();
+document.getElementById("copyUrl").onclick=()=>{navigator.clipboard?.writeText(liveUrl());flash(document.getElementById("copyUrl"),"copiado ✓");};
+document.getElementById("cfgBtn").onclick=()=>{
+  let u=prompt("URL do Webhook do n8n (radar). Em branco = padrão.",liveUrl());
+  if(u===null)return;u=u.trim();
+  if(u){localStorage.setItem(LS_URL,u);}else{localStorage.removeItem(LS_URL);}
+  document.getElementById("whUrl").textContent=liveUrl();alert("URL salva: "+liveUrl());
+};
+async function liveFetch(silent){
+  const btn=document.getElementById("liveBtn");btn.textContent="⏳…";
+  try{
+    const r=await fetch(liveUrl(),{headers:{Accept:"application/json"}});
+    let d=await r.json(); if(d&&d.data&&Array.isArray(d.data))d=d.data;
+    if(!Array.isArray(d))throw new Error("formato inesperado");
+    const norm=d.map(x=>({nome:x.nome||x.name||"—",origem:x.origem||x.origin||"—",
+      tipo:String(x.tipo||x.type||"fora").toLowerCase().includes("local")?"local":"fora",
+      risco:x.risco||x.risk||"Médio",pista:x.pista||x.hint||x.description||"",url:x.url||""}));
+    const seen=getSeen();NOVOS=new Set(norm.filter(i=>!seen.includes(i.nome)).map(i=>i.nome));
+    setSeen([...new Set([...seen,...norm.map(i=>i.nome)])]);
+    S(LS_LIVE,norm);setSrc(true);render();
+    const altoNovos=norm.filter(i=>NOVOS.has(i.nome)&&i.risco==="Alto");
+    if(altoNovos.length)showAlert(altoNovos.length+" novo(s) entrante(s) de risco ALTO: "+altoNovos.map(i=>i.nome).join(", "));
+    btn.textContent="🔍 Analisar agora";
+    if(!silent)alert("Radar atualizado: "+norm.length+" itens · "+NOVOS.size+" novo(s).");
+  }catch(e){btn.textContent="🔍 Analisar agora";if(!silent)alert("Não consegui buscar o radar.\nVerifique se o workflow está ATIVO e as Variables cadastradas.\n\nDetalhe: "+e.message);}
+}
+document.getElementById("liveBtn").onclick=()=>liveFetch(false);
+function showAlert(t){const b=document.getElementById("alertBar");document.getElementById("alertTxt").textContent="🔔 "+t;b.classList.add("show");}
+document.getElementById("alertGo").onclick=()=>{document.getElementById("alertBar").classList.remove("show");
+  document.querySelector('.f-origem[data-v="novo"]').click();document.querySelector('.tab[data-t="radar"]').click();};
+/* export */
+document.getElementById("waBtn").onclick=()=>{
+  const list=visible();let txt="📡 RADAR Home Care — Pouso Alegre\n("+new Date().toLocaleDateString("pt-BR")+")\n\n";
+  const fora=list.filter(i=>i.tipo==="fora"),loc=list.filter(i=>i.tipo==="local");
+  if(fora.length)txt+="🔴 DE FORA:\n"+fora.map(i=>`• ${i.nome} — ${i.origem} — ${i.risco}${NOVOS.has(i.nome)?" 🆕":""}`).join("\n")+"\n\n";
+  if(loc.length)txt+="🟢 LOCAIS:\n"+loc.map(i=>`• ${i.nome} — ${i.risco}`).join("\n")+"\n";
+  window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
+};
+document.getElementById("pdfBtn").onclick=()=>window.print();
+/* auto live */
+const auto=localStorage.getItem(LS_AUTO)==="1";
+document.getElementById("autoLive").checked=auto;
+document.getElementById("autoLive").onchange=e=>localStorage.setItem(LS_AUTO,e.target.checked?"1":"0");
+/* heatmap */
+(function(){
+  const dias=["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"],horas=[6,9,11,13,15,17,18,19,20,22];
+  const data={Seg:[1789,1973,2236,1993,2049,2307,2277,2367,2268,1297],Ter:[1563,1998,2192,2060,2126,2315,2326,2357,2333,1442],
+    Qua:[1755,2010,2237,2029,2124,2277,2330,2338,2348,1354],Qui:[1713,1969,2194,2012,2135,2324,2389,2382,2308,1849],
+    Sex:[1359,2056,2129,2113,2149,2357,2348,2346,2415,1598],"Sáb":[1035,2020,2106,2174,2179,2304,2246,2317,2301,1298],
+    Dom:[1728,1964,2255,2042,2122,2324,2367,2393,2360,1259]};
+  let html=`<div class="lab"></div>`+horas.map(h=>`<div class="h">${h}h</div>`).join("");
+  dias.forEach(d=>{html+=`<div class="lab">${d}</div>`;data[d].forEach(v=>{const c=Math.max(0,Math.min(1,(v-1000)/1450));
+    html+=`<div class="cell" style="background:rgba(13,148,136,${(0.16+c*0.84).toFixed(2)})">${v>2330?'★':''}</div>`;});});
+  document.getElementById("heat").innerHTML=html;
+})();
+document.getElementById("updated").textContent="Atualizado "+new Date().toLocaleDateString("pt-BR");
+setSrc(!!getLive());render();renderTasks();
+if(auto)liveFetch(true);
+</script>
+</body>
+</html>
