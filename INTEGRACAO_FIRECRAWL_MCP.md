@@ -111,19 +111,21 @@ Exemplo de body (string):
 { "url": "https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa", "formats": ["markdown"] }
 ```
 
-## ✅ Workflow n8n — MONITOR-Concorrente
+## ✅ Workflow n8n — MONITOR-Radar-Entrantes (Pouso Alegre)
+
+> **Tese (definida pelo CEO):** o alvo NÃO é o concorrente local quieto — é detectar **home care "de fora"**
+> (raio ~200 km, incluindo SP/DDD 11 e redes nacionais/estaduais) que estão **anunciando/atendendo Pouso
+> Alegre**, além de **convênios**. Empresa base: **Pouso Alegre-MG** (desde 2007).
 
 Criado no n8n Cloud (projeto pessoal, **INATIVO**, prefixo `MONITOR-`, isolado da produção):
 
-- **Nome:** `MONITOR-Concorrente-Firecrawl-WhatsApp` · **ID:** `KhvdfUhmwHyjHQng`
-- **Fluxo:** `Schedule 12h → Firecrawl Scrape ({{ $vars.CONCORRENTE_URL }}) → Monta Prompt → OpenRouter (anthropic/claude-haiku-4-5) → IF "tem novidade?" → WhatsApp (Evolution)`
-- **Parametrizado:** alvo e chaves vêm de **Variables** (`$vars`), nada hardcoded.
-- **Lógica:** a IA responde `SEM_NOVIDADES` quando não há sinal novo/promocional; o IF só dispara o WhatsApp quando há novidade.
-- *(WF-MONITOR-ANVISA `lOWNpoAL4LM5j4AW` foi **arquivado** — foco mudou para concorrente.)*
+- **Nome:** `MONITOR-Radar-Entrantes-PousoAlegre` · **ID:** `Hql1HFXaV6Z9sF8o`
+- **Fluxo:** `Schedule 24h → Firecrawl SEARCH ({{ $vars.RADAR_QUERY }}) → Monta Prompt → OpenRouter (claude-haiku-4-5) separa "de fora" → IF → WhatsApp (Evolution)`
+- **Diferença-chave:** usa **Firecrawl Search** (`/v1/search`), não scrape de um site. A IA classifica os resultados e ignora a própria HospitaLar e os players locais; só alerta sobre **entrantes de fora**.
+- **Exemplo real (21/06):** o radar já capturou Home Doctor (SP/DDD 11), Cuidar Saúde (MG estadual), Atend Home Care, Primordial Cuidados, AC Vida — todos "de fora" mirando Pouso Alegre.
+- *(MONITOR-Concorrente `KhvdfUhmwHyjHQng` e WF-MONITOR-ANVISA `lOWNpoAL4LM5j4AW` foram **arquivados**.)*
 
 ### ⚙️ Para ativar (n8n → Settings → Variables)
-
-Cadastrar como **Variables** (mesmo lugar do `OPENROUTER_API_KEY`):
 
 | Variável | Valor |
 |---|---|
@@ -132,12 +134,11 @@ Cadastrar como **Variables** (mesmo lugar do `OPENROUTER_API_KEY`):
 | `EVOLUTION_API_KEY` | a apikey global da Evolution |
 | `EVOLUTION_INSTANCE` | `rudson-pessoal` (ou instância dedicada de alertas) |
 | `ALERTA_NUMERO` | número que recebe o alerta (ex.: `5535998352323`) |
-| `CONCORRENTE_URL` | URL do site do concorrente a vigiar |
+| `RADAR_QUERY` | termo de busca, ex.: `home care atendimento domiciliar Pouso Alegre MG` |
 
 Depois: abrir o workflow → testar uma execução → **ativar**.
 
-> ℹ️ No n8n **Cloud** as chaves globais são lidas como `{{ $vars.NOME }}` (o recurso *Variables*; `$env` não é configurável no Cloud).
-> ⚠️ Diferenciação de "novidade" é feita pela IA (sem histórico). Para diff real (comparar com a coleta anterior), dá para adicionar uma **Data Table** depois.
+> 💡 **Melhorias possíveis (fase 2):** múltiplas queries (cuidador de idosos, internação domiciliar, oxigenoterapia PA); **Data Table** para lembrar quem já foi visto e alertar só os **novos**; pilar **convênios** (vigiar quais convênios entram/saem da região).
 
 ## 🔒 Segurança
 

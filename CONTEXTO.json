@@ -44,8 +44,9 @@
                         "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
                         "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
                         "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
-                        "workflow_n8n": "MONITOR-Concorrente-Firecrawl-WhatsApp (id KhvdfUhmwHyjHQng) - Schedule 12h -> Firecrawl scrape $vars.CONCORRENTE_URL -> OpenRouter claude-haiku-4-5 -> IF -> Evolution WhatsApp. INATIVO, prefixo MONITOR-, isolado. (WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivado.)",
-                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (rudson-pessoal), ALERTA_NUMERO, CONCORRENTE_URL (OPENROUTER_API_KEY ja existe). n8n Cloud usa $vars (nao $env).",
+                        "workflow_n8n": "MONITOR-Radar-Entrantes-PousoAlegre (id Hql1HFXaV6Z9sF8o) - Schedule 24h -> Firecrawl SEARCH ($vars.RADAR_QUERY, ex.: 'home care atendimento domiciliar Pouso Alegre MG') -> OpenRouter claude-haiku-4-5 separa home care DE FORA que atendem Pouso Alegre -> IF -> Evolution WhatsApp. INATIVO, prefixo MONITOR-, isolado. (MONITOR-Concorrente KhvdfUhmwHyjHQng e WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivados.)",
+                        "tese_monitoramento": "O alvo NAO e o concorrente local quieto; e detectar home care DE FORA (raio ~200km, incl. SP/DDD11 e redes nacionais) que estao anunciando/atendendo Pouso Alegre, alem de convenios. Empresa base: Pouso Alegre-MG (desde 2007).",
+                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (rudson-pessoal), ALERTA_NUMERO, RADAR_QUERY (OPENROUTER_API_KEY ja existe). n8n Cloud usa $vars (nao $env).",
                         "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
               },
               "markitdown_mcp": {
