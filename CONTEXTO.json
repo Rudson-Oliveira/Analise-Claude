@@ -31,11 +31,13 @@
                         "funcao": "Transformar sites/URLs em Markdown/JSON pronto para LLM (scrape/crawl/map/search/extract)",
                         "ferramenta_mcp": "firecrawl_scrape / firecrawl_crawl / firecrawl_map / firecrawl_search / firecrawl_extract",
                         "modo_escolhido": "Servidor MCP (npx firecrawl-mcp) + rotina LOOP do Claude Code; alternativa n8n via HTTP Request (api.firecrawl.dev)",
-                        "status": "INSTALADO no .mcp.json - aguardando FIRECRAWL_API_KEY",
+                        "status": "INSTALADO no .mcp.json - chave validada (scrape ANVISA + example.com OK 20/06/2026)",
                         "doc": "INTEGRACAO_FIRECRAWL_MCP.md",
                         "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
                         "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
                         "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
+                        "workflow_n8n": "WF-MONITOR-ANVISA-Firecrawl-WhatsApp (id lOWNpoAL4LM5j4AW) - Schedule 6h -> Firecrawl scrape -> OpenRouter claude-haiku-4-5 -> IF -> Evolution WhatsApp. INATIVO ate cadastrar variaveis n8n.",
+                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (OPENROUTER_API_KEY ja existe). Workflow usa $vars.*",
                         "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
               },
               "markitdown_mcp": {

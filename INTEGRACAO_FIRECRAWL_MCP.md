@@ -111,6 +111,30 @@ Exemplo de body (string):
 { "url": "https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa", "formats": ["markdown"] }
 ```
 
+## ✅ Workflow n8n criado — WF-MONITOR-ANVISA
+
+Já existe no n8n Cloud (criado em 20/06/2026, **INATIVO** até cadastrar as variáveis):
+
+- **Nome:** `WF-MONITOR-ANVISA-Firecrawl-WhatsApp` · **ID:** `lOWNpoAL4LM5j4AW`
+- **Fluxo:** `Schedule 6h → Firecrawl Scrape (ANVISA) → Monta Prompt → OpenRouter (anthropic/claude-haiku-4-5) → IF "tem novidade?" → WhatsApp (Evolution)`
+- **Lógica de novidade:** a IA responde `SEM_NOVIDADES` quando nada relevante/recente; o node IF só dispara o WhatsApp quando há novidade.
+- **Destino do alerta:** WhatsApp `5535998352323` (Rudson), via Evolution `…railway.app/message/sendText/{instância}`.
+
+### ⚙️ Para ativar (passos manuais no n8n — Settings → Variables)
+
+Cadastrar como **Variables** do n8n (mesmo lugar do `OPENROUTER_API_KEY`):
+
+| Variável | Valor |
+|---|---|
+| `FIRECRAWL_API_KEY` | a chave `fc-...` do Firecrawl |
+| `EVOLUTION_API_KEY` | a apikey da sua Evolution API |
+| `EVOLUTION_INSTANCE` | o nome da sua instância Evolution |
+| `OPENROUTER_API_KEY` | (já existe) |
+
+Depois: abrir o workflow → testar uma execução → **ativar**.
+
+> ℹ️ O workflow referencia `{{ $vars.NOME }}`. Se no seu n8n as chaves globais forem lidas como `{{ $env.NOME }}`, é só avisar que eu troco.
+
 ## 🔒 Segurança
 
 - A `FIRECRAWL_API_KEY` (`fc-...`) **nunca** entra no Git — só via variável de ambiente (`${FIRECRAWL_API_KEY}`)
