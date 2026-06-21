@@ -140,6 +140,18 @@ Depois: abrir o workflow → testar uma execução → **ativar**.
 
 > 💡 **Melhorias possíveis (fase 2):** múltiplas queries (cuidador de idosos, internação domiciliar, oxigenoterapia PA); **Data Table** para lembrar quem já foi visto e alertar só os **novos**; pilar **convênios** (vigiar quais convênios entram/saem da região).
 
+## 🌐 API do radar (para o painel "Ao vivo") — MONITOR-Radar-API-Webhook
+
+- **ID:** `81RFduR2lx7HjRCJ` · **INATIVO** até ativar + variáveis.
+- **Fluxo:** `Webhook GET → Firecrawl Search → OpenRouter (devolve JSON) → Code (parse) → Respond {data:[...]}` com header `Access-Control-Allow-Origin: *`.
+- **URL (após ativar):** `https://rudsonoliveira2323.app.n8n.cloud/webhook/radar-pa` (teste: `/webhook-test/radar-pa`).
+- **Uso:** cole essa URL no botão **🔄 Ao vivo** do `dashboard/index.html` → o painel busca a lista classificada em tempo real.
+- **Variáveis usadas:** `FIRECRAWL_API_KEY`, `OPENROUTER_API_KEY`, `RADAR_QUERY` (não usa Evolution — alerta WhatsApp é o outro workflow).
+
+## 🖥️ Dashboard — `dashboard/index.html`
+
+Painel visual autossuficiente (abre no navegador), pensado para TDAH: KPIs, abas (Radar/Redes/Horário/Convênios/Tarefas), filtros, busca, **incluir/ignorar**, exportar **WhatsApp/PDF**, aba **Tarefas** e modo **Ao vivo** (consome a API acima). Marcações e tarefas ficam no `localStorage` do navegador.
+
 ## 🔒 Segurança
 
 - A `FIRECRAWL_API_KEY` (`fc-...`) **nunca** entra no Git — só via variável de ambiente (`${FIRECRAWL_API_KEY}`)
