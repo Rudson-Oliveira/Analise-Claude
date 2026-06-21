@@ -5,7 +5,7 @@
               "analisado_por": "Claude Opus 4.8",
               "sessoes_realizadas": 7,
               "ultimo_checkpoint": "CHECKPOINT_21062026.md",
-              "proximo_passo": "CEO: cadastrar 6 Variables ($vars) no n8n e ATIVAR os 2 workflows MONITOR-Radar-*. Agente: testar webhook /radar-pa e o painel 'Ao vivo'; blindar webhook com token; Fase 2 (multiplas buscas + Data Table + convenios)."
+              "proximo_passo": "🔴 BLOQUEIO: n8n Cloud atingiu o LIMITE DE EXECUCOES do plano (erro 'Execution limit reached' em TODAS as execucoes de producao - explica o 'failure rate 100%'). Acoes: (a) upgrade do plano ou aguardar reset mensal; (b) pausar workflows que gastam execucoes (pollings). Workflows MONITOR-* estao prontos/ativos e funcionarao quando houver cota. Depois: testar webhook /radar-pa e painel Ao vivo; blindar webhook com token; Fase 2."
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -50,7 +50,7 @@
                         "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
                         "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
                         "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
-                        "workflow_n8n": "(1) MONITOR-Radar-Entrantes-PousoAlegre (Hql1HFXaV6Z9sF8o): Schedule 24h -> Firecrawl SEARCH -> OpenRouter -> IF -> WhatsApp alerta. (2) MONITOR-Radar-API-Webhook (81RFduR2lx7HjRCJ): Webhook GET /webhook/radar-pa -> Firecrawl -> OpenRouter -> Code parse -> Respond JSON {data:[...]} CORS* (alimenta o botao 'Ao vivo' do dashboard). Ambos INATIVOS, prefixo MONITOR-, isolados. (MONITOR-Concorrente KhvdfUhmwHyjHQng e WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivados.)",
+                        "workflow_n8n": "(1) MONITORAMENTO 21-06-2026 — Radar Entrantes (Hql1HFXaV6Z9sF8o) (Hql1HFXaV6Z9sF8o): Schedule 24h -> Firecrawl SEARCH -> OpenRouter -> IF -> WhatsApp alerta. (2) MONITORAMENTO 21-06-2026 — API Webhook (81RFduR2lx7HjRCJ) (81RFduR2lx7HjRCJ): Webhook GET /webhook/radar-pa -> Firecrawl -> OpenRouter -> Code parse -> Respond JSON {data:[...]} CORS* (alimenta o botao 'Ao vivo' do dashboard). Ambos INATIVOS, prefixo MONITOR-, isolados. (MONITOR-Concorrente KhvdfUhmwHyjHQng e WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivados.)",
                         "tese_monitoramento": "O alvo NAO e o concorrente local quieto; e detectar home care DE FORA (raio ~200km, incl. SP/DDD11 e redes nacionais) que estao anunciando/atendendo Pouso Alegre, alem de convenios. Empresa base: Pouso Alegre-MG (desde 2007).",
                         "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (rudson-pessoal), ALERTA_NUMERO, RADAR_QUERY (OPENROUTER_API_KEY ja existe). n8n Cloud usa $vars (nao $env).",
                         "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
@@ -160,6 +160,12 @@
               ]
       },
       "pendencias_tecnicas": [
+              {
+                        "item": "n8n LIMITE DE EXECUCOES atingido (CRITICO)",
+                        "descricao": "Plano n8n Cloud sem execucoes restantes -> erro 'Execution limit reached' em toda execucao de producao (inclui radar, COCKPIT, etc.). Causa real do 'failure rate 100%'. Resolver: upgrade de plano OU aguardar reset do ciclo OU pausar workflows que consomem (pollings frequentes).",
+                        "prioridade": "CRITICA",
+                        "descoberto": "2026-06-21 via execucao 58230 do webhook radar"
+              },
               {
                         "item": "OPENAI_API_KEY",
                         "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",

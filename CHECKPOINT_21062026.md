@@ -40,8 +40,8 @@ concorrência + redes sociais**, com **painel visual** acessível no celular.
 ### 5. Workflows n8n (Cloud) — criados INATIVOS, isolados, prefixo `MONITOR-`
 | Workflow | ID | Função |
 |---|---|---|
-| **MONITOR-Radar-Entrantes-PousoAlegre** | `Hql1HFXaV6Z9sF8o` | Schedule 24h → Firecrawl SEARCH → OpenRouter classifica "de fora" → IF → **alerta WhatsApp** |
-| **MONITOR-Radar-API-Webhook** | `81RFduR2lx7HjRCJ` | Webhook GET `/webhook/radar-pa` → Firecrawl → OpenRouter → Code parse → **responde JSON** (CORS *) p/ o painel |
+| **MONITORAMENTO 21-06-2026 — Radar Entrantes (Hql1HFXaV6Z9sF8o)** | `Hql1HFXaV6Z9sF8o` | Schedule 24h → Firecrawl SEARCH → OpenRouter classifica "de fora" → IF → **alerta WhatsApp** |
+| **MONITORAMENTO 21-06-2026 — API Webhook (81RFduR2lx7HjRCJ)** | `81RFduR2lx7HjRCJ` | Webhook GET `/webhook/radar-pa` → Firecrawl → OpenRouter → Code parse → **responde JSON** (CORS *) p/ o painel |
 - **Arquivados:** `MONITOR-Concorrente` (KhvdfUhmwHyjHQng) e `WF-MONITOR-ANVISA` (lOWNpoAL4LM5j4AW) — abordagens superadas.
 - **Confirmado:** n8n Cloud (plano pago) usa **`$vars`** (não `$env`).
 
