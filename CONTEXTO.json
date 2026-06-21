@@ -44,8 +44,8 @@
                         "encaixe": "COCKPIT-07 (links em vez de anexos); monitoramento ANVISA/licitacoes/concorrentes; pesquisa web",
                         "complementa": "MarkItDown (arquivos) + Firecrawl (web) cobrem ambas as fontes",
                         "loop": "skill /loop do Claude Code para monitoramento recorrente (ex.: /loop 6h coletar pagina ANVISA e resumir novidades)",
-                        "workflow_n8n": "WF-MONITOR-ANVISA-Firecrawl-WhatsApp (id lOWNpoAL4LM5j4AW) - Schedule 6h -> Firecrawl scrape -> OpenRouter claude-haiku-4-5 -> IF -> Evolution WhatsApp. INATIVO ate cadastrar variaveis n8n.",
-                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (OPENROUTER_API_KEY ja existe). Workflow usa $vars.*",
+                        "workflow_n8n": "MONITOR-Concorrente-Firecrawl-WhatsApp (id KhvdfUhmwHyjHQng) - Schedule 12h -> Firecrawl scrape $vars.CONCORRENTE_URL -> OpenRouter claude-haiku-4-5 -> IF -> Evolution WhatsApp. INATIVO, prefixo MONITOR-, isolado. (WF-MONITOR-ANVISA lOWNpoAL4LM5j4AW arquivado.)",
+                        "variaveis_n8n_necessarias": "FIRECRAWL_API_KEY, EVOLUTION_API_KEY, EVOLUTION_INSTANCE (rudson-pessoal), ALERTA_NUMERO, CONCORRENTE_URL (OPENROUTER_API_KEY ja existe). n8n Cloud usa $vars (nao $env).",
                         "ressalva": "firecrawl-mcp serve ao agente Claude; automacao 24/7 no n8n Cloud exige Schedule + HTTP Request com FIRECRAWL_API_KEY"
               },
               "markitdown_mcp": {

@@ -111,29 +111,33 @@ Exemplo de body (string):
 { "url": "https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa", "formats": ["markdown"] }
 ```
 
-## ✅ Workflow n8n criado — WF-MONITOR-ANVISA
+## ✅ Workflow n8n — MONITOR-Concorrente
 
-Já existe no n8n Cloud (criado em 20/06/2026, **INATIVO** até cadastrar as variáveis):
+Criado no n8n Cloud (projeto pessoal, **INATIVO**, prefixo `MONITOR-`, isolado da produção):
 
-- **Nome:** `WF-MONITOR-ANVISA-Firecrawl-WhatsApp` · **ID:** `lOWNpoAL4LM5j4AW`
-- **Fluxo:** `Schedule 6h → Firecrawl Scrape (ANVISA) → Monta Prompt → OpenRouter (anthropic/claude-haiku-4-5) → IF "tem novidade?" → WhatsApp (Evolution)`
-- **Lógica de novidade:** a IA responde `SEM_NOVIDADES` quando nada relevante/recente; o node IF só dispara o WhatsApp quando há novidade.
-- **Destino do alerta:** WhatsApp `5535998352323` (Rudson), via Evolution `…railway.app/message/sendText/{instância}`.
+- **Nome:** `MONITOR-Concorrente-Firecrawl-WhatsApp` · **ID:** `KhvdfUhmwHyjHQng`
+- **Fluxo:** `Schedule 12h → Firecrawl Scrape ({{ $vars.CONCORRENTE_URL }}) → Monta Prompt → OpenRouter (anthropic/claude-haiku-4-5) → IF "tem novidade?" → WhatsApp (Evolution)`
+- **Parametrizado:** alvo e chaves vêm de **Variables** (`$vars`), nada hardcoded.
+- **Lógica:** a IA responde `SEM_NOVIDADES` quando não há sinal novo/promocional; o IF só dispara o WhatsApp quando há novidade.
+- *(WF-MONITOR-ANVISA `lOWNpoAL4LM5j4AW` foi **arquivado** — foco mudou para concorrente.)*
 
-### ⚙️ Para ativar (passos manuais no n8n — Settings → Variables)
+### ⚙️ Para ativar (n8n → Settings → Variables)
 
-Cadastrar como **Variables** do n8n (mesmo lugar do `OPENROUTER_API_KEY`):
+Cadastrar como **Variables** (mesmo lugar do `OPENROUTER_API_KEY`):
 
 | Variável | Valor |
 |---|---|
 | `FIRECRAWL_API_KEY` | a chave `fc-...` do Firecrawl |
-| `EVOLUTION_API_KEY` | a apikey da sua Evolution API |
-| `EVOLUTION_INSTANCE` | `rudson-pessoal` (instância ativa, status open) |
 | `OPENROUTER_API_KEY` | (já existe) |
+| `EVOLUTION_API_KEY` | a apikey global da Evolution |
+| `EVOLUTION_INSTANCE` | `rudson-pessoal` (ou instância dedicada de alertas) |
+| `ALERTA_NUMERO` | número que recebe o alerta (ex.: `5535998352323`) |
+| `CONCORRENTE_URL` | URL do site do concorrente a vigiar |
 
 Depois: abrir o workflow → testar uma execução → **ativar**.
 
-> ℹ️ O workflow referencia `{{ $vars.NOME }}`. Se no seu n8n as chaves globais forem lidas como `{{ $env.NOME }}`, é só avisar que eu troco.
+> ℹ️ No n8n **Cloud** as chaves globais são lidas como `{{ $vars.NOME }}` (o recurso *Variables*; `$env` não é configurável no Cloud).
+> ⚠️ Diferenciação de "novidade" é feita pela IA (sem histórico). Para diff real (comparar com a coleta anterior), dá para adicionar uma **Data Table** depois.
 
 ## 🔒 Segurança
 
