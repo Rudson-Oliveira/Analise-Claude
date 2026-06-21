@@ -162,7 +162,7 @@
       "pendencias_tecnicas": [
               {
                         "item": "n8n LIMITE DE EXECUCOES atingido (CRITICO)",
-                        "descricao": "Plano n8n Cloud sem execucoes restantes -> erro 'Execution limit reached' em toda execucao de producao (inclui radar, COCKPIT, etc.). Causa real do 'failure rate 100%'. Resolver: upgrade de plano OU aguardar reset do ciclo OU pausar workflows que consomem (pollings frequentes).",
+                        "descricao": "Plano n8n Cloud sem execucoes restantes -> erro 'Execution limit reached' em toda execucao de producao. 3720 execucoes no ciclo. MAIORES CONSUMIDORES identificados: (1) i7f12WgSoAAHraWA '📧 Triagem Inteligente de Email (Outlook+IA)' - poll everyMinute (1440/dia) E falhando (Outlook auth) = desperdicio puro -> DESABILITAR; (2) fg7voiKEfTQIGrYf 'COCKPIT-10-FANOUT-WhatsApp' - webhook que faz fanout p/ 2 workflows (3x execucoes/msg) em erro 100% (provavel loop de retry) -> DESABILITAR temporariamente. Menores: nunsrZkd4cO8eqLl (15min), woTaNHjjPR8cNdF0/LxuhS8681nX9NrB1/9arDgUsepPgKE2K6/QdQEWuz2M0j8g2w8 (hora). Desativacao via MCP foi BLOQUEADA (precisa o CEO desligar no painel ou autorizar). Resolver tambem: upgrade/reset do plano.",
                         "prioridade": "CRITICA",
                         "descoberto": "2026-06-21 via execucao 58230 do webhook radar"
               },

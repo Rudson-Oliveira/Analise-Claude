@@ -158,7 +158,7 @@
       <ol>
         <li>No <b>n8n → Settings → Variables</b>, crie: <code>FIRECRAWL_API_KEY</code>, <code>RADAR_QUERY</code>, <code>EVOLUTION_API_KEY</code>, <code>EVOLUTION_INSTANCE</code>, <code>ALERTA_NUMERO</code> (o <code>OPENROUTER_API_KEY</code> já existe).</li>
         <li>Abra os workflows <b>MONITOR-Radar-API-Webhook</b> e <b>MONITOR-Radar-Entrantes</b> → botão <b>Active</b>.</li>
-        <li>Volte aqui e clique <b>🔄 Ao vivo</b>. A URL do webhook já está embutida:</li>
+        <li>Volte aqui e clique <b>🔍 Analisar agora</b>. A URL do webhook já está embutida:</li>
       </ol>
       <div class="urlbox"><code id="whUrl"></code><button class="mini" id="copyUrl">copiar</button></div>
     </details>
@@ -176,7 +176,7 @@
     </div>
     <div class="toolbar">
       <input class="search" id="q" placeholder="🔎 Buscar…" />
-      <button class="btn live" id="liveBtn" title="Buscar do seu n8n">🔄 Ao vivo</button>
+      <button class="btn live" id="liveBtn" title="Buscar do seu n8n">🔍 Analisar agora</button>
       <button class="btn ghost" id="cfgBtn" title="Configurar URL do webhook">⚙️</button>
       <button class="btn primary" id="add">+ Incluir</button>
       <button class="btn wa" id="waBtn">📲 WhatsApp</button>
@@ -385,9 +385,9 @@ async function liveFetch(silent){
     S(LS_LIVE,norm);setSrc(true);render();
     const altoNovos=norm.filter(i=>NOVOS.has(i.nome)&&i.risco==="Alto");
     if(altoNovos.length)showAlert(altoNovos.length+" novo(s) entrante(s) de risco ALTO: "+altoNovos.map(i=>i.nome).join(", "));
-    btn.textContent="🔄 Ao vivo";
+    btn.textContent="🔍 Analisar agora";
     if(!silent)alert("Radar atualizado: "+norm.length+" itens · "+NOVOS.size+" novo(s).");
-  }catch(e){btn.textContent="🔄 Ao vivo";if(!silent)alert("Não consegui buscar o radar.\nVerifique se o workflow está ATIVO e as Variables cadastradas.\n\nDetalhe: "+e.message);}
+  }catch(e){btn.textContent="🔍 Analisar agora";if(!silent)alert("Não consegui buscar o radar.\nVerifique se o workflow está ATIVO e as Variables cadastradas.\n\nDetalhe: "+e.message);}
 }
 document.getElementById("liveBtn").onclick=()=>liveFetch(false);
 function showAlert(t){const b=document.getElementById("alertBar");document.getElementById("alertTxt").textContent="🔔 "+t;b.classList.add("show");}
