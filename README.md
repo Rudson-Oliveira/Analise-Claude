@@ -23,6 +23,17 @@
      
       10. ---
      
+      10b. ## 🧩 Integrações Avaliadas
+     
+      10c. | Integração | Fornecedor | Papel | Status |
+      10d. |---|---|---|---|
+      10e. | MarkItDown-MCP | Microsoft | Arquivos → Markdown limpo p/ LLM | 📋 Documentado |
+      10f. | Claude Managed Agents | Anthropic | Runtime gerenciado p/ agentes autônomos longos | 📋 Avaliado (sem ativação imediata) |
+     
+      10g. > **Claude Managed Agents** entra como camada **opcional e complementar** ao n8n: o n8n segue como orquestrador; o Managed Agents fica disponível como runtime sob demanda para tarefas autônomas de horas (ex.: análise em lote de documentos). Detalhes em [INTEGRACAO_CLAUDE_MANAGED_AGENTS.md](./INTEGRACAO_CLAUDE_MANAGED_AGENTS.md).
+     
+      10h. ---
+     
       11. ## ✅ Status Atual (Sessão 4 - 31/05/2026)
      
       12. ### Migrações HuggingFace → OpenRouter
@@ -81,6 +92,7 @@
       50. |---|---|
       51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
       51b. | INTEGRACAO_MARKITDOWN_MCP.md | Integração do MarkItDown-MCP (Microsoft) — conversão de arquivos → Markdown para LLM |
+      51bb. | INTEGRACAO_CLAUDE_MANAGED_AGENTS.md | Avaliação do Claude Managed Agents (Anthropic) — runtime gerenciado para agentes autônomos longos (avaliado, sem ativação imediata) |
       51c. | .mcp.json | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |

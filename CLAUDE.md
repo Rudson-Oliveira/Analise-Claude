@@ -33,6 +33,7 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `CHECKPOINT_*.md` | Checkpoints datados de sessões anteriores |
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
 | `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
+| `INTEGRACAO_CLAUDE_MANAGED_AGENTS.md` | Avaliação do Claude Managed Agents (Anthropic) — runtime gerenciado p/ agentes autônomos longos |
 | `.mcp.json` | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
 
