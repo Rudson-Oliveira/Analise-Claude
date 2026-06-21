@@ -21,7 +21,7 @@
       "variaveis_n8n": {
               "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
               "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
-              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3",
+              "EVOLUTION_API_KEY": "chave global existe (validada via fetchInstances 21/06); cadastrar como variavel n8n. Instancia ativa: rudson-pessoal (status open). ATENCAO: enviar alerta para o proprio numero da instancia pode falhar - avaliar instancia dedicada ou destinatario distinto",
               "FIRECRAWL_API_KEY": "PENDENTE - opcional no n8n (HTTP Request scrape); usada tambem pelo firecrawl-mcp no Claude Code"
       },
       "integracoes_avaliadas": {

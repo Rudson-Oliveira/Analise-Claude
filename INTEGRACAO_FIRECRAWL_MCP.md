@@ -128,7 +128,7 @@ Cadastrar como **Variables** do n8n (mesmo lugar do `OPENROUTER_API_KEY`):
 |---|---|
 | `FIRECRAWL_API_KEY` | a chave `fc-...` do Firecrawl |
 | `EVOLUTION_API_KEY` | a apikey da sua Evolution API |
-| `EVOLUTION_INSTANCE` | o nome da sua instância Evolution |
+| `EVOLUTION_INSTANCE` | `rudson-pessoal` (instância ativa, status open) |
 | `OPENROUTER_API_KEY` | (já existe) |
 
 Depois: abrir o workflow → testar uma execução → **ativar**.
