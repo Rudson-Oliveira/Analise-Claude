@@ -25,6 +25,14 @@
               "FIRECRAWL_API_KEY": "PENDENTE - opcional no n8n (HTTP Request scrape); usada tambem pelo firecrawl-mcp no Claude Code"
       },
       "integracoes_avaliadas": {
+              "metricool_mcp": {
+                        "fonte": "Metricool (MCP)",
+                        "fornecedor": "Metricool",
+                        "funcao": "Analytics e agendamento das redes sociais PROPRIAS (Instagram/Facebook): engajamento, curtidas, alcance, melhor horario, agendar posts",
+                        "status": "CONECTADO - marca 'HospitaLar Solucoes em Saude' (brandId 6395876), IG @hospitalarsaude + FB 566515420052044, tz America/Sao_Paulo",
+                        "encaixe": "Pilar 'redes sociais proprias' do monitoramento (curtidas/engajamento). Conversoes exigem Meta Ads/GA/PostHog. Concorrente social = limitado ao publico.",
+                        "observacao": "Substitui o scraping para metricas proprias (Firecrawl nao acessa engajamento logado)."
+              },
               "firecrawl_mcp": {
                         "fonte": "https://github.com/firecrawl/firecrawl-mcp-server",
                         "fornecedor": "Firecrawl (firecrawl.dev)",
