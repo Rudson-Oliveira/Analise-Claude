@@ -1,10 +1,25 @@
 {
       "meta": {
-              "versao": "4.1",
-              "data_analise": "2026-06-12",
+              "versao": "5.0",
+              "data_analise": "2026-06-16",
               "analisado_por": "Claude (Opus)",
-              "sessoes_realizadas": 5,
-              "proximo_passo": "Subir N8N local (Docker, modelo hibrido) seguindo N8N_LOCAL_INSTALL.md; mover subfluxo audio/Whisper para local; conectar n8n-mcp"
+              "sessoes_realizadas": 6,
+              "fonte_da_verdade": "BASE_CONHECIMENTO.md (oraculo) + este arquivo",
+              "proximo_passo": "1) Religar n8n local (npx n8n) + instalar no n8n-nodes-evolution-api; 2) gerar API key local e conectar n8n-mcp; 3) INVESTIGAR Cloud com 100% de falha (MCP n8n-cloud ja alcanca); 4) PM2 autostart + Cloudflare Tunnel"
+      },
+      "estado_junho_2026": {
+              "n8n_local": "Instalado NATIVO (sem Docker) via npm/npx no PC Windows. Acesso http://localhost:5678. Banco ~/.n8n ja existia (julho/2025). Owner resetado e recriado. 4 workflows: My workflow, Agente de Marketing (usa n8n-nodes-evolution-api - NAO instalado ainda), Sistema Multiagentes. n8n cai ao fechar a janela do PowerShell (falta PM2).",
+              "n8n_cloud_ALERTA": "70 workflows mas FAILURE RATE 100% (3.162 execucoes falhando). Provavel item mais urgente. Sessao web alcanca o Cloud via MCP n8n-cloud (health check OK) e pode investigar.",
+              "barreira_chave": "Claude web roda em container Ubuntu na nuvem - NAO alcanca o PC do Rudson nem o n8n local (localhost = container remoto, SSRF). Alcanca o Cloud via MCP. Para mexer no local: Claude Code no PC OU Cloudflare Tunnel.",
+              "pendencias_local": ["instalar no n8n-nodes-evolution-api", "gerar API key", "PM2 autostart", "Cloudflare Tunnel"]
+      },
+      "decisoes_tomadas": {
+              "modelo": "Hibrido (Cloud basico + Local)",
+              "docker": "NAO usar (preferencia do Rudson)",
+              "instalacao_local": "Nativa npm/npx no Windows",
+              "tunel": "Cloudflare Tunnel (gratis, URL fixa); ngrok pago DESCARTADO; Docker Pro desnecessario",
+              "ambiente": "PC agora; VPS como destino futuro 24/7",
+              "autostart": "PM2 (a implementar)"
       },
       "n8n_local": {
               "decisao": "Modelo HIBRIDO - manter N8N Cloud plano basico para producao + N8N local (Docker) para dev/testes e workflows pesados",

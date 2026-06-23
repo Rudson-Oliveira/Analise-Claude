@@ -12,11 +12,17 @@
 
 ## Procedimento de retomada (FAÇA PRIMEIRO)
 
-1. Leia **`CONTEXTO.json`** (estado estruturado, máquina-legível) — é a fonte da verdade.
-2. Leia **`README.md`** (contexto humano) e este `CLAUDE.md`.
-3. Resuma para o Rudson: estado atual, workflows ativos, pendências e próximo passo.
-4. **Ao terminar qualquer mudança relevante, ATUALIZE o `CONTEXTO.json`** (incremente
-   `meta.versao` e `meta.data_analise`) e o README quando fizer sentido.
+1. Leia **`BASE_CONHECIMENTO.md`** (o "oráculo" — contexto COMPLETO e autossuficiente).
+2. Leia **`CONTEXTO.json`** (estado estruturado, máquina-legível).
+3. Leia **`README.md`** (contexto humano) e este `CLAUDE.md`.
+4. Resuma para o Rudson: estado atual, pendências e próximo passo. Confirme se consegue
+   acessar o n8n via MCP (`n8n-cloud` ✅; `n8n-local` só se houver túnel/Claude local).
+5. **Ao terminar qualquer mudança relevante, ATUALIZE `CONTEXTO.json` e `BASE_CONHECIMENTO.md`**
+   (incremente `meta.versao` e `meta.data_analise`) e o README quando fizer sentido.
+
+> ⚠️ **Barreira-chave (não esqueça):** o Claude da sessão web roda num servidor remoto e
+> **não alcança o PC do Rudson** nem o n8n local (`localhost`). Alcança o **Cloud** via MCP.
+> Para o local: Claude Code no PC dele OU Cloudflare Tunnel. Detalhes no oráculo.
 
 ## Arquitetura (modelo híbrido)
 
