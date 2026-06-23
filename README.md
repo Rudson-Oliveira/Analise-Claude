@@ -9,7 +9,7 @@
 
 Este repositório contém a memória completa do projeto. Ao iniciar nova sessão:
 
-1. Leia este README para contexto geral
+1. **Leia [ORACULO.md](./ORACULO.md) primeiro** — base de conhecimento mestre (qualquer agente entende 100% do projeto por ele)
 2. Leia [CONTEXTO.json](./CONTEXTO.json) para dados estruturados (máquina-legível)
 3. Diga: **"leia o documento no GitHub Analise-Claude e continue"**
 
@@ -80,7 +80,8 @@ Este repositório contém a memória completa do projeto. Ao iniciar nova sessã
 
 | Arquivo | Descrição |
 |---|---|
-| CONTEXTO.json | Estado estruturado da sessão (v4.0) |
+| **ORACULO.md** | 🔮 Base de conhecimento mestre — leia primeiro (portátil entre agentes) |
+| CONTEXTO.json | Estado estruturado da sessão (v5.0) |
 | README.md | Este arquivo - contexto humano-legível |
 | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
 | CHECKPOINT_29052026_*.md | Checkpoints anteriores |

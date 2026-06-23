@@ -1,10 +1,19 @@
 {
       "meta": {
-              "versao": "4.0",
-              "data_analise": "2026-05-31",
-              "analisado_por": "Claude Sonnet 4.6",
-              "sessoes_realizadas": 4,
-              "proximo_passo": "FASE 2 - Configurar OPENAI_API_KEY + EVOLUTION_API_KEY para ativar subfluxo de audio WhatsApp"
+              "versao": "5.0",
+              "data_analise": "2026-06-23",
+              "analisado_por": "Claude Opus 4.8",
+              "sessoes_realizadas": 5,
+              "documento_mestre": "ORACULO.md - base de conhecimento unica para qualquer agente",
+              "proximo_passo": "Confirmar OPENAI_API_KEY + EVOLUTION_API_KEY gravadas no N8N e testar pipeline audio WhatsApp; revogar token Telegram na origem"
+      },
+      "atualizacoes_sessao_5": {
+              "data": "2026-06-23",
+              "bugs_frontend_09_06": "CORRIGIDOS pelo proprietario via MANUS",
+              "api_keys": "DISPONIVEIS (informado pelo proprietario) - confirmar gravacao no N8N",
+              "seguranca": "Token Telegram e chave OpenRouter redigidos no repo; .gitignore e SEGURANCA.md criados; revogar/rotacionar na origem pendente",
+              "redes_sociais": "Metricool conectado (@hospitalarsaude + Facebook); ESTRATEGIA_REDES_SOCIAIS.md criada; publicacao automatica pausada por decisao",
+              "oraculo": "ORACULO.md criado como base de conhecimento mestre portatil entre agentes"
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
