@@ -18,15 +18,17 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 
 ## 🔴 Primeira ação em toda sessão (restaurar contexto)
 
-1. Leia **[CONTEXTO.json](./CONTEXTO.json)** — estado estruturado e máquina-legível (fonte da verdade).
-2. Leia **[README.md](./README.md)** — visão humana do estado atual.
-3. Confira o checkpoint mais recente (`CHECKPOINT_*.md`).
-4. Só então proponha/execute o próximo passo.
+1. Leia **[ORACULO.md](./ORACULO.md)** — base de conhecimento completa (o "cérebro" do projeto: estado, histórico, IDs, convenções).
+2. Leia **[CONTEXTO.json](./CONTEXTO.json)** — estado estruturado e máquina-legível (fonte da verdade; maior versão vence).
+3. Leia **[README.md](./README.md)** — visão humana do estado atual.
+4. Confira o checkpoint mais recente (`CHECKPOINT_*.md`).
+5. Só então proponha/execute o próximo passo.
 
 ## 📁 Mapa dos arquivos
 
 | Arquivo | Papel |
 |---|---|
+| `ORACULO.md` | **Base de conhecimento completa** — leitura nº 1 de qualquer agente (handoff/oráculo) |
 | `CONTEXTO.json` | Estado estruturado da sessão (versão atual = fonte da verdade) |
 | `README.md` | Contexto humano-legível |
 | `ANALISE_COMPLETA.md` | Análise inicial dos 50+ workflows |
