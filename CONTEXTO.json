@@ -1,10 +1,11 @@
 {
       "meta": {
-              "versao": "4.1",
-              "data_analise": "2026-06-15",
+              "versao": "4.2",
+              "data_analise": "2026-06-23",
               "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 5,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
+              "sessoes_realizadas": 6,
+              "documento_mestre": "ORACULO.md (base de conhecimento consolidada - ler primeiro)",
+              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY); revogar token Telegram exposto"
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -154,7 +155,8 @@
 }
 ],
   "proxima_sessao": {
-          "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
+          "instrucao_retomada": "leia o ORACULO.md no GitHub Analise-Claude (base de conhecimento mestre) e continue",
+          "url_oraculo": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/ORACULO.md",
           "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
           "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
   }
