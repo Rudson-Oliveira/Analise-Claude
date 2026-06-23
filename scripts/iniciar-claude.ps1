@@ -127,8 +127,8 @@ Set-Location $ProjectPath
 $promptInicial = @'
 Voce esta no projeto Analise-Claude (memoria do sistema de automacao n8n da
 Hospitalar Solucoes em Saude). Restaure o contexto na ordem:
-  1. Leia CLAUDE.md (orientacao do projeto).
-  2. Leia CONTEXTO.json (fonte da verdade, estado estruturado).
+  1. Leia BASE_CONHECIMENTO.md (o ORACULO: conhecimento completo do projeto).
+  2. Leia CLAUDE.md (orientacao operacional) e cruze com CONTEXTO.json.
   3. Confira o checkpoint mais recente (CHECKPOINT_*.md), se houver.
 Depois, me de um resumo curto (5-8 linhas) com: estado atual, workflows ativos,
 pendencias de maior prioridade e o proximo passo recomendado da Fase 2.
