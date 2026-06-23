@@ -1,10 +1,16 @@
 {
       "meta": {
-              "versao": "4.1",
-              "data_analise": "2026-06-15",
+              "versao": "4.3",
+              "data_analise": "2026-06-21",
               "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 5,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY)"
+              "sessoes_realizadas": 6,
+              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY). Claude Managed Agents documentado/avaliado (sem ativacao imediata). Frontend visual criado em frontend/index.html (publicar no GitHub Pages).",
+              "frontend": {
+                        "arquivo": "frontend/index.html",
+                        "tipo": "HTML autocontido sem dependencias",
+                        "tema": "Painel multicanal do ecossistema (canivete suico)",
+                        "publicar": "GitHub Pages (Settings > Pages > branch + pasta /frontend)"
+              }
       },
       "empresa": {
               "nome": "Hospitalar Solucoes em Saude",
@@ -34,6 +40,21 @@
                         "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
                         "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
                         "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
+              },
+              "claude_managed_agents": {
+                        "fonte": "https://platform.claude.com/docs/en/managed-agents/overview",
+                        "fornecedor": "Anthropic (servico gerenciado/hosted)",
+                        "funcao": "Runtime gerenciado para agentes Claude autonomos de longa duracao - desacopla o cerebro (modelo) das maos (sandbox seguro: arquivos, comandos, web, codigo)",
+                        "lancamento": "beta publico 08/04/2026",
+                        "preco": "tarifa normal de tokens API Claude + US$ 0,08 por hora de sessao",
+                        "acesso": "via API Claude direta (exige ANTHROPIC_API_KEY propria, NAO via OpenRouter)",
+                        "modo_escolhido": "Runtime multicanal sob demanda (filosofia 'canivete suico' - NAO travar so no n8n)",
+                        "principio": "Agnostico de canal: pode ser acionado E entregar resultado em qualquer canal (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP)",
+                        "formas_de_acionar": ["via n8n (HTTP Request)", "chamada direta a API Claude (app/microservico Railway)", "via MCP (Claude Code/Desktop)"],
+                        "status": "AVALIADO - sem ativacao imediata (nenhum caso de uso justifica hoje)",
+                        "doc": "INTEGRACAO_CLAUDE_MANAGED_AGENTS.md",
+                        "encaixe": "Qualquer canal de entrada (WhatsApp/Email/Notion/etc) -> Managed Agents roda tarefa longa -> resultado volta em qualquer canal de saida; n8n e apenas UM dos orquestradores possiveis",
+                        "ressalva": "Complementar ao n8n, nao concorrente; custo por hora-sessao + avaliar LGPD para dados de saude (PII/PHI) antes de enviar ao sandbox"
               }
       },
       "migracao_huggingface_openrouter": {
