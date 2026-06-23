@@ -30,7 +30,7 @@
       10e. | MarkItDown-MCP | Microsoft | Arquivos → Markdown limpo p/ LLM | 📋 Documentado |
       10f. | Claude Managed Agents | Anthropic | Runtime gerenciado p/ agentes autônomos longos | 📋 Avaliado (sem ativação imediata) |
      
-      10g. > **Claude Managed Agents** entra como camada **opcional e complementar** ao n8n: o n8n segue como orquestrador; o Managed Agents fica disponível como runtime sob demanda para tarefas autônomas de horas (ex.: análise em lote de documentos). Detalhes em [INTEGRACAO_CLAUDE_MANAGED_AGENTS.md](./INTEGRACAO_CLAUDE_MANAGED_AGENTS.md).
+      10g. > **Claude Managed Agents** entra como **runtime multicanal** ("canivete suíço" — não travar só no n8n): pode ser **acionado de qualquer canal** (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP) e **devolver o resultado em qualquer canal**. Formas de acionar: via n8n, chamada direta à API Claude ou via MCP. O n8n é apenas **um** dos orquestradores possíveis. Detalhes em [INTEGRACAO_CLAUDE_MANAGED_AGENTS.md](./INTEGRACAO_CLAUDE_MANAGED_AGENTS.md).
      
       10h. ---
      

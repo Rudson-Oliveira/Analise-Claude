@@ -25,27 +25,51 @@ o modelo (o "cérebro") fica separado do ambiente seguro onde o agente executa a
 - Otimizações embutidas: **prompt caching**, **compactação de contexto** e afins, para saída
   de alta qualidade e eficiente.
 
-## 🧩 Onde encaixa no nosso ecossistema
+## 🧩 Onde encaixa no nosso ecossistema (multicanal — "canivete suíço")
 
-Hoje nosso "loop" de agente é o **n8n Cloud**, e o Claude entra como **cérebro** chamado via
-**OpenRouter** (ex.: `anthropic/claude-haiku-4-5` no COCKPIT-08). O Managed Agents seria uma
-**alternativa de runtime** para um perfil de tarefa que o n8n não atende bem: trabalho autônomo,
-longo e exploratório.
+> **Princípio:** **não travar em um único canal.** O Managed Agents é um *runtime* de
+> agente — um "cérebro + mãos" — que deve poder ser **acionado de qualquer canal** e
+> **devolver o resultado em qualquer canal**. O n8n é só **um** dos orquestradores possíveis,
+> não o dono exclusivo.
+
+Hoje o Claude já entra como **cérebro** via **OpenRouter** dentro do n8n. O Managed Agents
+amplia isso para um runtime que pode ser plugado em **vários pontos de entrada e saída**:
 
 ```
-n8n Cloud (gatilho/orquestração) → dispara job → Claude Managed Agents (cérebro + mãos, por horas)
-        → resultado volta ao n8n → Notion / WhatsApp / Sheets / Outlook
+            CANAIS DE ENTRADA                  RUNTIME                 CANAIS DE SAÍDA
+   ┌─────────────────────────────┐                            ┌─────────────────────────────┐
+   │ WhatsApp (Evolution API)    │                            │ WhatsApp (Evolution API)    │
+   │ Email (Outlook)             │   ┌────────────────────┐   │ Email (Outlook)             │
+   │ Notion                      │──▶│  Claude Managed    │──▶│ Notion                      │
+   │ Telegram                    │   │  Agents (cérebro   │   │ Google Sheets               │
+   │ Google Sheets               │   │  + mãos / sandbox) │   │ Telegram                    │
+   │ Webhook / API direta        │   └────────────────────┘   │ Webhook / app / API         │
+   │ Claude Code / Desktop (MCP) │            ▲                │ Claude Code / Desktop (MCP) │
+   └─────────────────────────────┘            │                └─────────────────────────────┘
+                                   orquestração plugável:
+                              n8n  •  chamada direta à API  •  MCP
 ```
 
-Casos onde valeria a pena no contexto da Hospitalar:
-- Varredura/análise de uma **base grande de documentos** por horas (ex.: combinar com o
-  MarkItDown-MCP para pré-processar anexos).
-- Pesquisa **multi-etapa autônoma** que ultrapassa o tempo/limite confortável de um workflow n8n.
+### Três formas de acionar (escolher por caso, sem amarrar)
+1. **Via n8n** — qualquer trigger n8n (cron, webhook WhatsApp, email, Notion) dispara o agente
+   por HTTP Request e recebe o resultado de volta para distribuir nos canais. Bom para fluxos
+   já existentes (COCKPIT-*).
+2. **Chamada direta à API Claude** — um canal/serviço (app, webhook, microserviço Railway)
+   aciona o Managed Agents **sem passar pelo n8n**, quando o n8n não precisa estar no caminho.
+3. **Via MCP (Claude Code / Desktop)** — o agente Claude local usa o runtime sob demanda
+   (ex.: combinado com o MarkItDown-MCP para análise de documentos).
 
-> ⚠️ **Nota de arquitetura:** o Managed Agents é um serviço **da Anthropic na nuvem**, acionado via
-> **API Claude** — não via OpenRouter. Para usá-lo a partir do n8n Cloud seria preciso uma
-> `ANTHROPIC_API_KEY` própria e um HTTP Request node chamando a API de Managed Agents. Isso difere
-> do nosso padrão atual (Claude via OpenRouter) e adiciona uma segunda relação de billing.
+### Casos no contexto da Hospitalar
+- Atendente no **WhatsApp** pede uma análise demorada → agente roda por minutos/horas no runtime
+  → resposta volta **no mesmo WhatsApp**, sem prender a sessão do n8n.
+- Anexo chega por **Email/Notion** → MarkItDown converte → Managed Agents analisa em lote →
+  resultado gravado no **Notion** e resumido no **WhatsApp**.
+- Disparo manual via **Claude Code** para uma tarefa pontual de pesquisa longa.
+
+> ⚠️ **Nota de arquitetura:** o Managed Agents é serviço **da Anthropic na nuvem**, acionado via
+> **API Claude** (exige `ANTHROPIC_API_KEY`, não via OpenRouter). A camada de **canais**
+> (WhatsApp/Email/Notion/Telegram/Sheets) continua sendo responsabilidade de quem orquestra
+> (n8n, microserviço ou MCP) — o runtime é **agnóstico de canal** de propósito.
 
 ## 🆚 Como se compara com o que já temos
 
@@ -64,9 +88,13 @@ sendo o orquestrador; o Managed Agents fica disponível como runtime sob demanda
 
 1. **`ANTHROPIC_API_KEY`** própria (conta Anthropic com acesso ao beta de Managed Agents).
 2. Definir o(s) caso(s) de uso que justifiquem o custo por hora-sessão.
-3. No n8n: um HTTP Request node (`specifyBody: "string"` quando houver expressões `{{ }}`)
-   para iniciar a sessão e outro para coletar o resultado.
+3. Escolher o(s) **ponto(s) de acionamento** (não precisa ser só um):
+   - **n8n:** HTTP Request node (`specifyBody: "string"` quando houver expressões `{{ }}`)
+     para iniciar a sessão e outro para coletar o resultado.
+   - **Direto/microserviço:** um endpoint (ex.: Railway) que recebe do canal e chama a API.
+   - **MCP:** uso pelo agente Claude (Code/Desktop).
 4. Mapear quais ferramentas/sandbox o agente precisa (ex.: leitura de documentos do hospital).
+5. Definir, por canal, **como o resultado volta** (WhatsApp, Email, Notion, Sheets, Telegram…).
 
 ## 🔒 Segurança
 

@@ -42,10 +42,12 @@
                         "lancamento": "beta publico 08/04/2026",
                         "preco": "tarifa normal de tokens API Claude + US$ 0,08 por hora de sessao",
                         "acesso": "via API Claude direta (exige ANTHROPIC_API_KEY propria, NAO via OpenRouter)",
-                        "modo_escolhido": "Documentado/avaliado como camada opcional de runtime sob demanda (nao substitui o n8n)",
+                        "modo_escolhido": "Runtime multicanal sob demanda (filosofia 'canivete suico' - NAO travar so no n8n)",
+                        "principio": "Agnostico de canal: pode ser acionado E entregar resultado em qualquer canal (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP)",
+                        "formas_de_acionar": ["via n8n (HTTP Request)", "chamada direta a API Claude (app/microservico Railway)", "via MCP (Claude Code/Desktop)"],
                         "status": "AVALIADO - sem ativacao imediata (nenhum caso de uso justifica hoje)",
                         "doc": "INTEGRACAO_CLAUDE_MANAGED_AGENTS.md",
-                        "encaixe": "n8n dispara job -> Managed Agents roda tarefa longa (ex.: analise em lote de documentos via MarkItDown) -> resultado volta ao n8n",
+                        "encaixe": "Qualquer canal de entrada (WhatsApp/Email/Notion/etc) -> Managed Agents roda tarefa longa -> resultado volta em qualquer canal de saida; n8n e apenas UM dos orquestradores possiveis",
                         "ressalva": "Complementar ao n8n, nao concorrente; custo por hora-sessao + avaliar LGPD para dados de saude (PII/PHI) antes de enviar ao sandbox"
               }
       },
