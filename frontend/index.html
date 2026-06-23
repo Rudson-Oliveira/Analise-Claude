@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ecossistema · Hospitalar Soluções em Saúde</title>
+<style>
+  :root{
+    --bg:#0b0e14; --bg2:#11161f; --card:#161c27; --card2:#1c2330;
+    --line:#283142; --txt:#e7ecf3; --muted:#93a0b5; --muted2:#6b7689;
+    --brand:#d8a35b;       /* claude-ish warm */
+    --brand2:#e3b878;
+    --ok:#46c08d; --warn:#e6b34a; --bad:#e0654f; --info:#5aa9e6;
+    --shadow:0 10px 40px rgba(0,0,0,.45);
+    --r:16px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1200px 700px at 75% -10%,#1a2233 0%,var(--bg) 55%);
+    color:var(--txt);line-height:1.55;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--brand2);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+  .muted{color:var(--muted)}
+
+  /* ---- top bar ---- */
+  header.bar{position:sticky;top:0;z-index:30;backdrop-filter:blur(10px);
+    background:rgba(11,14,20,.72);border-bottom:1px solid var(--line)}
+  .bar .wrap{display:flex;align-items:center;gap:14px;height:62px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .logo .dot{width:26px;height:26px;border-radius:8px;
+    background:linear-gradient(145deg,var(--brand),#b9742d);box-shadow:0 0 18px rgba(216,163,91,.5)}
+  .bar nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .bar nav a{padding:7px 12px;border-radius:9px;color:var(--muted);font-size:.9rem}
+  .bar nav a:hover{background:var(--card);color:var(--txt)}
+
+  /* ---- hero ---- */
+  .hero{padding:64px 0 26px}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;
+    padding:6px 12px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:var(--bg2)}
+  .pill .live{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(70,192,141,.6);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(70,192,141,.55)}70%{box-shadow:0 0 0 9px rgba(70,192,141,0)}100%{box-shadow:0 0 0 0 rgba(70,192,141,0)}}
+  h1{font-size:clamp(2rem,4.6vw,3.3rem);line-height:1.08;margin:18px 0 10px;font-weight:760}
+  h1 .grad{background:linear-gradient(120deg,var(--brand2),#f0d6a8);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:1.12rem;color:var(--muted);max-width:680px}
+  .cta{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+  .btn{padding:11px 18px;border-radius:11px;font-weight:600;font-size:.92rem;border:1px solid var(--line);
+    background:var(--card);color:var(--txt);cursor:pointer;transition:.15s}
+  .btn:hover{transform:translateY(-1px);border-color:#3a465c}
+  .btn.prim{background:linear-gradient(145deg,var(--brand),#bd7d34);border-color:transparent;color:#1a130a}
+  .btn.prim:hover{box-shadow:0 8px 24px rgba(216,163,91,.35)}
+
+  /* ---- section ---- */
+  section{padding:30px 0}
+  .h-tag{color:var(--brand2);font-weight:700;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase}
+  h2{font-size:1.7rem;margin:6px 0 4px;font-weight:720}
+  .sub{color:var(--muted);max-width:720px}
+
+  .grid{display:grid;gap:16px}
+  .cards{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .card{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);
+    border-radius:var(--r);padding:18px;box-shadow:var(--shadow);transition:.18s}
+  .card:hover{transform:translateY(-3px);border-color:#36425a}
+  .card h3{margin:6px 0 6px;font-size:1.06rem}
+  .card p{margin:0;color:var(--muted);font-size:.92rem}
+  .ico{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;font-size:20px;
+    background:var(--card2);border:1px solid var(--line)}
+
+  /* ---- multichannel diagram ---- */
+  .flow{background:linear-gradient(180deg,#10151e,#0d1219);border:1px solid var(--line);border-radius:20px;
+    padding:24px;box-shadow:var(--shadow)}
+  .flow-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:center}
+  @media(max-width:880px){.flow-grid{grid-template-columns:1fr;gap:18px}.arrow{transform:rotate(90deg)}}
+  .col-title{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:10px;text-align:center}
+  .chan{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;
+    background:var(--card);margin-bottom:9px;cursor:pointer;transition:.16s;font-size:.92rem}
+  .chan:hover{border-color:var(--brand);background:var(--card2)}
+  .chan.active{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand) inset,0 0 22px rgba(216,163,91,.18)}
+  .chan .e{font-size:18px;width:24px;text-align:center}
+  .arrow{display:grid;place-items:center;color:var(--brand);font-size:26px;font-weight:700;animation:slide 1.8s ease-in-out infinite}
+  @keyframes slide{0%,100%{opacity:.4;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+  .core{position:relative;text-align:center;padding:22px 16px;border-radius:16px;
+    background:radial-gradient(120px 120px at 50% 0%,rgba(216,163,91,.22),transparent),linear-gradient(180deg,var(--card2),#141a24);
+    border:1px solid #3a3020}
+  .core .badge{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--brand2)}
+  .core .name{font-weight:740;font-size:1.18rem;margin:6px 0}
+  .core .orb{width:64px;height:64px;border-radius:50%;margin:6px auto 10px;
+    background:radial-gradient(circle at 35% 30%,#f3d9ad,#d8a35b 45%,#9c6322);
+    box-shadow:0 0 40px rgba(216,163,91,.55);animation:breathe 3s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .core small{color:var(--muted);font-size:.78rem}
+  .demo-note{margin-top:16px;padding:12px 14px;border-radius:12px;border:1px dashed #38425a;background:#0e131b;
+    color:var(--muted);font-size:.9rem;min-height:46px}
+  .demo-note b{color:var(--txt)}
+  .orch{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .orch span{font-size:.78rem;padding:5px 11px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--bg2)}
+
+  /* ---- status table ---- */
+  .tbl{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;font-size:.92rem}
+  .tbl th,.tbl td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+  .tbl th{background:var(--bg2);color:var(--muted);font-weight:600;font-size:.8rem;letter-spacing:.04em;text-transform:uppercase}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl code{color:var(--brand2);font-size:.85rem}
+  .tag{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:.78rem;font-weight:600}
+  .tag::before{content:"";width:7px;height:7px;border-radius:50%}
+  .t-ok{background:rgba(70,192,141,.12);color:var(--ok)} .t-ok::before{background:var(--ok)}
+  .t-warn{background:rgba(230,179,74,.12);color:var(--warn)} .t-warn::before{background:var(--warn)}
+  .t-bad{background:rgba(224,101,79,.12);color:var(--bad)} .t-bad::before{background:var(--bad)}
+  .t-info{background:rgba(90,169,230,.12);color:var(--info)} .t-info::before{background:var(--info)}
+
+  /* ---- stats ---- */
+  .stats{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:center}
+  .stat .n{font-size:2rem;font-weight:760;background:linear-gradient(120deg,var(--brand2),#f0d6a8);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{color:var(--muted);font-size:.84rem;margin-top:2px}
+
+  footer{border-top:1px solid var(--line);margin-top:34px;padding:26px 0;color:var(--muted2);font-size:.86rem}
+  .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span> Hospitalar · Ecossistema</div>
+    <nav>
+      <a href="#arquitetura">Arquitetura</a>
+      <a href="#integracoes">Integrações</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#variaveis">Variáveis</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <span class="pill"><span class="live"></span> Ecossistema ativo · n8n Cloud + Claude</span>
+    <h1>Automação <span class="grad">multicanal</span><br/>com a filosofia canivete suíço</h1>
+    <p class="lede">Um único cérebro de IA — o Claude — acionável de <b>qualquer canal</b> e que devolve resultado em <b>qualquer canal</b>. Sem travar numa só ferramenta. WhatsApp, Email, Notion, Telegram, Planilhas e API, tudo plugável.</p>
+    <div class="cta">
+      <a class="btn prim" href="#arquitetura">Ver a arquitetura ▸</a>
+      <a class="btn" href="https://github.com/Rudson-Oliveira/Analise-Claude" target="_blank">Repositório</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section>
+  <div class="wrap">
+    <div class="grid stats">
+      <div class="stat"><div class="n">5</div><div class="l">Workflows ativos</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Integrações avaliadas</div></div>
+      <div class="stat"><div class="n">6+</div><div class="l">Canais plugáveis</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Formas de acionar</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ARQUITETURA / MULTICANAL -->
+<section id="arquitetura">
+  <div class="wrap">
+    <div class="h-tag">Arquitetura</div>
+    <h2>Runtime agnóstico de canal</h2>
+    <p class="sub" style="margin-bottom:20px">Clique em um canal de entrada para ver o fluxo. O <b>Claude</b> é o cérebro + as mãos (sandbox seguro); a orquestração é plugável (n8n, API direta ou MCP).</p>
+
+    <div class="flow">
+      <div class="flow-grid">
+        <!-- entrada -->
+        <div>
+          <div class="col-title">Canais de entrada</div>
+          <div class="chan active" data-in="WhatsApp"><span class="e">💬</span> WhatsApp <span class="muted" style="margin-left:auto;font-size:.78rem">Evolution</span></div>
+          <div class="chan" data-in="Email"><span class="e">📧</span> Email <span class="muted" style="margin-left:auto;font-size:.78rem">Outlook</span></div>
+          <div class="chan" data-in="Notion"><span class="e">🗒️</span> Notion</div>
+          <div class="chan" data-in="Telegram"><span class="e">✈️</span> Telegram</div>
+          <div class="chan" data-in="Planilha"><span class="e">📊</span> Google Sheets</div>
+          <div class="chan" data-in="Webhook / API"><span class="e">🔌</span> Webhook / API</div>
+        </div>
+
+        <div class="arrow">▸</div>
+
+        <!-- core -->
+        <div class="core">
+          <div class="orb"></div>
+          <div class="badge">Cérebro + Mãos</div>
+          <div class="name">Claude</div>
+          <small>via OpenRouter (n8n) ·<br/>Managed Agents (tarefas longas)</small>
+          <div class="orch">
+            <span>n8n</span><span>API direta</span><span>MCP</span>
+          </div>
+        </div>
+
+        <div class="arrow">▸</div>
+
+        <!-- saida -->
+        <div>
+          <div class="col-title">Canais de saída</div>
+          <div class="chan" data-out="WhatsApp"><span class="e">💬</span> WhatsApp</div>
+          <div class="chan" data-out="Email"><span class="e">📧</span> Email</div>
+          <div class="chan" data-out="Notion"><span class="e">🗒️</span> Notion</div>
+          <div class="chan" data-out="Planilha"><span class="e">📊</span> Google Sheets</div>
+          <div class="chan" data-out="Telegram"><span class="e">✈️</span> Telegram</div>
+          <div class="chan" data-out="App / API"><span class="e">🖥️</span> App / API</div>
+        </div>
+      </div>
+
+      <div class="demo-note" id="demoNote">Selecione um canal de entrada acima ▸</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTEGRAÇÕES -->
+<section id="integracoes">
+  <div class="wrap">
+    <div class="h-tag">Integrações</div>
+    <h2>Peças do canivete</h2>
+    <p class="sub" style="margin-bottom:20px">Componentes avaliados e prontos para plugar conforme a necessidade.</p>
+    <div class="grid cards">
+      <div class="card">
+        <div class="ico">🧠</div>
+        <h3>Claude Managed Agents</h3>
+        <p>Runtime gerenciado da Anthropic para agentes autônomos longos. Multicanal, acionável de qualquer ponto. <span class="tag t-info" style="margin-top:8px">Avaliado</span></p>
+      </div>
+      <div class="card">
+        <div class="ico">📄</div>
+        <h3>MarkItDown-MCP</h3>
+        <p>Converte PDF/Word/Excel/imagem em Markdown limpo para a IA. Microsoft, open-source. <span class="tag t-info" style="margin-top:8px">Documentado</span></p>
+      </div>
+      <div class="card">
+        <div class="ico">⚙️</div>
+        <h3>n8n Cloud</h3>
+        <p>Orquestrador principal: triggers, cron, webhooks e integrações dos canais. <span class="tag t-ok" style="margin-top:8px">Ativo</span></p>
+      </div>
+      <div class="card">
+        <div class="ico">🔀</div>
+        <h3>OpenRouter</h3>
+        <p>Acesso aos modelos Claude mais recentes (ex.: claude-haiku-4-5) usados nos workflows. <span class="tag t-ok" style="margin-top:8px">Configurado</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOWS -->
+<section id="workflows">
+  <div class="wrap">
+    <div class="h-tag">Workflows</div>
+    <h2>COCKPIT &amp; WF — estado atual</h2>
+    <p class="sub" style="margin-bottom:18px">Sincronizado com o <code>CONTEXTO.json</code> (v4.2).</p>
+    <div style="overflow-x:auto">
+      <table class="tbl">
+        <thead><tr><th>Workflow</th><th>Modelo</th><th>Canal</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>COCKPIT-07 · Inbox triagem IA</td><td><code>gemini-2.5-flash</code></td><td>WhatsApp / Email / Notion</td><td><span class="tag t-ok">Ativo</span></td></tr>
+          <tr><td>COCKPIT-08 · Briefing diário 07h</td><td><code>claude-haiku-4-5</code></td><td>WhatsApp / Email</td><td><span class="tag t-ok">Ativo</span></td></tr>
+          <tr><td>COCKPIT-05 · Polling Notion→WhatsApp</td><td>—</td><td>Notion / WhatsApp</td><td><span class="tag t-ok">Ativo</span></td></tr>
+          <tr><td>WF-ORQUESTRADOR-DINÂMICO</td><td>—</td><td>Webhook</td><td><span class="tag t-ok">Ativo</span></td></tr>
+          <tr><td>COCKPIT-07 · node 7 alerta URGENTE</td><td>—</td><td>WhatsApp</td><td><span class="tag t-warn">Falta key</span></td></tr>
+          <tr><td>WF-TRIAGEM-EMAIL Outlook</td><td>—</td><td>Email</td><td><span class="tag t-bad">Erro auth</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- VARIÁVEIS -->
+<section id="variaveis">
+  <div class="wrap">
+    <div class="h-tag">Variáveis n8n</div>
+    <h2>Chaves &amp; credenciais</h2>
+    <div class="grid cards" style="margin-top:18px">
+      <div class="card"><h3>OPENROUTER_API_KEY</h3><p>Modelos Claude via OpenRouter.</p><span class="tag t-ok" style="margin-top:10px">Configurado</span></div>
+      <div class="card"><h3>OPENAI_API_KEY</h3><p>Whisper — transcrição de áudio do WhatsApp.</p><span class="tag t-bad" style="margin-top:10px">Pendente</span></div>
+      <div class="card"><h3>EVOLUTION_API_KEY</h3><p>Menu WhatsApp (1=Manter / 2=Dormir / 3=Excluir).</p><span class="tag t-bad" style="margin-top:10px">Pendente</span></div>
+      <div class="card"><h3>ANTHROPIC_API_KEY</h3><p>Necessária para ativar o Managed Agents (API direta).</p><span class="tag t-info" style="margin-top:10px">Futuro</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>Hospitalar Soluções em Saúde · Painel de ecossistema · <span class="muted">gerado a partir do CONTEXTO.json</span></div>
+    <div>Rudson Oliveira · <a href="mailto:rud.pa@hotmail.com">rud.pa@hotmail.com</a></div>
+  </div>
+</footer>
+
+<script>
+  // Interatividade do diagrama multicanal — "canivete suíço"
+  const ins = [...document.querySelectorAll('[data-in]')];
+  const outs = [...document.querySelectorAll('[data-out]')];
+  const note = document.getElementById('demoNote');
+
+  const cenarios = {
+    'WhatsApp': {out:'WhatsApp', txt:'Atendente pergunta no <b>WhatsApp</b> → Claude processa (tarefa curta no n8n ou longa no Managed Agents) → resposta volta <b>no mesmo WhatsApp</b>, sem travar a sessão.'},
+    'Email': {out:'Notion', txt:'Anexo chega por <b>Email (Outlook)</b> → MarkItDown converte → Claude analisa → resultado gravado no <b>Notion</b>.'},
+    'Notion': {out:'WhatsApp', txt:'Card atualizado no <b>Notion</b> → Claude resume e prioriza → alerta enviado no <b>WhatsApp</b>.'},
+    'Telegram': {out:'Planilha', txt:'Mensagem no <b>Telegram</b> → Claude extrai dados estruturados → grava no <b>Google Sheets</b>.'},
+    'Planilha': {out:'Email', txt:'Nova linha no <b>Google Sheets</b> → Claude gera relatório → enviado por <b>Email</b>.'},
+    'Webhook / API': {out:'App / API', txt:'Chamada <b>Webhook/API direta</b> (sem n8n) → Managed Agents roda tarefa longa → resposta entregue ao <b>App/API</b>.'}
+  };
+
+  function activate(inName){
+    ins.forEach(c=>c.classList.toggle('active', c.dataset.in===inName));
+    const cen = cenarios[inName];
+    outs.forEach(c=>c.classList.toggle('active', c.dataset.out===cen.out));
+    note.innerHTML = cen.txt;
+  }
+  ins.forEach(c=>c.addEventListener('click',()=>activate(c.dataset.in)));
+  activate('WhatsApp'); // estado inicial
+</script>
+</body>
+</html>
