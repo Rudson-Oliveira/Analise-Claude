@@ -13,11 +13,18 @@ um cérebro de IA (Claude) acionável de qualquer canal e que entrega resultado 
   # acesse http://localhost:8080
   ```
 
-## Publicar no GitHub Pages (grátis)
+## Publicar no GitHub Pages (grátis) — automatizado ✅
+
+Já existe um GitHub Actions (`.github/workflows/deploy-pages.yml`) que publica esta pasta
+`frontend/` automaticamente a cada push na `main`. Para ligar (uma única vez):
 
 1. No GitHub: **Settings → Pages**.
-2. **Source:** branch `main`, pasta `/frontend` (ou mova o conteúdo para `/docs`).
-3. A URL pública fica algo como `https://rudson-oliveira.github.io/Analise-Claude/`.
+2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
+3. Faça o merge do PR para a `main` (ou rode o workflow manualmente em **Actions → Deploy
+   Frontend to GitHub Pages → Run workflow**).
+4. A URL pública fica algo como `https://rudson-oliveira.github.io/Analise-Claude/`.
+
+> Depois disso, qualquer alteração em `frontend/` na `main` republica sozinho — sem mais cliques.
 
 ## O que mostra
 
