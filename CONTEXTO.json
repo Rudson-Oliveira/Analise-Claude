@@ -1,10 +1,11 @@
 {
       "meta": {
-              "versao": "4.3",
+              "versao": "4.4",
               "data_analise": "2026-06-21",
               "analisado_por": "Claude Opus 4.8",
               "sessoes_realizadas": 6,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY). Claude Managed Agents documentado/avaliado (sem ativacao imediata). Frontend visual criado em frontend/index.html (publicar no GitHub Pages).",
+              "oraculo": "ORACULO.md - base de conhecimento completa (handoff para qualquer agente); ler primeiro junto com este JSON",
+              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY). Claude Managed Agents documentado/avaliado (sem ativacao imediata). Frontend visual criado em frontend/index.html (publicar no GitHub Pages). ORACULO.md criado (base de conhecimento completa).",
               "frontend": {
                         "arquivo": "frontend/index.html",
                         "tipo": "HTML autocontido sem dependencias",
