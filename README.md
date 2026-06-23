@@ -8,8 +8,8 @@
 > >> ## 🔴 PARA RESTAURAR CONTEXTO - LEIA PRIMEIRO
 > >>
 > >> Este repositório contém a memória completa do projeto. Ao iniciar nova sessão:
-1. Leia este README para contexto geral
-2. 2. Leia [CONTEXTO.json](./CONTEXTO.json) para dados estruturados (máquina-legível)
+1. Leia **[ORACULO.md](./ORACULO.md)** — base de conhecimento COMPLETA (o "cérebro": estado, histórico, IDs, convenções)
+2. 2. Leia [CONTEXTO.json](./CONTEXTO.json) para dados estruturados (máquina-legível, fonte da verdade)
    3. 3. Diga: **"leia o documento no GitHub Analise-Claude e continue"**
      
       4. ---
