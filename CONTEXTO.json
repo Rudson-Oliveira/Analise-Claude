@@ -1,182 +1,257 @@
 {
-      "meta": {
-              "versao": "4.3",
-              "data_analise": "2026-06-21",
-              "analisado_por": "Claude Opus 4.8",
-              "sessoes_realizadas": 6,
-              "proximo_passo": "Configurar MarkItDown-MCP no cliente Claude e testar conversao de anexo real; seguir FASE 2 (OPENAI_API_KEY + EVOLUTION_API_KEY). Claude Managed Agents documentado/avaliado (sem ativacao imediata). Frontend visual criado em frontend/index.html (publicar no GitHub Pages).",
-              "frontend": {
-                        "arquivo": "frontend/index.html",
-                        "tipo": "HTML autocontido sem dependencias",
-                        "tema": "Painel multicanal do ecossistema (canivete suico)",
-                        "publicar": "GitHub Pages (Settings > Pages > branch + pasta /frontend)"
-              }
+  "meta": {
+    "versao": "6.0",
+    "data_analise": "2026-06-26",
+    "analisado_por": "Claude (sessoes 1-6): Sonnet 4.6 + Opus 4.8",
+    "sessoes_realizadas": 6,
+    "proximo_passo": "FASE 2: configurar OPENAI_API_KEY + EVOLUTION_API_KEY (audio WhatsApp). Validar metricas Metricool da marca 6395876 apos sync (24-48h). Configurar MarkItDown-MCP e testar conversao de anexo real. Claude Managed Agents avaliado (sem ativacao imediata). Frontend visual em frontend/index.html (publicar no GitHub Pages).",
+    "frontend": {
+      "arquivo": "frontend/index.html",
+      "tipo": "HTML autocontido sem dependencias",
+      "tema": "Painel multicanal do ecossistema (canivete suico)",
+      "publicar": "GitHub Pages (Settings > Pages > branch + pasta /frontend)"
+    },
+    "como_retomar": "Conecte o MCP de contexto (analise-context-mcp) e chame a ferramenta 'oraculo' — ela entrega TODO o conhecimento do projeto numa unica chamada. Sem o MCP, leia ORACULO.md."
+  },
+  "empresa": {
+    "nome": "Hospitalar Solucoes em Saude",
+    "proprietario": "Rudson Antonio Ribeiro Oliveira",
+    "whatsapp": "+55 35 99835-2323",
+    "email": "rud.pa@hotmail.com"
+  },
+  "plataformas": {
+    "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
+    "github_repo": "https://github.com/Rudson-Oliveira/Analise-Claude",
+    "openrouter": "https://openrouter.ai",
+    "evolution_api": "https://evolution-api-production-a1f9.up.railway.app",
+    "metricool": "https://app.metricool.com"
+  },
+  "variaveis_n8n": {
+    "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
+    "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
+    "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
+  },
+  "infraestrutura_mcp": {
+    "descricao": "Servidores MCP criados na sessao 5 para conectar agentes Claude ao projeto. Codigo na branch claude/metricool-mcp-server-pr6m40 (PR #4).",
+    "servidores": [
+      {
+        "nome": "analise-context-mcp",
+        "pasta": "context-mcp/",
+        "funcao": "Memoria/oraculo do projeto. Entrega contexto completo a qualquer agente.",
+        "ferramentas": [
+          "oraculo",
+          "restaurar_contexto",
+          "get_project_summary",
+          "list_documents",
+          "read_document",
+          "search_context",
+          "get_pending_tasks"
+        ],
+        "custo": "gratis, offline (le os arquivos do repositorio)"
       },
-      "empresa": {
-              "nome": "Hospitalar Solucoes em Saude",
-              "proprietario": "Rudson Antonio Ribeiro Oliveira",
-              "whatsapp": "+55 35 99835-2323",
-              "email": "rud.pa@hotmail.com"
-      },
-      "plataformas": {
-              "n8n_cloud": "https://rudsonoliveira2323.app.n8n.cloud",
-              "github_repo": "https://github.com/Rudson-Oliveira/Analise-Claude",
-              "openrouter": "https://openrouter.ai",
-              "evolution_api": "https://evolution-api-production-a1f9.up.railway.app"
-      },
-      "variaveis_n8n": {
-              "OPENROUTER_API_KEY": "configurado - sk-or-v1-8ba0e5eb... (sessao 31/05/2026)",
-              "OPENAI_API_KEY": "PENDENTE - necessario para Whisper transcricao audio",
-              "EVOLUTION_API_KEY": "PENDENTE - necessario para envio menu WhatsApp 1/2/3"
-      },
-      "integracoes_avaliadas": {
-              "markitdown_mcp": {
-                        "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
-                        "fornecedor": "Microsoft (open-source)",
-                        "funcao": "Converter PDF/Word/Excel/PPT/imagem/audio/HTML para Markdown limpo para LLM",
-                        "ferramenta_mcp": "convert_to_markdown(uri) - esquemas http/https/file/data",
-                        "modo_escolhido": "Servidor MCP (uso pelo agente Claude)",
-                        "status": "DOCUMENTADO - aguardando configuracao no cliente Claude",
-                        "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
-                        "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
-                        "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
-              },
-              "claude_managed_agents": {
-                        "fonte": "https://platform.claude.com/docs/en/managed-agents/overview",
-                        "fornecedor": "Anthropic (servico gerenciado/hosted)",
-                        "funcao": "Runtime gerenciado para agentes Claude autonomos de longa duracao - desacopla o cerebro (modelo) das maos (sandbox seguro: arquivos, comandos, web, codigo)",
-                        "lancamento": "beta publico 08/04/2026",
-                        "preco": "tarifa normal de tokens API Claude + US$ 0,08 por hora de sessao",
-                        "acesso": "via API Claude direta (exige ANTHROPIC_API_KEY propria, NAO via OpenRouter)",
-                        "modo_escolhido": "Runtime multicanal sob demanda (filosofia 'canivete suico' - NAO travar so no n8n)",
-                        "principio": "Agnostico de canal: pode ser acionado E entregar resultado em qualquer canal (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP)",
-                        "formas_de_acionar": ["via n8n (HTTP Request)", "chamada direta a API Claude (app/microservico Railway)", "via MCP (Claude Code/Desktop)"],
-                        "status": "AVALIADO - sem ativacao imediata (nenhum caso de uso justifica hoje)",
-                        "doc": "INTEGRACAO_CLAUDE_MANAGED_AGENTS.md",
-                        "encaixe": "Qualquer canal de entrada (WhatsApp/Email/Notion/etc) -> Managed Agents roda tarefa longa -> resultado volta em qualquer canal de saida; n8n e apenas UM dos orquestradores possiveis",
-                        "ressalva": "Complementar ao n8n, nao concorrente; custo por hora-sessao + avaliar LGPD para dados de saude (PII/PHI) antes de enviar ao sandbox"
-              }
-      },
-      "migracao_huggingface_openrouter": {
-              "status": "CONCLUIDA",
-              "data": "2026-05-31",
-              "workflows": [
-                        {
-                                    "nome": "COCKPIT-07-IN-WhatsApp/Email/Obsidian Notion Inbox",
-                                    "id": "acWQbkOkisdpzryy",
-                                    "status": "MIGRADO + CORRIGIDO",
-                                    "modelo": "google/gemini-2.5-flash-preview",
-                                    "execucao_teste": "#21422 SUCCESS trigger 07:55:34",
-                                    "correcao_extra": "specifyBody json->string corrigido em sessao 4 (erro JSON syntax position 593)"
-                        },
-                        {
-                                    "nome": "COCKPIT-08-OUT-Cron 07h WhatsApp+Email Briefing Diario",
-                                    "id": "CoDTbFiy8g1ctkmO",
-                                    "status": "MIGRADO",
-                                    "modelo": "anthropic/claude-haiku-4-5",
-                                    "execucao_teste": "#21415 SUCCESS 07:40:19 8.851s"
-                        },
-                        {
-                                    "nome": "COCKPIT-09-HELPER-Texto Projeto+Confianca",
-                                    "id": "ZQLHgsgDppId9qoe",
-                                    "status": "PULADO - sem node HuggingFace",
-                                    "modelo": "N/A",
-                                    "execucao_teste": "N/A"
-                        }
-              ]
-      },
-      "conquistas_sessao_4": [
-              "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
-              "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
-              "COCKPIT-07 reativado e testado: execucao #21422 SUCCESS apos correcao",
-              "Identificado erro pre-existente no node 7 WhatsApp alerta URGENTE (falta EVOLUTION_API_KEY)",
-              "GitHub atualizado: CONTEXTO.json v4.0 + README.md v4.0"
+      {
+        "nome": "metricool-mcp-swiss",
+        "pasta": "metricool-mcp/",
+        "funcao": "Canivete suico para o Metricool (superset do MCP oficial). 30 ferramentas.",
+        "custo": "requer token de API (plano Advanced). Alternativa gratis: conector OAuth oficial https://ai.metricool.com/mcp"
+      }
+    ],
+    "scripts": {
+      "scripts/bootstrap.ps1": "Instalacao one-shot no Windows: clona/atualiza repo + instala MCPs + registra no Claude Desktop.",
+      "scripts/connect-claude-desktop.ps1": "Registra os MCPs no claude_desktop_config.json (com backup)."
+    },
+    "instalacao_claude_desktop": "PS> cd $HOME\\Documents\\Analise-Claude; git pull; powershell -ExecutionPolicy Bypass -File .\\scripts\\bootstrap.ps1  (depois reiniciar o Claude Desktop)"
+  },
+  "metricool_conexao": {
+    "status": "CONECTADO via MCP (sessao 5)",
+    "userId": 4927314,
+    "marca": {
+      "id": 6395876,
+      "label": "HospitaLar Solucoes em Saude",
+      "timezone": "America/Sao_Paulo",
+      "criada_em": "2026-06-13",
+      "rede_conectada": "Facebook (page)",
+      "networksData": "vazio na criacao - sincronizacao pendente"
+    },
+    "primeira_leitura_metricas": "2026-06-19, Facebook ultimos 7 dias = tudo 0 (conta nova, sync pendente 24-48h). Conexao validada com sucesso.",
+    "observacao": "O MCP oficial remoto (ai.metricool.com/mcp) funciona via OAuth/login em QUALQUER plano (inclusive free). O token de API so e necessario para o servidor self-hosted."
+  },
+  "integracoes_avaliadas": {
+    "markitdown_mcp": {
+      "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
+      "fornecedor": "Microsoft (open-source)",
+      "funcao": "Converter PDF/Word/Excel/PPT/imagem/audio/HTML para Markdown limpo para LLM",
+      "ferramenta_mcp": "convert_to_markdown(uri) - esquemas http/https/file/data",
+      "modo_escolhido": "Servidor MCP (uso pelo agente Claude)",
+      "status": "DOCUMENTADO - aguardando configuracao no cliente Claude",
+      "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
+      "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
+      "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
+    },
+    "claude_managed_agents": {
+      "fonte": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "fornecedor": "Anthropic (servico gerenciado/hosted)",
+      "funcao": "Runtime gerenciado para agentes Claude autonomos de longa duracao - desacopla o cerebro (modelo) das maos (sandbox seguro: arquivos, comandos, web, codigo)",
+      "lancamento": "beta publico 08/04/2026",
+      "preco": "tarifa normal de tokens API Claude + US$ 0,08 por hora de sessao",
+      "acesso": "via API Claude direta (exige ANTHROPIC_API_KEY propria, NAO via OpenRouter)",
+      "modo_escolhido": "Runtime multicanal sob demanda (filosofia 'canivete suico' - NAO travar so no n8n)",
+      "principio": "Agnostico de canal: pode ser acionado E entregar resultado em qualquer canal (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP)",
+      "formas_de_acionar": [
+        "via n8n (HTTP Request)",
+        "chamada direta a API Claude (app/microservico Railway)",
+        "via MCP (Claude Code/Desktop)"
       ],
-      "conquistas_sessao_3": [
-              "OPENROUTER_API_KEY cadastrado como variavel global n8n",
-              "COCKPIT-07 migrado HuggingFace -> OpenRouter (gemini-2.5-flash-preview)",
-              "COCKPIT-08 migrado HuggingFace -> OpenRouter (claude-haiku-4-5) - exec #21415 SUCCESS",
-              "COCKPIT-09 pulado (sem node HF)",
-              "GitHub atualizado: CONTEXTO.json v3.0 + README.md v3.0 (commits f2eadab + 3fe1198)"
-      ],
-      "conquistas_sessao_2": [
-              "AGENTE_LOCAL registrado em WF-ORQUESTRADOR-DINAMICO staticData",
-              "WF-MCC-SET-URL publicado e testado via Google Sheets",
-              "WF-ORQUESTRADOR-DINAMICO testado end-to-end: exec #21404 SUCCESS",
-              "WF-GERENCIADOR-AGENTES: AGENTE_LOCAL registrado via webhook"
-      ],
-      "conquistas_sessao_1": [
-              "Analise completa de 50+ workflows n8n cloud",
-              "Mapeamento de integrações ativas e pendentes",
-              "CONTEXTO.json v1.0 criado no GitHub",
-              "README inicial criado"
-      ],
-      "estado_atual": {
-              "workflows_ativos": [
-                        "COCKPIT-07 (corrigido, ativo)",
-                        "COCKPIT-08 (migrado, ativo - cron 07h)",
-                        "WF-ORQUESTRADOR-DINAMICO (ativo)",
-                        "WF-MCC-SET-URL (ativo)",
-                        "COCKPIT-05-POLLING Notion->WhatsApp (ativo)"
-              ],
-              "erros_pre_existentes": [
-                        "COCKPIT-07 node 7 WhatsApp alerta URGENTE - falta EVOLUTION_API_KEY",
-                        "WF-TRIAGEM-EMAIL Outlook - erro autenticacao",
-                        "COCKPIT-09 sem logica IA (apenas executeWorkflowTrigger + code)"
-              ]
+      "status": "AVALIADO - sem ativacao imediata (nenhum caso de uso justifica hoje)",
+      "doc": "INTEGRACAO_CLAUDE_MANAGED_AGENTS.md",
+      "encaixe": "Qualquer canal de entrada (WhatsApp/Email/Notion/etc) -> Managed Agents roda tarefa longa -> resultado volta em qualquer canal de saida; n8n e apenas UM dos orquestradores possiveis",
+      "ressalva": "Complementar ao n8n, nao concorrente; custo por hora-sessao + avaliar LGPD para dados de saude (PII/PHI) antes de enviar ao sandbox"
+    }
+  },
+  "migracao_huggingface_openrouter": {
+    "status": "CONCLUIDA",
+    "data": "2026-05-31",
+    "workflows": [
+      {
+        "nome": "COCKPIT-07-IN-WhatsApp/Email/Obsidian Notion Inbox",
+        "id": "acWQbkOkisdpzryy",
+        "status": "MIGRADO + CORRIGIDO",
+        "modelo": "google/gemini-2.5-flash-preview",
+        "execucao_teste": "#21422 SUCCESS trigger 07:55:34",
+        "correcao_extra": "specifyBody json->string corrigido em sessao 4 (erro JSON syntax position 593)"
       },
-      "pendencias_tecnicas": [
-              {
-                        "item": "OPENAI_API_KEY",
-                        "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",
-                        "prioridade": "ALTA"
-              },
-              {
-                        "item": "EVOLUTION_API_KEY",
-                        "descricao": "Configurar variavel n8n para envio menu WhatsApp (1=Manter/2=Dormir/3=Excluir)",
-                        "prioridade": "ALTA"
-              },
-              {
-                        "item": "Teste subfluxo audio WhatsApp",
-                        "descricao": "Testar pipeline completo: audio -> Whisper -> OpenRouter -> resposta",
-                        "prioridade": "MEDIA"
-              },
-              {
-                        "item": "Supabase credenciais hardcoded",
-                        "descricao": "telegram-scraper-inema-n8n usa credenciais hardcoded no code node",
-                        "prioridade": "BAIXA"
-              },
-              {
-                        "item": "ngrok tunnel N8N Local",
-                        "descricao": "Para teste end-to-end do agente local via orquestrador",
-                        "prioridade": "BAIXA"
-              }
-      ],
-      "erros_corrigidos_historico": [
-              {
-                        "sessao": 3,
-                        "erro": "PATCH com rename de node quebrava conexoes",
-                        "fix": "Manter nome original do node, apenas alterar parametros"
-              },
-              {
-                        "sessao": 3,
-                        "erro": "PUT /rest/workflows retornava 404 HTML",
-                        "fix": "Usar PATCH ao inves de PUT"
-              },
-              {
-                        "sessao": 3,
-                        "erro": "activate endpoint retornava 400 versionId required",
-                        "fix": "Buscar workflow primeiro, extrair versionId, passar no body do activate"
-              },
-              {
-                        "sessao": 4,
-                        "erro": "COCKPIT-07 node 3 - JSON syntax error position 593",
-                        "fix": "Alterar specifyBody de 'json' para 'string' - expressoes n8n {{ }} nao sao JSON valido"
-}
-],
+      {
+        "nome": "COCKPIT-08-OUT-Cron 07h WhatsApp+Email Briefing Diario",
+        "id": "CoDTbFiy8g1ctkmO",
+        "status": "MIGRADO",
+        "modelo": "anthropic/claude-haiku-4-5",
+        "execucao_teste": "#21415 SUCCESS 07:40:19 8.851s"
+      },
+      {
+        "nome": "COCKPIT-09-HELPER-Texto Projeto+Confianca",
+        "id": "ZQLHgsgDppId9qoe",
+        "status": "PULADO - sem node HuggingFace",
+        "modelo": "N/A",
+        "execucao_teste": "N/A"
+      }
+    ]
+  },
+  "conquistas_sessao_5": [
+    "Criado MCP de contexto (analise-context-mcp) que entrega a memoria do projeto a qualquer agente, com ferramenta 'oraculo' de conhecimento completo.",
+    "Criado MCP do Metricool (metricool-mcp-swiss): superset do oficial com 30 ferramentas, cliente resiliente e erros estruturados.",
+    "Criados scripts PowerShell (bootstrap.ps1 + connect-claude-desktop.ps1) para instalar e conectar no Claude Desktop.",
+    "Criado INSTRUCOES_CLAUDE.md (orientacao) e ORACULO.md (base de conhecimento completa).",
+    "Conectado o Metricool via MCP e validada a marca 6395876 (HospitaLar, timezone America/Sao_Paulo).",
+    "Primeira leitura de metricas do Facebook (conta nova, dados zerados, sync pendente).",
+    "PR #4 aberto (branch claude/metricool-mcp-server-pr6m40); 21 testes passando, ruff limpo."
+  ],
+  "conquistas_sessao_4": [
+    "Diagnosticado erro JSON syntax no COCKPIT-07 node 3 (specifyBody: json com expressoes n8n)",
+    "Corrigido: specifyBody json -> string no node HF Llama classificar com contexto",
+    "COCKPIT-07 reativado e testado: execucao #21422 SUCCESS apos correcao",
+    "Identificado erro pre-existente no node 7 WhatsApp alerta URGENTE (falta EVOLUTION_API_KEY)",
+    "GitHub atualizado: CONTEXTO.json v4.0 + README.md v4.0"
+  ],
+  "conquistas_sessao_3": [
+    "OPENROUTER_API_KEY cadastrado como variavel global n8n",
+    "COCKPIT-07 migrado HuggingFace -> OpenRouter (gemini-2.5-flash-preview)",
+    "COCKPIT-08 migrado HuggingFace -> OpenRouter (claude-haiku-4-5) - exec #21415 SUCCESS",
+    "COCKPIT-09 pulado (sem node HF)",
+    "GitHub atualizado: CONTEXTO.json v3.0 + README.md v3.0 (commits f2eadab + 3fe1198)"
+  ],
+  "conquistas_sessao_2": [
+    "AGENTE_LOCAL registrado em WF-ORQUESTRADOR-DINAMICO staticData",
+    "WF-MCC-SET-URL publicado e testado via Google Sheets",
+    "WF-ORQUESTRADOR-DINAMICO testado end-to-end: exec #21404 SUCCESS",
+    "WF-GERENCIADOR-AGENTES: AGENTE_LOCAL registrado via webhook"
+  ],
+  "conquistas_sessao_1": [
+    "Analise completa de 50+ workflows n8n cloud",
+    "Mapeamento de integrações ativas e pendentes",
+    "CONTEXTO.json v1.0 criado no GitHub",
+    "README inicial criado"
+  ],
+  "estado_atual": {
+    "workflows_ativos": [
+      "COCKPIT-07 (corrigido, ativo)",
+      "COCKPIT-08 (migrado, ativo - cron 07h)",
+      "WF-ORQUESTRADOR-DINAMICO (ativo)",
+      "WF-MCC-SET-URL (ativo)",
+      "COCKPIT-05-POLLING Notion->WhatsApp (ativo)"
+    ],
+    "erros_pre_existentes": [
+      "COCKPIT-07 node 7 WhatsApp alerta URGENTE - falta EVOLUTION_API_KEY",
+      "WF-TRIAGEM-EMAIL Outlook - erro autenticacao",
+      "COCKPIT-09 sem logica IA (apenas executeWorkflowTrigger + code)"
+    ]
+  },
+  "pendencias_tecnicas": [
+    {
+      "item": "OPENAI_API_KEY",
+      "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",
+      "prioridade": "ALTA"
+    },
+    {
+      "item": "EVOLUTION_API_KEY",
+      "descricao": "Configurar variavel n8n para envio menu WhatsApp (1=Manter/2=Dormir/3=Excluir)",
+      "prioridade": "ALTA"
+    },
+    {
+      "item": "Teste subfluxo audio WhatsApp",
+      "descricao": "Testar pipeline completo: audio -> Whisper -> OpenRouter -> resposta",
+      "prioridade": "MEDIA"
+    },
+    {
+      "item": "Supabase credenciais hardcoded",
+      "descricao": "telegram-scraper-inema-n8n usa credenciais hardcoded no code node",
+      "prioridade": "BAIXA"
+    },
+    {
+      "item": "ngrok tunnel N8N Local",
+      "descricao": "Para teste end-to-end do agente local via orquestrador",
+      "prioridade": "BAIXA"
+    },
+    {
+      "item": "Sincronizacao Metricool",
+      "descricao": "Aguardar 24-48h e revalidar metricas da marca 6395876; conferir status da pagina Facebook no painel.",
+      "prioridade": "MEDIA"
+    },
+    {
+      "item": "Merge do PR #4",
+      "descricao": "Revisar e mesclar a branch claude/metricool-mcp-server-pr6m40 (MCPs + scripts).",
+      "prioridade": "MEDIA"
+    }
+  ],
+  "erros_corrigidos_historico": [
+    {
+      "sessao": 3,
+      "erro": "PATCH com rename de node quebrava conexoes",
+      "fix": "Manter nome original do node, apenas alterar parametros"
+    },
+    {
+      "sessao": 3,
+      "erro": "PUT /rest/workflows retornava 404 HTML",
+      "fix": "Usar PATCH ao inves de PUT"
+    },
+    {
+      "sessao": 3,
+      "erro": "activate endpoint retornava 400 versionId required",
+      "fix": "Buscar workflow primeiro, extrair versionId, passar no body do activate"
+    },
+    {
+      "sessao": 4,
+      "erro": "COCKPIT-07 node 3 - JSON syntax error position 593",
+      "fix": "Alterar specifyBody de 'json' para 'string' - expressoes n8n {{ }} nao sao JSON valido"
+    },
+    {
+      "sessao": 5,
+      "erro": "PowerShell 5.1: Split-Path falhava no param default ($PSScriptRoot vazio)",
+      "fix": "Resolver RepoPath no corpo do script (PSScriptRoot -> MyInvocation -> cwd)"
+    }
+  ],
   "proxima_sessao": {
-          "instrucao_retomada": "leia o documento no GitHub Analise-Claude e continue",
-          "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
-          "primeira_acao": "Perguntar se usuario tem OPENAI_API_KEY e EVOLUTION_API_KEY para configurar"
+    "instrucao_retomada": "Conecte o analise-context-mcp e chame 'oraculo'. Sem MCP: leia ORACULO.md e CONTEXTO.json.",
+    "url_contexto": "https://github.com/Rudson-Oliveira/Analise-Claude/blob/main/CONTEXTO.json",
+    "primeira_acao": "Apresentar o resumo do projeto (empresa, proximo passo, pendencias ALTA) e perguntar por onde seguir."
   }
 }
