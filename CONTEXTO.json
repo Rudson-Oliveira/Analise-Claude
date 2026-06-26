@@ -1,10 +1,16 @@
 {
   "meta": {
-    "versao": "5.0",
-    "data_analise": "2026-06-19",
-    "analisado_por": "Claude Sonnet 4.6 (sessoes 1-4) + Claude Opus 4.8 (sessao 5)",
-    "sessoes_realizadas": 5,
-    "proximo_passo": "Validar metricas Metricool da marca 6395876 apos sincronizacao (24-48h) e configurar OPENAI_API_KEY + EVOLUTION_API_KEY (FASE 2)",
+    "versao": "6.0",
+    "data_analise": "2026-06-26",
+    "analisado_por": "Claude (sessoes 1-6): Sonnet 4.6 + Opus 4.8",
+    "sessoes_realizadas": 6,
+    "proximo_passo": "FASE 2: configurar OPENAI_API_KEY + EVOLUTION_API_KEY (audio WhatsApp). Validar metricas Metricool da marca 6395876 apos sync (24-48h). Configurar MarkItDown-MCP e testar conversao de anexo real. Claude Managed Agents avaliado (sem ativacao imediata). Frontend visual em frontend/index.html (publicar no GitHub Pages).",
+    "frontend": {
+      "arquivo": "frontend/index.html",
+      "tipo": "HTML autocontido sem dependencias",
+      "tema": "Painel multicanal do ecossistema (canivete suico)",
+      "publicar": "GitHub Pages (Settings > Pages > branch + pasta /frontend)"
+    },
     "como_retomar": "Conecte o MCP de contexto (analise-context-mcp) e chame a ferramenta 'oraculo' — ela entrega TODO o conhecimento do projeto numa unica chamada. Sem o MCP, leia ORACULO.md."
   },
   "empresa": {
@@ -32,7 +38,15 @@
         "nome": "analise-context-mcp",
         "pasta": "context-mcp/",
         "funcao": "Memoria/oraculo do projeto. Entrega contexto completo a qualquer agente.",
-        "ferramentas": ["oraculo", "restaurar_contexto", "get_project_summary", "list_documents", "read_document", "search_context", "get_pending_tasks"],
+        "ferramentas": [
+          "oraculo",
+          "restaurar_contexto",
+          "get_project_summary",
+          "list_documents",
+          "read_document",
+          "search_context",
+          "get_pending_tasks"
+        ],
         "custo": "gratis, offline (le os arquivos do repositorio)"
       },
       {
@@ -61,6 +75,38 @@
     },
     "primeira_leitura_metricas": "2026-06-19, Facebook ultimos 7 dias = tudo 0 (conta nova, sync pendente 24-48h). Conexao validada com sucesso.",
     "observacao": "O MCP oficial remoto (ai.metricool.com/mcp) funciona via OAuth/login em QUALQUER plano (inclusive free). O token de API so e necessario para o servidor self-hosted."
+  },
+  "integracoes_avaliadas": {
+    "markitdown_mcp": {
+      "fonte": "https://github.com/microsoft/markitdown/tree/main/packages/markitdown-mcp",
+      "fornecedor": "Microsoft (open-source)",
+      "funcao": "Converter PDF/Word/Excel/PPT/imagem/audio/HTML para Markdown limpo para LLM",
+      "ferramenta_mcp": "convert_to_markdown(uri) - esquemas http/https/file/data",
+      "modo_escolhido": "Servidor MCP (uso pelo agente Claude)",
+      "status": "DOCUMENTADO - aguardando configuracao no cliente Claude",
+      "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
+      "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
+      "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
+    },
+    "claude_managed_agents": {
+      "fonte": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "fornecedor": "Anthropic (servico gerenciado/hosted)",
+      "funcao": "Runtime gerenciado para agentes Claude autonomos de longa duracao - desacopla o cerebro (modelo) das maos (sandbox seguro: arquivos, comandos, web, codigo)",
+      "lancamento": "beta publico 08/04/2026",
+      "preco": "tarifa normal de tokens API Claude + US$ 0,08 por hora de sessao",
+      "acesso": "via API Claude direta (exige ANTHROPIC_API_KEY propria, NAO via OpenRouter)",
+      "modo_escolhido": "Runtime multicanal sob demanda (filosofia 'canivete suico' - NAO travar so no n8n)",
+      "principio": "Agnostico de canal: pode ser acionado E entregar resultado em qualquer canal (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP)",
+      "formas_de_acionar": [
+        "via n8n (HTTP Request)",
+        "chamada direta a API Claude (app/microservico Railway)",
+        "via MCP (Claude Code/Desktop)"
+      ],
+      "status": "AVALIADO - sem ativacao imediata (nenhum caso de uso justifica hoje)",
+      "doc": "INTEGRACAO_CLAUDE_MANAGED_AGENTS.md",
+      "encaixe": "Qualquer canal de entrada (WhatsApp/Email/Notion/etc) -> Managed Agents roda tarefa longa -> resultado volta em qualquer canal de saida; n8n e apenas UM dos orquestradores possiveis",
+      "ressalva": "Complementar ao n8n, nao concorrente; custo por hora-sessao + avaliar LGPD para dados de saude (PII/PHI) antes de enviar ao sandbox"
+    }
   },
   "migracao_huggingface_openrouter": {
     "status": "CONCLUIDA",
@@ -121,7 +167,7 @@
   ],
   "conquistas_sessao_1": [
     "Analise completa de 50+ workflows n8n cloud",
-    "Mapeamento de integracoes ativas e pendentes",
+    "Mapeamento de integrações ativas e pendentes",
     "CONTEXTO.json v1.0 criado no GitHub",
     "README inicial criado"
   ],
@@ -141,11 +187,6 @@
   },
   "pendencias_tecnicas": [
     {
-      "item": "Sincronizacao Metricool",
-      "descricao": "Aguardar 24-48h e revalidar metricas da marca 6395876; conferir status da pagina Facebook no painel.",
-      "prioridade": "MEDIA"
-    },
-    {
       "item": "OPENAI_API_KEY",
       "descricao": "Configurar variavel n8n para Whisper transcricao em subfluxo audio WhatsApp",
       "prioridade": "ALTA"
@@ -161,11 +202,6 @@
       "prioridade": "MEDIA"
     },
     {
-      "item": "Merge do PR #4",
-      "descricao": "Revisar e mesclar a branch claude/metricool-mcp-server-pr6m40 (MCPs + scripts).",
-      "prioridade": "MEDIA"
-    },
-    {
       "item": "Supabase credenciais hardcoded",
       "descricao": "telegram-scraper-inema-n8n usa credenciais hardcoded no code node",
       "prioridade": "BAIXA"
@@ -174,6 +210,16 @@
       "item": "ngrok tunnel N8N Local",
       "descricao": "Para teste end-to-end do agente local via orquestrador",
       "prioridade": "BAIXA"
+    },
+    {
+      "item": "Sincronizacao Metricool",
+      "descricao": "Aguardar 24-48h e revalidar metricas da marca 6395876; conferir status da pagina Facebook no painel.",
+      "prioridade": "MEDIA"
+    },
+    {
+      "item": "Merge do PR #4",
+      "descricao": "Revisar e mesclar a branch claude/metricool-mcp-server-pr6m40 (MCPs + scripts).",
+      "prioridade": "MEDIA"
     }
   ],
   "erros_corrigidos_historico": [

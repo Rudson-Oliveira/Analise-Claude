@@ -6,7 +6,7 @@
 > erros já resolvidos e estado atual — sem precisar reconstruir nada. Responda em
 > **português (BR)**, de forma direta e acionável.
 >
-> **Versão:** 5.0 · **Atualizado:** 19/06/2026 · **Sessões:** 5
+> **Versão:** 6.0 · **Atualizado:** 26/06/2026 · **Sessões:** 6 (memória unificada com as sessões paralelas)
 
 ---
 
@@ -127,6 +127,17 @@ Depois **reiniciar o Claude Desktop**.
 **Importante:** o MCP **oficial remoto** (`ai.metricool.com/mcp`) funciona por
 **OAuth/login em qualquer plano (inclusive free)** — não precisa do token pago. O
 token só é necessário para o servidor self-hosted (`metricool-mcp-swiss`).
+
+---
+
+## 6.1 Ecossistema do projeto (outras sessões paralelas — já na `main`)
+
+Além dos nossos MCPs, sessões paralelas adicionaram (estão na `main`, integrados no v6.0):
+
+- **MarkItDown-MCP** (Microsoft, open-source) — converte PDF/Word/Excel/PPT/imagem/áudio/HTML para Markdown limpo para LLM (`convert_to_markdown(uri)`). Encaixe: pré-processar anexos no COCKPIT-07 antes do OpenRouter. Status: documentado (`INTEGRACAO_MARKITDOWN_MCP.md`), aguardando configuração no cliente. Roda local (STDIO/Docker) — não conecta direto ao n8n Cloud.
+- **Claude Managed Agents** (Anthropic, hosted) — runtime gerenciado para agentes autônomos de longa duração (sandbox: arquivos, comandos, web, código). Beta público 08/04/2026. Exige `ANTHROPIC_API_KEY` própria (não via OpenRouter). Status: documentado/avaliado (`INTEGRACAO_CLAUDE_MANAGED_AGENTS.md`), sem ativação imediata.
+- **Frontend visual** — `frontend/index.html` (HTML autocontido), painel multicanal do ecossistema. Publicável no GitHub Pages. Workflow de deploy em `.github/workflows/deploy-pages.yml`.
+- **`CLAUDE.md`** — orientação do projeto para Claude Code (Dynamic Workflows).
 
 ---
 
