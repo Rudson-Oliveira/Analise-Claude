@@ -72,7 +72,7 @@ if (-not (Ensure-Tool "python" "Python.Python.3.12" "Python")) { throw "Python a
 # 2) Clonar ou atualizar -----------------------------------------------------
 $repoPath = Join-Path $InstallDir "Analise-Claude"
 if (Test-Path (Join-Path $repoPath ".git")) {
-    Write-Step "Repositorio ja existe — atualizando ($Branch)..."
+    Write-Step "Repositorio ja existe - atualizando ($Branch)..."
     git -C $repoPath fetch origin $Branch --quiet
     git -C $repoPath checkout $Branch --quiet
     git -C $repoPath pull origin $Branch --quiet
