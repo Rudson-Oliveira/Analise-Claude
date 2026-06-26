@@ -56,3 +56,19 @@ def test_pending_via_context(tmp_path):
     repo = _make_repo(tmp_path)
     ctx = repo.context_json()
     assert ctx["pendencias_tecnicas"][0]["item"] == "OPENAI_API_KEY"
+
+
+def test_oracle_bundles_everything(tmp_path):
+    repo = _make_repo(tmp_path)
+    (tmp_path / "ORACULO.md").write_text("# Oraculo\nConhecimento completo.\n", "utf-8")
+    out = repo.oracle()
+    assert out["resumo"]["versao"] == "4.0"
+    assert "Conhecimento completo" in out["oraculo_md"]
+    assert out["pendencias_prioritarias"][0]["item"] == "OPENAI_API_KEY"
+    assert "CONTEXTO.json" in out["documentos"]
+
+
+def test_oracle_without_oraculo_md(tmp_path):
+    repo = _make_repo(tmp_path)
+    out = repo.oracle()
+    assert out["oraculo_md"] == ""

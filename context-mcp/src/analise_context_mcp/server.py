@@ -17,10 +17,11 @@ Você está conectado à MEMÓRIA do projeto "Análise-Claude" — o sistema de
 automação da Hospitalar Soluções em Saúde (CEO: Rudson Oliveira).
 
 NA PRIMEIRA INTERAÇÃO DA SESSÃO (faça proativamente, sem o usuário pedir):
-- Chame `get_project_summary` e apresente um resumo curto: empresa, versão do
-  checkpoint, PRÓXIMO PASSO e as pendências de prioridade ALTA. Em seguida,
-  pergunte se deve seguir pelo próximo passo. Responda sempre em português (BR),
-  de forma direta e acionável.
+- Chame `oraculo` UMA vez para absorver o conhecimento COMPLETO do projeto
+  (resumo + CONTEXTO.json + ORACULO.md). Apresente um resumo curto: empresa,
+  versão do checkpoint, PRÓXIMO PASSO e as pendências de prioridade ALTA. Em
+  seguida, pergunte se deve seguir pelo próximo passo. Responda sempre em
+  português (BR), de forma direta e acionável.
 
 COMO COMEÇAR (sempre, no início da sessão):
 1. Chame `restaurar_contexto` (ou leia o resource analise://contexto) para
@@ -53,6 +54,17 @@ def create_server(root: str | None = None) -> FastMCP:
     mcp = FastMCP("analise-claude-context", instructions=INSTRUCTIONS)
 
     # ----------------------------------------------------------------- tools
+    @mcp.tool()
+    def oraculo() -> dict[str, Any]:
+        """🔮 Absorve o conhecimento COMPLETO do projeto numa única chamada.
+
+        Use ESTA ferramenta primeiro, ao iniciar a sessão. Retorna o resumo
+        estruturado, o CONTEXTO.json inteiro, as pendências prioritárias e o
+        documento narrativo ORACULO.md — tudo o que um agente precisa para
+        assumir o projeto sem reconstruir a base de conhecimento.
+        """
+        return repo.oracle()
+
     @mcp.tool()
     def restaurar_contexto() -> dict[str, Any]:
         """Restaura o contexto do projeto: retorna o CONTEXTO.json completo.

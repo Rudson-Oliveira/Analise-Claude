@@ -106,3 +106,31 @@ class Repo:
             "estado_atual": ctx.get("estado_atual"),
             "documents": [d["name"] for d in self.list_documents()],
         }
+
+    def oracle(self) -> dict[str, Any]:
+        """Conhecimento COMPLETO do projeto numa única resposta (modo oráculo).
+
+        Reúne o resumo estruturado, o CONTEXTO.json inteiro e o documento
+        narrativo ORACULO.md, para que um agente assuma o projeto sem reconstruir
+        a base de conhecimento.
+        """
+        oraculo_md = ""
+        oraculo_path = self.root / "ORACULO.md"
+        if oraculo_path.exists():
+            oraculo_md = oraculo_path.read_text(encoding="utf-8", errors="replace")
+        ctx = self.context_json()
+        pendencias = ctx.get("pendencias_tecnicas", []) if isinstance(ctx, dict) else []
+        return {
+            "como_usar": (
+                "Você absorveu o conhecimento completo do projeto Análise-Claude. "
+                "Apresente o resumo (empresa, próximo passo, pendências ALTA) e "
+                "pergunte por onde seguir. Responda em português (BR)."
+            ),
+            "resumo": self.summary(),
+            "pendencias_prioritarias": [
+                p for p in pendencias if isinstance(p, dict) and p.get("prioridade") == "ALTA"
+            ],
+            "oraculo_md": oraculo_md,
+            "contexto_completo": ctx,
+            "documentos": [d["name"] for d in self.list_documents()],
+        }
