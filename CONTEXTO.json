@@ -1,10 +1,10 @@
 {
   "meta": {
-    "versao": "6.0",
-    "data_analise": "2026-06-26",
-    "analisado_por": "Claude (sessoes 1-6): Sonnet 4.6 + Opus 4.8",
-    "sessoes_realizadas": 6,
-    "proximo_passo": "FASE 2: configurar OPENAI_API_KEY + EVOLUTION_API_KEY (audio WhatsApp). Validar metricas Metricool da marca 6395876 apos sync (24-48h). Configurar MarkItDown-MCP e testar conversao de anexo real. Claude Managed Agents avaliado (sem ativacao imediata). Frontend visual em frontend/index.html (publicar no GitHub Pages).",
+    "versao": "6.1",
+    "data_analise": "2026-06-27",
+    "analisado_por": "Claude (sessoes 1-7): Sonnet 4.6 + Opus 4.8",
+    "sessoes_realizadas": 7,
+    "proximo_passo": "FASE 2: configurar OPENAI_API_KEY + EVOLUTION_API_KEY (audio WhatsApp). Validar metricas Metricool da marca 6395876 apos sync (24-48h). Configurar MarkItDown-MCP e testar conversao de anexo real. Scrapling adicionado ao .mcp.json (instalar 'scrapling[ai]' + 'scrapling install' e testar stealthy_fetch). Claude Managed Agents avaliado (sem ativacao imediata). Frontend visual em frontend/index.html (publicar no GitHub Pages).",
     "frontend": {
       "arquivo": "frontend/index.html",
       "tipo": "HTML autocontido sem dependencias",
@@ -87,6 +87,19 @@
       "doc": "INTEGRACAO_MARKITDOWN_MCP.md",
       "encaixe": "COCKPIT-07 inbox - pre-processar anexos antes do OpenRouter",
       "ressalva": "Roda local (STDIO/Docker), nao conecta direto ao n8n Cloud; automacao total exigiria microservico HTTP (Railway)"
+    },
+    "scrapling": {
+      "fonte": "https://github.com/D4Vinci/Scrapling",
+      "fornecedor": "D4Vinci (open-source, licenca BSD-3)",
+      "funcao": "Web scraping adaptativo com bypass anti-bot (Cloudflare Turnstile) e rastreamento de elementos que nao quebra quando o site muda de layout. Converte paginas em Markdown/HTML/texto limpo.",
+      "versao": "0.4.9 (jun/2026), requer Python 3.10+",
+      "servidor_mcp": "nativo - comando 'scrapling mcp' (STDIO); 10 ferramentas: get, bulk_get, fetch, bulk_fetch, stealthy_fetch, bulk_stealthy_fetch, screenshot, open_session, close_session, list_sessions",
+      "modo_escolhido": "Servidor MCP nativo (uso pelo agente Claude) - JA adicionado ao .mcp.json",
+      "instalacao": "pip install 'scrapling[ai]' && scrapling install (baixa Chromium para fetch/stealthy_fetch)",
+      "status": "DOCUMENTADO + adicionado ao .mcp.json - aguardando instalacao do pacote na maquina do Claude",
+      "doc": "INTEGRACAO_SCRAPLING.md",
+      "encaixe": "Coletar dados de sites SEM API (precos de fornecedor, editais, ANVISA) -> Markdown -> OpenRouter -> briefing/decisao. Plano B quando nao ha API oficial.",
+      "ressalva": "Roda local (STDIO), nao conecta direto ao n8n Cloud (automacao total exigiria microservico HTTP Railway). Respeitar ToS/robots.txt e LGPD - negocio de saude, evitar PII/PHI; priorizar dados publicos. main_content_only=true mantem protecao anti prompt-injection."
     },
     "claude_managed_agents": {
       "fonte": "https://platform.claude.com/docs/en/managed-agents/overview",

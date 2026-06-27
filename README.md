@@ -29,8 +29,11 @@
       10d. |---|---|---|---|
       10e. | MarkItDown-MCP | Microsoft | Arquivos → Markdown limpo p/ LLM | 📋 Documentado |
       10f. | Claude Managed Agents | Anthropic | Runtime gerenciado p/ agentes autônomos longos | 📋 Avaliado (sem ativação imediata) |
+      10f2. | Scrapling | D4Vinci (BSD-3) | Web scraping adaptativo + anti-bot (Cloudflare) via MCP nativo | ✅ Adicionado ao `.mcp.json` |
      
       10g. > **Claude Managed Agents** entra como **runtime multicanal** ("canivete suíço" — não travar só no n8n): pode ser **acionado de qualquer canal** (WhatsApp/Email/Notion/Telegram/Sheets/Webhook/MCP) e **devolver o resultado em qualquer canal**. Formas de acionar: via n8n, chamada direta à API Claude ou via MCP. O n8n é apenas **um** dos orquestradores possíveis. Detalhes em [INTEGRACAO_CLAUDE_MANAGED_AGENTS.md](./INTEGRACAO_CLAUDE_MANAGED_AGENTS.md).
+     
+      10g2. > **Scrapling** entra como o **coletor de dados de sites sem API** (preços de fornecedor, editais, ANVISA): passa por anti-bots e não quebra quando o layout muda. Roda via **MCP nativo** (`scrapling mcp`) — o agente Claude opera, **ninguém escreve Python**. Exige `pip install "scrapling[ai]"` + `scrapling install`. Detalhes em [INTEGRACAO_SCRAPLING.md](./INTEGRACAO_SCRAPLING.md).
      
       10h. ---
      
@@ -93,7 +96,8 @@
       51. | CONTEXTO.json | Estado estruturado da sessão (v4.1) |
       51b. | INTEGRACAO_MARKITDOWN_MCP.md | Integração do MarkItDown-MCP (Microsoft) — conversão de arquivos → Markdown para LLM |
       51bb. | INTEGRACAO_CLAUDE_MANAGED_AGENTS.md | Avaliação do Claude Managed Agents (Anthropic) — runtime gerenciado para agentes autônomos longos (avaliado, sem ativação imediata) |
-      51c. | .mcp.json | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
+      51bc. | INTEGRACAO_SCRAPLING.md | Integração do Scrapling (D4Vinci) — web scraping adaptativo + anti-bot via MCP nativo (`scrapling mcp`) |
+      51c. | .mcp.json | Config MCP do Claude Code (servidores `markitdown` e `scrapling` prontos para uso) |
       52. | README.md | Este arquivo - contexto humano-legível |
       53. | ANALISE_COMPLETA.md | Análise inicial dos 50+ workflows |
       54. | CHECKPOINT_29052026_*.md | Checkpoints anteriores |
