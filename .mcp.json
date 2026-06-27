@@ -3,6 +3,10 @@
     "markitdown": {
       "command": "markitdown-mcp",
       "args": []
+    },
+    "scrapling": {
+      "command": "scrapling",
+      "args": ["mcp"]
     }
   }
 }

@@ -34,7 +34,8 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
 | `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
 | `INTEGRACAO_CLAUDE_MANAGED_AGENTS.md` | Avaliação do Claude Managed Agents (Anthropic) — runtime gerenciado p/ agentes autônomos longos |
-| `.mcp.json` | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
+| `INTEGRACAO_SCRAPLING.md` | Integração do Scrapling (D4Vinci) — web scraping adaptativo + anti-bot via MCP nativo (`scrapling mcp`) |
+| `.mcp.json` | Config MCP do Claude Code (servidores `markitdown` e `scrapling` prontos para uso) |
 | `frontend/index.html` | Painel visual do ecossistema (multicanal "canivete suíço") — HTML autocontido |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
 
@@ -46,6 +47,8 @@ Quando a tarefa for **agir no sistema** (não só editar a memória), prefira as
   (COCKPIT-* e WF-*). Siga o fluxo do MCP: ler SDK → sugerir nodes → validar → criar.
 - **GitHub (MCP)** — PRs, issues, CI e comentários no repo `Rudson-Oliveira/Analise-Claude`.
 - **MarkItDown (MCP, local)** — `convert_to_markdown(uri)` p/ PDF/Word/Excel/imagem → Markdown.
+- **Scrapling (MCP, local)** — `get`/`fetch`/`stealthy_fetch` p/ extrair sites (inclusive anti-bot) → Markdown.
+  Exige `pip install "scrapling[ai]"` + `scrapling install`. Plano B quando a fonte não tem API oficial.
 - **Microsoft Learn / docs** — documentação oficial Microsoft/Azure/Outlook quando necessário.
 
 > Antes de dizer "não tenho acesso", **procure a ferramenta** — muitos MCPs carregam sob demanda.
