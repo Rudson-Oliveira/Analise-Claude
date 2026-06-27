@@ -34,6 +34,8 @@ histórico de decisões para retomar qualquer sessão sem perder contexto.
 | `PROGRESSO_FASE1.md` | Progresso da Fase 1 |
 | `INTEGRACAO_MARKITDOWN_MCP.md` | Integração do MarkItDown-MCP (Microsoft) — arquivos → Markdown para LLM |
 | `INTEGRACAO_CLAUDE_MANAGED_AGENTS.md` | Avaliação do Claude Managed Agents (Anthropic) — runtime gerenciado p/ agentes autônomos longos |
+| `INTEGRACAO_PONYTAIL.md` | Integração do Ponytail (skill "dev sênior preguiçoso", MIT) — skills em `.claude/skills/` |
+| `.claude/skills/ponytail*/` | Skills do Ponytail instaladas (`/ponytail`, `-review`, `-audit`, `-debt`, `-gain`, `-help`) |
 | `.mcp.json` | Config MCP do Claude Code (servidor `markitdown` pronto para uso) |
 | `frontend/index.html` | Painel visual do ecossistema (multicanal "canivete suíço") — HTML autocontido |
 | `scripts/iniciar-claude.ps1` | Bootstrap PowerShell para abrir uma sessão Claude Code já contextualizada |
